@@ -1,0 +1,9 @@
+module com.example.adama_ui {
+    requires javafx.controls;
+    requires javafx.fxml;
+
+    requires com.dlsc.formsfx;
+
+    opens com.example.adama_ui to javafx.fxml;
+    exports com.example.adama_ui;
+}
