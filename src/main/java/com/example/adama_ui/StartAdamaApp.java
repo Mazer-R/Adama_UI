@@ -2,18 +2,21 @@ package com.example.adama_ui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.io.IOException;
+import java.util.Objects;
 
-public class HelloApplication extends Application {
+public class StartAdamaApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 800, 600);
-        stage.setTitle("Hello!");
+        FXMLLoader loader = new FXMLLoader(
+                StartAdamaApp.class.getResource("/com/example/adama_ui/LoginToApp.fxml")
+        );
+        Scene scene = new Scene(loader.load(), 800, 600);
         stage.setScene(scene);
+        stage.setTitle("ADAMA UI");
         stage.show();
     }
 
