@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+
+<VBox xmlns="http://javafx.com/javafx/11.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.adama_ui.HomeViewController"
+      alignment="CENTER"
+      spacing="10" prefHeight="600.0"
+      prefWidth="800.0" >
+
+    <Label text="HOME" style="-fx-font-size: 20;"/>
+    <Label text="Contenido de la página de inicio aquí"/>
+</VBox>

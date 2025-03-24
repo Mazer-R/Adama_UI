@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
 
+<?import javafx.scene.control.Label?>
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.adama_ui.MainScreenController" fx:id="mainContainer"
+prefHeight="900.0" prefWidth="1600.0">
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+    <top>
+        <HBox style="-fx-background-color: #f4f4f4; -fx-padding: 10;" spacing="10">
+            <Button text="Inicio" onAction="#loadHomeView" />
+            <Button text="Perfil" onAction="#loadProfileView" />
+            <Button text="Configuración" onAction="#loadSettingsView" />
+        </HBox>
+    </top>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.adama_ui.MainScreenController"
-            prefHeight="400.0" prefWidth="600.0">
-
-    <Label text="Bienvenido a la segunda pantalla" />
-    <Button text="Volver" />
-</AnchorPane>
+    <center>
+    </center>
+    <bottom>
+        <HBox style="-fx-background-color: #f4f4f4; -fx-padding: 5;" alignment="CENTER">
+            <Label text="© 2023 Mi App - Todos los derechos reservados" />
+        </HBox>
+    </bottom>
+</BorderPane>

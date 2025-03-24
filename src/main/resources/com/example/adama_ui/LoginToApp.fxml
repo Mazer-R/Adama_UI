@@ -8,8 +8,8 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
-           prefWidth="800.0"    xmlns="http://javafx.com/javafx/23.0.1"
+<StackPane prefHeight="900.0"
+           prefWidth="1600.0"    xmlns="http://javafx.com/javafx/23.0.1"
            xmlns:fx="http://javafx.com/javafx/fxml"
            fx:controller="com.example.adama_ui.LoginToAppController">
 

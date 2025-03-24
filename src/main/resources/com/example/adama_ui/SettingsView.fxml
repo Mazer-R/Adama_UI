@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<VBox xmlns="http://javafx.com/javafx/11.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.adama_ui.SettingsViewController"
+      alignment="CENTER"
+      spacing="10" prefHeight="600.0"
+      prefWidth="800.0"
+      style="-fx-border-color: black; -fx-border-width: 2px; -fx-border-radius: 5px">
+    <ImageView fitHeight="300.0" fitWidth="400.0" layoutX="200.0" layoutY="37.0" pickOnBounds="true"
+               preserveRatio="true">
+        <Image url="@ExternalResources/Adama_Logo.svg.png"/>
+    </ImageView>
+
+    <Label text="Settings View" style="-fx-font-size: 20;"/>
+    <Label text="Contenido de la página de Settings View"/>
+</VBox>
