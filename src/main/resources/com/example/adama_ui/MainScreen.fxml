@@ -13,14 +13,7 @@
 
     <top>
         <HBox style="-fx-background-color: #f4f4f4; -fx-padding: 10;" spacing="10">
-            <Button text="" onAction="#loadHomeView">
-                <graphic>
-                    <ImageView>
-                        <image>
-                            <Image url="@/ExternalResources/featherIcons/home.svg"/>
-                        </image>
-                    </ImageView>
-                </graphic>
+            <Button text="Home" onAction="#loadHomeView">
             </Button>
             <Button text="Perfil" onAction="#loadProfileView" />
             <Button text="Configuración" onAction="#loadSettingsView" />
