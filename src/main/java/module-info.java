@@ -3,6 +3,7 @@ module com.example.adama_ui {
     requires javafx.fxml;
 
     requires com.dlsc.formsfx;
+    requires java.net.http;
 
     opens com.example.adama_ui to javafx.fxml;
     exports com.example.adama_ui;
