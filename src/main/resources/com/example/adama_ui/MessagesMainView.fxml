@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.adama_ui.MessagesMainViewController">
+   <VBox layoutX="64.0" layoutY="83.0" prefHeight="429.0" prefWidth="235.0">
+      <Button mnemonicParsing="false" text="Button"/>
+      <Button mnemonicParsing="false" text="Button"/>
+      <Button mnemonicParsing="false" text="Button"/>
+      <Button mnemonicParsing="false" text="Button"/>
+      <Button mnemonicParsing="false" text="Button"/>
+      <Button mnemonicParsing="false" text="Button" onAction="#reloadPage"/>
+   </VBox>
+   <HBox layoutX="400.0" layoutY="119.0" prefHeight="191.0" prefWidth="323.0">
+      <Button mnemonicParsing="false" text="Button"/>
+      <Button mnemonicParsing="false" text="Button"/>
+      <Button mnemonicParsing="false" text="Button"/>
+      <Button mnemonicParsing="false" text="Button"/>
+      <Button mnemonicParsing="false" text="Button"/>
+      <Button mnemonicParsing="false" text="Button"/>
+   </HBox>
+   <AnchorPane layoutX="651.0" prefHeight="122.0" prefWidth="149.0"/>
+</AnchorPane>

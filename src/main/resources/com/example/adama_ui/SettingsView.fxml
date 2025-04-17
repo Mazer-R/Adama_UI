@@ -17,7 +17,7 @@
       style="-fx-border-color: black; -fx-border-width: 2px; -fx-border-radius: 5px">
     <ImageView fitHeight="300.0" fitWidth="400.0" layoutX="200.0" layoutY="37.0" pickOnBounds="true"
                preserveRatio="true">
-        <Image url="@ExternalResources/Adama_Logo.svg.png"/>
+        <Image url="@../../../ExternalResources/Adama_Logo.svg.png"/>
     </ImageView>
 
     <Label text="Settings View" style="-fx-font-size: 20;"/>

@@ -40,4 +40,7 @@ public class MainScreenController {
 
     @FXML
     private void loadSettingsView() { loadView("/com/example/adama_ui/SettingsView.fxml"); }
+
+    @FXML
+    private void loadMessagesView() { loadView("/com/example/adama_ui/MessagesMainView.fxml"); }
 }

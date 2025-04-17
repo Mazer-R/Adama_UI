@@ -4,16 +4,27 @@
 <?import javafx.scene.control.Button?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <BorderPane xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.adama_ui.MainScreenController" fx:id="mainContainer"
-prefHeight="900.0" prefWidth="1600.0">
+            prefHeight="900.0" prefWidth="1600.0">
 
     <top>
         <HBox style="-fx-background-color: #f4f4f4; -fx-padding: 10;" spacing="10">
-            <Button text="Inicio" onAction="#loadHomeView" />
+            <Button text="" onAction="#loadHomeView">
+                <graphic>
+                    <ImageView>
+                        <image>
+                            <Image url="@/ExternalResources/featherIcons/home.svg"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
             <Button text="Perfil" onAction="#loadProfileView" />
             <Button text="Configuración" onAction="#loadSettingsView" />
+            <Button text="Messages" onAction="#loadMessagesView" />
         </HBox>
     </top>
 
