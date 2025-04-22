@@ -11,12 +11,12 @@
 <StackPane prefHeight="900.0"
            prefWidth="1600.0"    xmlns="http://javafx.com/javafx/23.0.1"
            xmlns:fx="http://javafx.com/javafx/fxml"
-           fx:controller="com.example.adama_ui.LoginToAppController">
+           fx:controller="com.adama_ui.LoginToAppController">
 
    <VBox alignment="CENTER" spacing="20.0">
       <ImageView fitHeight="300.0" fitWidth="400.0" layoutX="200.0" layoutY="37.0" pickOnBounds="true"
                  preserveRatio="true">
-         <Image url="@../../../ExternalResources/Adama_Logo.svg.png"/>
+         <Image url="@../../ExternalResources/Adama_Logo.png"/>
       </ImageView>
 
 

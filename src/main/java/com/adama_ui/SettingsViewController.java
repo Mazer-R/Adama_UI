@@ -1,4 +1,4 @@
-package com.example.adama_ui;
+package com.adama_ui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;

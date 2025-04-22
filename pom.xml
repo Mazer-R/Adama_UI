@@ -70,7 +70,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.example.adama_ui/com.example.adama_ui.StartAdamaApp</mainClass>
+                            <mainClass>com.example.adama_ui/com.adama_ui.StartAdamaApp</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

@@ -1,4 +1,4 @@
-package com.example.adama_ui;
+package com.adama_ui;
 
 public class ProfileViewController {
 }

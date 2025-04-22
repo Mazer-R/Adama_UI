@@ -1,4 +1,4 @@
-package com.example.adama_ui;
+package com.adama_ui;
 
 import javafx.event.ActionEvent;
 

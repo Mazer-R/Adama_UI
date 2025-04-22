@@ -8,7 +8,7 @@
 
 <VBox xmlns="http://javafx.com/javafx/11.0.1"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.example.adama_ui.ProfileViewController"
+      fx:controller="com.adama_ui.ProfileViewController"
       alignment="CENTER"
       spacing="10" prefHeight="600.0"
       prefWidth="800.0" >

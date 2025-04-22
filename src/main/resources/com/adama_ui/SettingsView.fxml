@@ -11,7 +11,7 @@
 <?import javafx.scene.image.Image?>
 <VBox xmlns="http://javafx.com/javafx/11.0.1"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.example.adama_ui.SettingsViewController"
+      fx:controller="com.adama_ui.SettingsViewController"
       alignment="CENTER"
       spacing="20" prefHeight="600.0"
       prefWidth="800.0"

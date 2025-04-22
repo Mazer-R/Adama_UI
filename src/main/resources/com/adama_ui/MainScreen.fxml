@@ -8,7 +8,7 @@
 <?import javafx.scene.image.ImageView?>
 <BorderPane xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.adama_ui.MainScreenController" fx:id="mainContainer"
+            fx:controller="com.adama_ui.MainScreenController" fx:id="mainContainer"
             prefHeight="900.0" prefWidth="1600.0">
 
     <top>
