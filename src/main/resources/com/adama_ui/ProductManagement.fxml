@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.adama_ui.ProductManagementController" prefWidth="600" prefHeight="400">
+    <left>
+        <VBox spacing="10" style="-fx-background-color: #e0e0e0;">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Button text="ADD PRODUCT" maxWidth="150" />
+            <Button text="PRODUCT MANAGEMENT" maxWidth="150" style="-fx-border-color: green; -fx-border-width: 2;" />
+        </VBox>
+    </left>
+    <center>
+        <VBox spacing="15" alignment="TOP_LEFT">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <Label text="Search product by:" />
+            <HBox spacing="10">
+                <TextField fx:id="fieldIdOrTag" promptText="Enter ID or tag" prefWidth="250" />
+                <Button text="SEARCH" onAction="#onSearchByIdOrTag" style="-fx-background-color: #00c000; -fx-text-fill: white;" />
+            </HBox>
+
+            <Label text="or select:" />
+
+            <ComboBox fx:id="comboProductType" promptText="Product type" prefWidth="250" />
+            <ComboBox fx:id="comboBrand" promptText="Brand" prefWidth="250" />
+            <Button text="SEARCH" onAction="#onSearchByFilters" style="-fx-background-color: #00c000; -fx-text-fill: white;" maxWidth="100" />
+        </VBox>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Button text="←" onAction="#onBack" />
+        </HBox>
+    </bottom>
+</BorderPane>

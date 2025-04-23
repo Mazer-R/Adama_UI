@@ -18,6 +18,7 @@
             <Button text="Perfil" onAction="#loadProfileView" />
             <Button text="Configuración" onAction="#loadSettingsView" />
             <Button text="Messages" onAction="#loadMessagesView" />
+            <Button text="Warehouse" onAction="#loadWarehouseView" />
         </HBox>
     </top>
 
