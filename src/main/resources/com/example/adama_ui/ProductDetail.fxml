@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.adama_ui.ProductDetailController" prefWidth="600" prefHeight="400">
+    <center>
+        <VBox spacing="10" alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <Label text="Product Details" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+
+            <Label fx:id="labelId" />
+            <Label fx:id="labelName" />
+            <Label fx:id="labelDescription" />
+            <Label fx:id="labelType" />
+            <Label fx:id="labelBrand" />
+            <Label fx:id="labelStatus" />
+            <Label fx:id="labelUser" />
+            <Label fx:id="labelCreated" />
+            <Label fx:id="labelModified" />
+        </VBox>
+    </center>
+</BorderPane>
