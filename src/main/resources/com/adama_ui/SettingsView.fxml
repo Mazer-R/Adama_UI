@@ -22,7 +22,7 @@
     </padding>
 
     <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-        <Image url="@../../../ExternalResources/Adama_Logo.svg.png"/>
+        <Image url="@../../ExternalResources/Adama_Logo.png"/>
     </ImageView>
 
     <Label text="API Testing Page" style="-fx-font-size: 24; -fx-font-weight: bold;"/>
@@ -45,6 +45,12 @@
 
         <Button text="Delete Product" onAction="#deleteProduct" prefWidth="300" prefHeight="40"
                 style="-fx-font-size: 14; -fx-background-color: #F44336; -fx-text-fill: white;"/>
+        <HBox>
+            <Button text="Filter Products" onAction="#getFilteredProducts" prefWidth="300" prefHeight="40"
+                    style="-fx-font-size: 14; -fx-background-color: #2196F3; -fx-text-fill: white;"/>
+            <TextField fx:id="brandField" promptText="Brand" />
+            <TextField fx:id="modelField" promptText="Model" />
+        </HBox>
     </VBox>
 
     <TextArea fx:id="resultArea" prefHeight="150" prefWidth="700" editable="false" 

@@ -20,6 +20,12 @@ public class SettingsViewController {
     private TextField productIdField;
 
     @FXML
+    private TextField brandField;
+
+    @FXML
+    private TextField modelField;
+
+    @FXML
     private TextArea resultArea;
 
     private final HttpClient httpClient = HttpClient.newBuilder().build();
@@ -231,5 +237,39 @@ public class SettingsViewController {
         json = json.replace("}", "\n}");
         json = json.replace(",", ",\n  ");
         return json;
+    }
+    @FXML
+    private void getFilteredProducts() {
+        String brand = brandField.getText().trim();
+        String model = modelField.getText().trim();
+
+        StringBuilder uriBuilder = new StringBuilder(API_BASE_URL + "/products?");
+        if (!brand.isEmpty()) {
+            uriBuilder.append("brand=").append(brand);
+        }
+        if (!model.isEmpty()) {
+            if (uriBuilder.charAt(uriBuilder.length() - 1) != '?') {
+                uriBuilder.append("&");
+            }
+            uriBuilder.append("model=").append(model);
+        }
+
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(uriBuilder.toString()))
+                    .GET()
+                    .header("Content-Type", "application/json")
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                resultArea.setText("Filtered Products:\n" + formatJson(response.body()));
+            } else {
+                resultArea.setText("Error retrieving filtered products: " + response.statusCode() + "\n" + response.body());
+            }
+        } catch (Exception e) {
+            showErrorAlert("Error retrieving filtered products", e.getMessage());
+        }
     }
 }
