@@ -1,4 +1,4 @@
-module com.example.adama_ui {
+module com.adama_ui {
     requires javafx.controls;
     requires javafx.fxml;
 

@@ -195,6 +195,7 @@ public class SettingsViewController {
                     "  \"description\": \"Product Description\",\n" +
                     "  \"type\": \"Product Type\",\n" +
                     "  \"brand\": \"Product Brand\",\n" +
+                    "  \"model\": \"Product Model\",\n" +
                     "  \"status\": \"active\"\n" +
                     "}";
         } else {
@@ -204,6 +205,7 @@ public class SettingsViewController {
                     "  \"description\": \"Product Description\",\n" +
                     "  \"type\": \"Product Type\",\n" +
                     "  \"brand\": \"Product Brand\",\n" +
+                    "  \"model\": \"Product Model\",\n" +
                     "  \"status\": \"active\",\n" +
                     "  \"userId\": \"user123\"\n" +
                     "}";
