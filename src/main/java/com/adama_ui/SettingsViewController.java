@@ -20,10 +20,10 @@ public class SettingsViewController {
     private TextField productIdField;
 
     @FXML
-    private TextField brandField;
+    private TextField typeField;
 
     @FXML
-    private TextField modelField;
+    private TextField brandField;
 
     @FXML
     private TextArea resultArea;
@@ -92,7 +92,6 @@ public class SettingsViewController {
     @FXML
     private void createProduct() {
         try {
-            // Create a dialog to get product details
             String jsonBody = showProductInputDialog("Create New Product", null);
             if (jsonBody == null) return;
 
@@ -127,7 +126,6 @@ public class SettingsViewController {
         }
 
         try {
-            // Create a dialog to get updated product details
             String jsonBody = showProductInputDialog("Update Product", "patch");
             if (jsonBody == null) return;
 
@@ -189,7 +187,6 @@ public class SettingsViewController {
 
         String template;
         if ("patch".equals(mode)) {
-            // For update, only include fields that can be updated
             template = "{\n" +
                     "  \"name\": \"Product Name\",\n" +
                     "  \"description\": \"Product Description\",\n" +
@@ -199,7 +196,7 @@ public class SettingsViewController {
                     "  \"status\": \"active\"\n" +
                     "}";
         } else {
-            // For create, include all required fields
+
             template = "{\n" +
                     "  \"name\": \"Product Name\",\n" +
                     "  \"description\": \"Product Description\",\n" +
@@ -234,7 +231,6 @@ public class SettingsViewController {
      * Simple JSON formatter for better readability
      */
     private String formatJson(String json) {
-        // This is a very simple formatter, in a real app you might want to use a proper JSON library
         json = json.replace("{", "{\n  ");
         json = json.replace("}", "\n}");
         json = json.replace(",", ",\n  ");
@@ -242,18 +238,18 @@ public class SettingsViewController {
     }
     @FXML
     private void getFilteredProducts() {
-        String brand = brandField.getText().trim();
-        String model = modelField.getText().trim();
+        String type = brandField.getText().trim();
+        String brand = typeField.getText().trim();
 
         StringBuilder uriBuilder = new StringBuilder(API_BASE_URL + "/products?");
-        if (!brand.isEmpty()) {
-            uriBuilder.append("brand=").append(brand);
+        if (!type.isEmpty()) {
+            uriBuilder.append("type=").append(type);
         }
-        if (!model.isEmpty()) {
+        if (!brand.isEmpty()) {
             if (uriBuilder.charAt(uriBuilder.length() - 1) != '?') {
                 uriBuilder.append("&");
             }
-            uriBuilder.append("model=").append(model);
+            uriBuilder.append("brand=").append(brand);
         }
 
         try {
