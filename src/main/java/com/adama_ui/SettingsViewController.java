@@ -238,8 +238,8 @@ public class SettingsViewController {
     }
     @FXML
     private void getFilteredProducts() {
-        String type = brandField.getText().trim();
-        String brand = typeField.getText().trim();
+        String type = typeField.getText().trim();
+        String brand = brandField.getText().trim();
 
         StringBuilder uriBuilder = new StringBuilder(API_BASE_URL + "/products?");
         if (!type.isEmpty()) {
