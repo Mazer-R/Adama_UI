@@ -1,0 +1,59 @@
+.root {
+    -fx-base: #2B2B2B;
+    -fx-background: #2B2B2B;
+    -fx-text-fill: white;
+    -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+.button {
+    -fx-background-color: #00A651;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.label {
+    -fx-text-fill: white;
+}
+
+/* Toggle personalizado */
+.theme-toggle {
+    -fx-background-color: #444444 !important;
+    -fx-background-radius: 20;
+    -fx-padding: 2;
+    -fx-cursor: hand;
+    -fx-alignment: CENTER_LEFT;
+    -fx-pref-width: 50;
+    -fx-pref-height: 26;
+    -fx-background-insets: 0;
+    -fx-border-color: transparent;
+    -fx-border-insets: 0;
+    -fx-border-width: 0;
+    -fx-effect: none;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-text-fill: transparent;
+}
+
+.theme-toggle:selected {
+    -fx-background-color: #00A651 !important;
+    -fx-alignment: CENTER_RIGHT;
+}
+
+/* Mantener color incluso al hacer foco o hover */
+.theme-toggle:selected:focused,
+.theme-toggle:selected:hover,
+.theme-toggle:selected:armed {
+    -fx-background-color: #00A651 !important;
+}
+
+.theme-toggle:focused,
+.theme-toggle:hover,
+.theme-toggle:armed {
+    -fx-background-color: #444444 !important;
+}
+
+.theme-toggle .graphic {
+    -fx-background-radius: 50%;
+    -fx-padding: 0;
+    -fx-alignment: center;
+}

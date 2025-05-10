@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -10,8 +7,11 @@
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.adama_ui.ProfileViewController"
       alignment="CENTER"
-      spacing="10" prefHeight="600.0"
-      prefWidth="800.0" >
-    <Label text="ProfileView" style="-fx-font-size: 20;"/>
-    <Label text="Contenido de la página de ProfileView"/>
+      spacing="10"
+      maxWidth="Infinity"
+      maxHeight="Infinity">
+
+    <Label text="ProfileView" style="-fx-font-size: 20;" />
+    <Label text="Contenido de la página de ProfileView" />
+
 </VBox>

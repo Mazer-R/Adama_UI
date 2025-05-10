@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.adama_ui.ProductDetailController"
+            style="-fx-background-color: #121212;"
+            maxWidth="Infinity" maxHeight="Infinity">
+
+    <VBox spacing="10"
+          AnchorPane.topAnchor="10"
+          AnchorPane.leftAnchor="10"
+          AnchorPane.rightAnchor="10"
+          AnchorPane.bottomAnchor="10">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+
+        <Label text="Product Detail" style="-fx-text-fill: white; -fx-font-size: 20px;" />
+
+        <TextField fx:id="fieldName" promptText="Name"
+                   style="-fx-background-color: #1e1e1e; -fx-text-fill: white;" />
+        <TextField fx:id="fieldType" promptText="Type"
+                   style="-fx-background-color: #1e1e1e; -fx-text-fill: white;" />
+        <TextField fx:id="fieldBrand" promptText="Brand"
+                   style="-fx-background-color: #1e1e1e; -fx-text-fill: white;" />
+        <TextField fx:id="fieldStatus" promptText="Status"
+                   style="-fx-background-color: #1e1e1e; -fx-text-fill: white;" />
+        <TextField fx:id="fieldUser" promptText="User ID"
+                   style="-fx-background-color: #1e1e1e; -fx-text-fill: white;" />
+        <TextArea fx:id="fieldDescription" promptText="Description"
+                  style="-fx-background-color: #1e1e1e; -fx-text-fill: white;"
+                  prefRowCount="4" />
+
+        <!-- Botones alineados justo debajo del cuadro de texto -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <StackPane prefWidth="150">
+                <Button fx:id="btnModify" text="Modificar producto"
+                        onAction="#onModify"
+                        maxWidth="Infinity"
+                        style="-fx-background-color: #FFD700; -fx-text-fill: black; -fx-font-weight: bold;" />
+                <Button fx:id="btnAccept" text="Aceptar"
+                        onAction="#onAccept"
+                        visible="false"
+                        maxWidth="Infinity"
+                        style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" />
+            </StackPane>
+
+            <Region HBox.hgrow="ALWAYS" />
+
+            <Button fx:id="btnDelete" text="Eliminar producto"
+                    onAction="#onCancelOrDelete"
+                    minWidth="150"
+                    style="-fx-background-color: #DC143C; -fx-text-fill: white; -fx-font-weight: bold;" />
+        </HBox>
+    </VBox>
+
+    <!-- Botón VOLVER anclado abajo izquierda -->
+    <Button fx:id="btnBack" text="← VOLVER"
+            onAction="#onBack"
+            AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
+            style="-fx-background-color: #999999; -fx-text-fill: white; -fx-font-weight: bold;" />
+</AnchorPane>
