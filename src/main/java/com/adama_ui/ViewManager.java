@@ -4,7 +4,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -18,10 +17,12 @@ public class ViewManager {
         mainContainer = container;
     }
 
+    // Versión básica (de ambas ramas)
     public static void loadView(String fxmlPath) {
         loadView(fxmlPath, true);
     }
 
+    // Versión mejorada con caché (de search-update-product-pages)
     public static void loadView(String fxmlPath, boolean cache) {
         try {
             Pane view;
@@ -41,6 +42,7 @@ public class ViewManager {
         }
     }
 
+    // Métodos nuevos para productos (de search-update-product-pages)
     public static void loadView(String fxmlPath, Product product) {
         try {
             FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource(fxmlPath));
@@ -56,10 +58,6 @@ public class ViewManager {
             System.err.println("Error loading view with product: " + fxmlPath);
             e.printStackTrace();
         }
-    }
-
-    public static void loadView(String fxmlPath, List<Product> productList) {
-        loadView(fxmlPath, productList, false); // Por defecto, no cachear listas dinámicas
     }
 
     public static void loadView(String fxmlPath, List<Product> productList, boolean cache) {
@@ -87,11 +85,7 @@ public class ViewManager {
         }
     }
 
-    public static void clearCache() {
-        viewCache.clear();
-    }
-
-    // ✅ Nuevo método para Login: devuelve la vista cargada para usarla en un Scene completo
+    // Métodos para escenas completas (de search-update-product-pages)
     public static Parent loadViewForScene(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource(fxmlPath));
@@ -103,7 +97,6 @@ public class ViewManager {
         }
     }
 
-    // ✅ Opcional: versión con inyección de Product (por si necesitas una vista externa con datos)
     public static Parent loadViewForScene(String fxmlPath, Product product) {
         try {
             FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource(fxmlPath));
@@ -122,22 +115,7 @@ public class ViewManager {
         }
     }
 
-    // ✅ Opcional: versión con lista de productos para escena completa
-    public static Parent loadViewForScene(String fxmlPath, List<Product> productList) {
-        try {
-            FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource(fxmlPath));
-            Parent view = loader.load();
-
-            Object controller = loader.getController();
-            if (controller instanceof ProductListController) {
-                ((ProductListController) controller).setProductList(productList);
-            }
-
-            return view;
-        } catch (IOException e) {
-            System.err.println("Error loading view for scene with product list: " + fxmlPath);
-            e.printStackTrace();
-            return null;
-        }
+    public static void clearCache() {
+        viewCache.clear();
     }
 }
