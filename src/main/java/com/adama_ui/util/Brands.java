@@ -22,6 +22,4 @@ public enum Brands {
     Adobe,
     Microsoft,
     OpenAI,
-
-
 }

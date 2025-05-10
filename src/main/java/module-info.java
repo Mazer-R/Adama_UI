@@ -4,6 +4,8 @@ module com.adama_ui {
 
     requires com.dlsc.formsfx;
     requires java.net.http;
+    requires com.fasterxml.jackson.databind;
+    requires java.desktop;
 
     opens com.adama_ui to javafx.fxml;
     exports com.adama_ui;

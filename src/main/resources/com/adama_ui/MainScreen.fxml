@@ -1,31 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.control.Button?>
-
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+
+
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.geometry.Insets?>
 <BorderPane xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.adama_ui.MainScreenController" fx:id="mainContainer"
-            prefHeight="900.0" prefWidth="1600.0">
+            fx:controller="com.adama_ui.MainScreenController"
+            fx:id="mainContainer"
+            maxWidth="Infinity"
+            maxHeight="Infinity">
 
     <top>
-        <HBox style="-fx-background-color: #f4f4f4; -fx-padding: 10;" spacing="10">
-            <Button text="Home" onAction="#loadHomeView">
-            </Button>
-            <Button text="Perfil" onAction="#loadProfileView" />
-            <Button text="Configuración" onAction="#loadSettingsView" />
-            <Button text="Messages" onAction="#loadMessagesView" />
+        <HBox fx:id="navBar"
+              spacing="10"
+              alignment="CENTER_LEFT"
+              style="-fx-background-color: #f4f4f4; -fx-padding: 10;">
+
+            <!-- Botones visibles -->
+            <HBox fx:id="navButtons" spacing="10">
+                <Button text="Home" onAction="#loadHomeView"/>
+                <Button text="Perfil" onAction="#loadProfileView"/>
+                <Button text="Configuración" onAction="#loadSettingsView"/>
+                <Button text="Messages" onAction="#loadMessagesView"/>
+                <Button text="Warehouse" onAction="#loadWarehouseView"/>
+            </HBox>
+
+            <!-- Espaciador flexible -->
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <ToggleButton fx:id="themeToggleButton"
+                          onAction="#onToggleTheme"
+                          styleClass="theme-toggle">
+                <HBox.margin>
+                    <Insets right="10"/>
+                </HBox.margin>
+            </ToggleButton>
         </HBox>
     </top>
 
     <center>
+        <!-- El contenido dinámico se cargará aquí desde los controladores -->
     </center>
+
     <bottom>
-        <HBox style="-fx-background-color: #f4f4f4; -fx-padding: 5;" alignment="CENTER">
-            <Label text="© 2023 Mi App - Todos los derechos reservados" />
+        <HBox alignment="CENTER"
+              style="-fx-background-color: #f4f4f4; -fx-padding: 5;">
+            <Label text="© 2023 Mi App - Todos los derechos reservados"/>
         </HBox>
     </bottom>
 </BorderPane>
