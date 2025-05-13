@@ -5,11 +5,12 @@ import java.net.http.*;
 import java.util.Arrays;
 import java.util.List;
 
+import com.adama_ui.auth.SessionManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ProductService {
 
-    private static final String BASE_URL = "http://localhost:8080/api/products";
+    private static final String BASE_URL = "http://localhost:8080/products";
     private final HttpClient httpClient = HttpClient.newHttpClient();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -17,6 +18,7 @@ public class ProductService {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(BASE_URL + "/" + id))
                 .GET()
+                .header("Authorization", SessionManager.getInstance().getAuthHeader())
                 .build();
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
@@ -32,6 +34,7 @@ public class ProductService {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(BASE_URL + "?type=" + type))
                 .GET()
+                .header("Authorization", SessionManager.getInstance().getAuthHeader())
                 .build();
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
@@ -43,6 +46,7 @@ public class ProductService {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(BASE_URL + "?brand=" + brand))
                 .GET()
+                .header("Authorization", SessionManager.getInstance().getAuthHeader())
                 .build();
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
@@ -55,6 +59,7 @@ public class ProductService {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri))
                 .GET()
+                .header("Authorization", SessionManager.getInstance().getAuthHeader())
                 .build();
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());

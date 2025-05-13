@@ -13,6 +13,8 @@ import java.io.IOException;
 
 public class MainScreenController {
 
+    private String authToken;
+
     @FXML private BorderPane mainContainer;
     @FXML private ToggleButton themeToggleButton;
 
@@ -68,6 +70,9 @@ public class MainScreenController {
     private void onToggleTheme() {
         darkMode = !darkMode;
         applyThemeToScene(themeToggleButton.getScene());
+    }
+    public void setAuthToken(String token) {
+        this.authToken = token;
     }
 
     // Métodos de carga de vistas (de ambas ramas)

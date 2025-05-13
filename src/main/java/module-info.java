@@ -11,4 +11,6 @@ module com.adama_ui {
     exports com.adama_ui;
     exports com.adama_ui.util;
     opens com.adama_ui.util to javafx.fxml;
+    exports com.adama_ui.auth;
+    opens com.adama_ui.auth to javafx.fxml;
 }

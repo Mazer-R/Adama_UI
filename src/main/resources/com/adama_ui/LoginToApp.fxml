@@ -25,7 +25,7 @@
                     style="-fx-border-width: 2; -fx-border-color: rgb(0, 171, 78); -fx-background-color: rgb(148, 137, 134);"/>
          <PasswordField fx:id="passwordField" promptText="PASSWORD" maxWidth="300.0"
                         style="-fx-border-width: 2; -fx-border-color: rgb(0, 171, 78); -fx-background-color: rgb(148, 137, 134);"/>
-         <Button fx:id="btnLogin" text="LOGIN" onAction="#openMainScreen" prefHeight="50" maxWidth="150"
+         <Button fx:id="btnLogin" text="LOGIN" onAction="#login" prefHeight="50" maxWidth="150"
                  textFill="WHITE" style="-fx-background-color: rgb(0, 171, 78);">
             <font>
                <Font size="22.0"/>

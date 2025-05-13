@@ -1,18 +1,19 @@
 package com.adama_ui;
 
+import com.adama_ui.auth.SessionManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Optional;
+
+import static com.adama_ui.LoginToAppController.API_BASE_URL;
 
 public class SettingsViewController {
 
@@ -29,7 +30,6 @@ public class SettingsViewController {
     private TextArea resultArea;
 
     private final HttpClient httpClient = HttpClient.newBuilder().build();
-    private final String API_BASE_URL = "http://localhost:8080/api";
 
     /**
      * Retrieves all products from the API
@@ -37,11 +37,14 @@ public class SettingsViewController {
     @FXML
     private void getAllProducts() {
         try {
+            System.out.println(SessionManager.getInstance().getAuthHeader());
+
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(API_BASE_URL + "/products"))
                     .GET()
-                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + SessionManager.getInstance().getAuthToken())
                     .build();
+            System.out.println(request);
 
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
@@ -71,7 +74,7 @@ public class SettingsViewController {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(API_BASE_URL + "/products/" + productId))
                     .GET()
-                    .header("Content-Type", "application/json")
+                    .header("Authorization", SessionManager.getInstance().getAuthHeader())
                     .build();
 
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
@@ -99,6 +102,7 @@ public class SettingsViewController {
                     .uri(URI.create(API_BASE_URL + "/products"))
                     .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
                     .header("Content-Type", "application/json")
+                    .header("Authorization", SessionManager.getInstance().getAuthHeader())
                     .build();
 
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
@@ -133,6 +137,7 @@ public class SettingsViewController {
                     .uri(URI.create(API_BASE_URL + "/products/" + productId))
                     .method("PATCH", HttpRequest.BodyPublishers.ofString(jsonBody))
                     .header("Content-Type", "application/json")
+                    .header("Authorization", SessionManager.getInstance().getAuthHeader())
                     .build();
 
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
@@ -163,6 +168,8 @@ public class SettingsViewController {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(API_BASE_URL + "/products/" + productId))
                     .DELETE()
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", SessionManager.getInstance().getAuthHeader())
                     .build();
 
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
@@ -256,7 +263,7 @@ public class SettingsViewController {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(uriBuilder.toString()))
                     .GET()
-                    .header("Content-Type", "application/json")
+                    .header("Authorization", SessionManager.getInstance().getAuthHeader())
                     .build();
 
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
