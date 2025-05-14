@@ -13,7 +13,7 @@
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
-            <Button text="ADD PRODUCT" maxWidth="150" />
+            <Button text="ADD PRODUCT" maxWidth="150" onAction="#onAddProduct" />
             <Button text="PRODUCT MANAGEMENT" maxWidth="150"
                     style="-fx-border-color: green; -fx-border-width: 2;" />
         </VBox>

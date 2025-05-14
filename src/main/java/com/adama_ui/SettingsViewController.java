@@ -277,4 +277,9 @@ public class SettingsViewController {
             showErrorAlert("Error retrieving filtered products", e.getMessage());
         }
     }
+
+    @FXML
+    private void onClick() {
+        ViewManager.loadView("/com/adama_ui/AddUser.fxml");
+    }
 }
