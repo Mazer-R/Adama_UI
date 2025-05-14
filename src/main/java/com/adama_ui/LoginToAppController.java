@@ -19,8 +19,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class LoginToAppController {
-
-    public static final String API_BASE_URL = "http://localhost:8080";
+    public static final String API_BASE_URL = "https://touching-deadly-reindeer.ngrok-free.app";
     private static final HttpClient HTTP_CLIENT = HttpClient.newHttpClient();
 
 
