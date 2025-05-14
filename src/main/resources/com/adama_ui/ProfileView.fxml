@@ -1,17 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/11.0.1"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.adama_ui.ProfileViewController"
-      alignment="CENTER"
-      spacing="10"
-      maxWidth="Infinity"
-      maxHeight="Infinity">
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.adama_ui.ProfileViewController"
+            style="-fx-background-color: #1e1e1e;">
 
-    <Label text="ProfileView" style="-fx-font-size: 20;" />
-    <Label text="Contenido de la página de ProfileView" />
+    <left>
+        <VBox fx:id="profileMenu"
+              spacing="10"
+              alignment="TOP_LEFT"
+              style="-fx-background-color: #e0e0e0;">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Button fx:id="btnOrder"
+                    text="ORDER"
+                    maxWidth="150" />
+            <Button fx:id="btnHistory"
+                    text="HISTORY"
+                    maxWidth="150" />
+        </VBox>
+    </left>
 
-</VBox>
+    <center>
+        <StackPane fx:id="contentArea"/>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Button text="← VOLVER"
+                    onAction="#onBack"
+                    style="-fx-background-color: #00c000; -fx-text-fill: white;"/>
+        </HBox>
+    </bottom>
+</BorderPane>

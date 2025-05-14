@@ -1,9 +1,10 @@
 package com.adama_ui;
 
+import com.adama_ui.util.ProductStatus;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -41,7 +42,14 @@ public class ProductDetailController {
         fieldName.setText(currentProduct.getName());
         fieldType.setText(currentProduct.getType());
         fieldBrand.setText(currentProduct.getBrand());
-        fieldStatus.setText(currentProduct.getStatus());
+
+        // Mostramos el label del enum
+        if (currentProduct.getStatus() != null) {
+            fieldStatus.setText(currentProduct.getStatus().getLabel());
+        } else {
+            fieldStatus.setText("");
+        }
+
         fieldUser.setText(currentProduct.getUserId());
         fieldDescription.setText(currentProduct.getDescription());
 
@@ -67,7 +75,15 @@ public class ProductDetailController {
             currentProduct.setName(fieldName.getText());
             currentProduct.setType(fieldType.getText());
             currentProduct.setBrand(fieldBrand.getText());
-            currentProduct.setStatus(fieldStatus.getText());
+
+            // Convertimos texto a enum usando el método del enum
+            ProductStatus newStatus = ProductStatus.fromText(fieldStatus.getText());
+            if (newStatus == null) {
+                showAlert("El estado introducido no es válido.", AlertType.WARNING);
+                return;
+            }
+            currentProduct.setStatus(newStatus);
+
             currentProduct.setUserId(fieldUser.getText());
             currentProduct.setDescription(fieldDescription.getText());
 

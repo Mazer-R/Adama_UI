@@ -1,17 +1,20 @@
 package com.adama_ui;
 
+import com.adama_ui.util.ProductStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Product {
+
     private String id;
     private String name;
     private String description;
     private String type;
     private String brand;
-    private String status;
+
+    private ProductStatus status;
+
     private String userId;
     private String created;
     private String lastModified;
@@ -34,8 +37,8 @@ public class Product {
     public String getBrand() { return brand; }
     public void setBrand(String brand) { this.brand = brand; }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public ProductStatus getStatus() { return status; }
+    public void setStatus(ProductStatus status) { this.status = status; }
 
     public String getUserId() { return userId; }
     public void setUserId(String userId) { this.userId = userId; }

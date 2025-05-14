@@ -1,6 +1,7 @@
 package com.adama_ui;
 
 import com.adama_ui.util.Brands;
+import com.adama_ui.util.ProductStatus;
 import com.adama_ui.util.ProductType;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -53,14 +54,16 @@ public class ProductManagementController {
                     brand.setStyle("-fx-text-fill: white;");
                     brand.setPrefWidth(100);
 
-                    // ● Estado con punto de color más grande y visible
-                    String status = item.getStatus();
+                    // Estado: obtener label y color desde enum
+                    ProductStatus statusEnum = item.getStatus();
+                    String statusLabelText = statusEnum != null ? statusEnum.getLabel() : "Desconocido";
+                    String color = statusEnum != null ? statusEnum.getColorHex() : "gray";
 
                     Label statusDot = new Label();
                     statusDot.setPrefSize(12, 12);
-                    statusDot.setStyle("-fx-background-radius: 6em; -fx-background-color: " + getColorForStatus(status) + ";");
+                    statusDot.setStyle("-fx-background-radius: 6em; -fx-background-color: " + color + ";");
 
-                    Label statusLabel = new Label(" " + status);
+                    Label statusLabel = new Label(" " + statusLabelText);
                     statusLabel.setStyle("-fx-text-fill: white;");
 
                     HBox statusBox = new HBox(5, statusDot, statusLabel);
@@ -76,17 +79,6 @@ public class ProductManagementController {
                     cell.getChildren().addAll(name, type, brand, statusBox, spacer, viewButton);
                     setGraphic(cell);
                 }
-            }
-
-            private String getColorForStatus(String status) {
-                if (status == null) return "gray";
-                return switch (status.trim().toLowerCase()) {
-                    case "disponible", "activo" -> "limegreen";
-                    case "en reparación", "reparación" -> "gold";
-                    case "no operativo", "inactivo" -> "red";
-                    case "pendiente" -> "dodgerblue";
-                    default -> "gray";
-                };
             }
         });
     }

@@ -55,9 +55,32 @@ public class ProductService {
     }
 
     public List<Product> getProductsByFilters(String type, String brand) throws Exception {
-        String uri = BASE_URL + "?type=" + type + "&brand=" + brand;
+        StringBuilder uriBuilder = new StringBuilder(BASE_URL);
+        boolean hasParams = false;
+
+        if (type != null && !type.isEmpty()) {
+            uriBuilder.append(hasParams ? "&" : "?").append("type=").append(type);
+            hasParams = true;
+        }
+
+        if (brand != null && !brand.isEmpty()) {
+            uriBuilder.append(hasParams ? "&" : "?").append("brand=").append(brand);
+        }
+
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(uri))
+                .uri(URI.create(uriBuilder.toString()))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+        return Arrays.asList(objectMapper.readValue(response.body(), Product[].class));
+    }
+
+    // ✅ NUEVO MÉTODO PARA CARGAR TODOS LOS PRODUCTOS
+    public List<Product> getAllProducts() throws Exception {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(BASE_URL))
                 .GET()
                 .header("Authorization", SessionManager.getInstance().getAuthHeader())
                 .build();

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.adama_ui.OrderViewController"
+      spacing="15"
+      alignment="TOP_LEFT"
+      style="-fx-background-color: #1e1e1e; -fx-padding: 20;">
+
+    <!-- Filtros -->
+    <Label text="Search available products by:" style="-fx-text-fill: white;" />
+
+    <HBox spacing="10">
+        <ComboBox fx:id="comboProductType" promptText="Product type" prefWidth="250" />
+        <ComboBox fx:id="comboBrand" promptText="Brand" prefWidth="250" />
+        <Button text="SEARCH" onAction="#onSearchByFilters"
+                style="-fx-background-color: #00c000; -fx-text-fill: white;" />
+    </HBox>
+
+    <!-- Lista de productos -->
+    <ListView fx:id="listViewProducts"
+              prefHeight="400"
+              style="-fx-background-color: #1e1e1e;" />
+</VBox>

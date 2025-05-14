@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -12,26 +13,35 @@ import java.util.Map;
 public class ViewManager {
     private static final Map<String, Pane> viewCache = new HashMap<>();
     private static BorderPane mainContainer;
+    private static Object currentController;
 
     public static void setMainContainer(BorderPane container) {
         mainContainer = container;
     }
 
-    // Versión básica (de ambas ramas)
+    public static void clearCache() {
+        viewCache.clear();
+    }
+
+    public static Object getCurrentController() {
+        return currentController;
+    }
+
     public static void loadView(String fxmlPath) {
         loadView(fxmlPath, true);
     }
 
-    // Versión mejorada con caché (de search-update-product-pages)
     public static void loadView(String fxmlPath, boolean cache) {
         try {
             Pane view;
 
             if (cache && viewCache.containsKey(fxmlPath)) {
                 view = viewCache.get(fxmlPath);
+                currentController = null; // No se puede recuperar el controller desde la caché
             } else {
                 FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource(fxmlPath));
                 view = loader.load();
+                currentController = loader.getController();
                 if (cache) viewCache.put(fxmlPath, view);
             }
 
@@ -42,15 +52,14 @@ public class ViewManager {
         }
     }
 
-    // Métodos nuevos para productos (de search-update-product-pages)
     public static void loadView(String fxmlPath, Product product) {
         try {
             FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource(fxmlPath));
             Pane view = loader.load();
+            currentController = loader.getController();
 
-            Object controller = loader.getController();
-            if (controller instanceof ProductDetailController) {
-                ((ProductDetailController) controller).setProduct(product);
+            if (currentController instanceof ProductDetailController controller) {
+                controller.setProduct(product);
             }
 
             mainContainer.setCenter(view);
@@ -66,13 +75,14 @@ public class ViewManager {
 
             if (cache && viewCache.containsKey(fxmlPath)) {
                 view = viewCache.get(fxmlPath);
+                currentController = null;
             } else {
                 FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource(fxmlPath));
                 view = loader.load();
+                currentController = loader.getController();
 
-                Object controller = loader.getController();
-                if (controller instanceof ProductListController) {
-                    ((ProductListController) controller).setProductList(productList);
+                if (currentController instanceof ProductListController controller) {
+                    controller.setProductList(productList);
                 }
 
                 if (cache) viewCache.put(fxmlPath, view);
@@ -85,11 +95,12 @@ public class ViewManager {
         }
     }
 
-    // Métodos para escenas completas (de search-update-product-pages)
     public static Parent loadViewForScene(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource(fxmlPath));
-            return loader.load();
+            Parent view = loader.load();
+            currentController = loader.getController();
+            return view;
         } catch (IOException e) {
             System.err.println("Error loading view for scene: " + fxmlPath);
             e.printStackTrace();
@@ -101,10 +112,10 @@ public class ViewManager {
         try {
             FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource(fxmlPath));
             Parent view = loader.load();
+            currentController = loader.getController();
 
-            Object controller = loader.getController();
-            if (controller instanceof ProductDetailController) {
-                ((ProductDetailController) controller).setProduct(product);
+            if (currentController instanceof ProductDetailController controller) {
+                controller.setProduct(product);
             }
 
             return view;
@@ -115,7 +126,19 @@ public class ViewManager {
         }
     }
 
-    public static void clearCache() {
-        viewCache.clear();
+    // ✅ NUEVO MÉTODO: Carga la vista y devuelve su controlador (no usa caché)
+    public static <T> T loadViewAndReturnController(String fxmlPath) {
+        try {
+            FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource(fxmlPath));
+            Pane view = loader.load();
+            T controller = loader.getController();
+            currentController = controller;
+            mainContainer.setCenter(view);
+            return controller;
+        } catch (IOException e) {
+            System.err.println("Error loading view and returning controller: " + fxmlPath);
+            e.printStackTrace();
+            return null;
+        }
     }
 }
