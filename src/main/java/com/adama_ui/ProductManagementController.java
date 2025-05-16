@@ -54,7 +54,6 @@ public class ProductManagementController {
                     brand.setStyle("-fx-text-fill: white;");
                     brand.setPrefWidth(100);
 
-                    // Estado: obtener label y color desde enum
                     ProductStatus statusEnum = item.getStatus();
                     String statusLabelText = statusEnum != null ? statusEnum.getLabel() : "Desconocido";
                     String color = statusEnum != null ? statusEnum.getColorHex() : "gray";
@@ -110,18 +109,12 @@ public class ProductManagementController {
         String brand = selectedBrand != null ? selectedBrand.toString() : null;
 
         try {
-            List<Product> filteredProducts;
-
-            if (type != null && brand == null) {
-                filteredProducts = productService.getProductsByType(type);
-            } else if (type == null && brand != null) {
-                filteredProducts = productService.getProductsByBrand(brand);
-            } else if (type != null && brand != null) {
-                filteredProducts = productService.getProductsByFilters(type, brand);
-            } else {
+            if (type == null && brand == null) {
                 showAlert("Filtros vacíos", "Por favor, selecciona al menos un filtro.");
                 return;
             }
+
+            List<Product> filteredProducts = productService.getProductsByFilters(type, brand);
 
             if (filteredProducts == null || filteredProducts.isEmpty()) {
                 showAlert("Sin resultados", "No se encontraron productos con los filtros seleccionados.");

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.adama_ui.OrderDetailController"
+            style="-fx-background-color: #121212;"
+            maxWidth="Infinity" maxHeight="Infinity">
+
+    <VBox spacing="10"
+          AnchorPane.topAnchor="10"
+          AnchorPane.leftAnchor="10"
+          AnchorPane.rightAnchor="10"
+          AnchorPane.bottomAnchor="10">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+
+        <Label text="Detalle de la solicitud" style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" />
+
+        <TextField fx:id="fieldProductType" promptText="Tipo de producto"
+                   editable="false"
+                   style="-fx-background-color: #1e1e1e; -fx-text-fill: white;" />
+        <TextField fx:id="fieldBrand" promptText="Marca"
+                   editable="false"
+                   style="-fx-background-color: #1e1e1e; -fx-text-fill: white;" />
+        <TextField fx:id="fieldUsername" promptText="Solicitante"
+                   editable="false"
+                   style="-fx-background-color: #1e1e1e; -fx-text-fill: white;" />
+        <TextArea fx:id="fieldMotivo" promptText="Motivo de la solicitud"
+                  editable="false"
+                  wrapText="true"
+                  prefRowCount="4"
+                  style="-fx-background-color: #1e1e1e; -fx-text-fill: white;" />
+
+        <!-- Botones alineados justo debajo -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Button fx:id="btnAccept" text="ACEPTAR"
+                    onAction="#onAccept"
+                    style="-fx-background-color: #28a745; -fx-text-fill: white;" />
+
+            <Region HBox.hgrow="ALWAYS" />
+
+            <Button fx:id="btnReject" text="RECHAZAR"
+                    onAction="#onDeny"
+                    style="-fx-background-color: #dc3545; -fx-text-fill: white;" />
+        </HBox>
+    </VBox>
+
+    <!-- Botón VOLVER anclado abajo izquierda -->
+    <Button fx:id="btnBack" text="← VOLVER"
+            onAction="#onBack"
+            AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
+            style="-fx-background-color: #999999; -fx-text-fill: white; -fx-font-weight: bold;" />
+</AnchorPane>

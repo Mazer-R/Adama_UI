@@ -1,30 +1,30 @@
 package com.adama_ui;
 
-import com.adama_ui.util.SolicitudStatus;
+import com.adama_ui.util.OrderStatusLocal;
 
 import java.util.UUID;
 
-public class SolicitudRequest {
+public class OrderDraft {
 
     private String id;
     private String userId;
     private String supervisorId;
     private String detailOrder;
-    private SolicitudStatus status;
+    private OrderStatusLocal status;
 
-    // ✅ Constructor vacío requerido por Jackson
-    public SolicitudRequest() {}
+    // ✅ Default constructor for Jackson
+    public OrderDraft() {}
 
-    // ✅ Constructor de uso normal
-    public SolicitudRequest(String userId, String supervisorId, String detailOrder) {
+    // ✅ Constructor for normal use
+    public OrderDraft(String userId, String supervisorId, String detailOrder) {
         this.id = UUID.randomUUID().toString();
         this.userId = userId;
         this.supervisorId = supervisorId;
         this.detailOrder = detailOrder;
-        this.status = SolicitudStatus.NUEVA;
+        this.status = OrderStatusLocal.NEW; // Pending rename
     }
 
-    // ✅ Getters y setters públicos para Jackson
+    // ✅ Getters and setters
     public String getId() {
         return id;
     }
@@ -57,11 +57,11 @@ public class SolicitudRequest {
         this.detailOrder = detailOrder;
     }
 
-    public SolicitudStatus getStatus() {
+    public OrderStatusLocal getStatus() {
         return status;
     }
 
-    public void setStatus(SolicitudStatus status) {
+    public void setStatus(OrderStatusLocal status) {
         this.status = status;
     }
 }

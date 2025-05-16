@@ -1,3 +1,6 @@
+/* 🎨 Tema claro */
+
+/* Estilo base */
 .root {
     -fx-base: #F0F0F0;
     -fx-background: #FFFFFF;
@@ -5,23 +8,85 @@
     -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 }
 
-.button {
+/* Estilo general para vistas dinámicas */
+.root-pane {
+    -fx-background-color: #FFFFFF;
+}
+
+/* Etiquetas */
+.label, .section-title {
+    -fx-text-fill: #2B2B2B;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* Combos */
+.input-combo {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: black;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 3;
+    -fx-padding: 5 8;
+}
+
+/* Botones */
+.button, .action-button {
     -fx-background-color: #00A651;
     -fx-text-fill: white;
     -fx-font-weight: bold;
 }
 
-.label {
-    -fx-text-fill: #2B2B2B;
+/* Lista de productos */
+.styled-list {
+    -fx-background-color: #F5F5F5;
+    -fx-control-inner-background: #F5F5F5;
+    -fx-cell-hover-color: #DDDDDD;
+    -fx-text-fill: black;
 }
 
-#themeToggleButton {
-    -fx-background-color: transparent;
-    -fx-text-fill: #2b2b2b;
-    -fx-font-size: 18px;
+/* Toggle modo claro */
+.theme-toggle {
+    -fx-background-color: #DDDDDD !important;
+    -fx-background-radius: 20;
+    -fx-padding: 2;
+    -fx-cursor: hand;
+    -fx-alignment: CENTER_LEFT;
+    -fx-pref-width: 50;
+    -fx-pref-height: 26;
+    -fx-background-insets: 0;
+    -fx-border-color: transparent;
+    -fx-text-fill: transparent;
 }
 
 .theme-toggle:selected {
-    -fx-background-color: #cccccc; /* algo neutro si quieres */
+    -fx-background-color: #00A651 !important;
     -fx-alignment: CENTER_RIGHT;
+}
+
+.theme-toggle:selected:focused,
+.theme-toggle:selected:hover,
+.theme-toggle:selected:armed,
+.theme-toggle:focused,
+.theme-toggle:hover,
+.theme-toggle:armed {
+    -fx-background-color: #00A651 !important;
+}
+
+.theme-toggle .graphic {
+    -fx-background-radius: 50%;
+    -fx-padding: 0;
+    -fx-alignment: center;
+}
+
+/* Menú lateral */
+.side-menu {
+    -fx-background-color: #E0E0E0;
+}
+
+/* Celdas personalizadas */
+.custom-list-cell {
+    -fx-background-color: #f9f9f9;
+    -fx-padding: 10;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5;
 }

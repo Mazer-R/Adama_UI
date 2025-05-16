@@ -1,5 +1,6 @@
 package com.adama_ui;
 
+import com.adama_ui.auth.SessionManager;
 import com.adama_ui.util.ProductStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.fxml.FXML;
@@ -29,7 +30,9 @@ public class ProductDetailController {
 
     private final HttpClient httpClient = HttpClient.newHttpClient();
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private static final String BASE_URL = "http://localhost:8080/api/products";
+
+    // URL actual del backend
+    private static final String BASE_URL = "https://touching-deadly-reindeer.ngrok-free.app/products";
 
     public void setProduct(Product product) {
         this.currentProduct = product;
@@ -43,7 +46,6 @@ public class ProductDetailController {
         fieldType.setText(currentProduct.getType());
         fieldBrand.setText(currentProduct.getBrand());
 
-        // Mostramos el label del enum
         if (currentProduct.getStatus() != null) {
             fieldStatus.setText(currentProduct.getStatus().getLabel());
         } else {
@@ -76,7 +78,6 @@ public class ProductDetailController {
             currentProduct.setType(fieldType.getText());
             currentProduct.setBrand(fieldBrand.getText());
 
-            // Convertimos texto a enum usando el método del enum
             ProductStatus newStatus = ProductStatus.fromText(fieldStatus.getText());
             if (newStatus == null) {
                 showAlert("El estado introducido no es válido.", AlertType.WARNING);
@@ -88,11 +89,14 @@ public class ProductDetailController {
             currentProduct.setDescription(fieldDescription.getText());
 
             String json = objectMapper.writeValueAsString(currentProduct);
+
             HttpRequest req = HttpRequest.newBuilder()
                     .uri(URI.create(BASE_URL + "/" + currentProduct.getId()))
                     .header("Content-Type", "application/json")
+                    .header("Authorization", SessionManager.getInstance().getAuthHeader())
                     .method("PATCH", HttpRequest.BodyPublishers.ofString(json))
                     .build();
+
             HttpResponse<String> resp = httpClient.send(req, HttpResponse.BodyHandlers.ofString());
 
             if (resp.statusCode() == 200) {
@@ -128,8 +132,10 @@ public class ProductDetailController {
                 try {
                     HttpRequest req = HttpRequest.newBuilder()
                             .uri(URI.create(BASE_URL + "/" + currentProduct.getId()))
+                            .header("Authorization", SessionManager.getInstance().getAuthHeader())
                             .DELETE()
                             .build();
+
                     HttpResponse<String> resp = httpClient.send(req, HttpResponse.BodyHandlers.ofString());
 
                     if (resp.statusCode() == 200 || resp.statusCode() == 204) {

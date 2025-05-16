@@ -1,35 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
+<BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.adama_ui.ProfileViewController"
-            style="-fx-background-color: #1e1e1e;">
+            styleClass="root-pane">
 
+    <!-- Menú lateral con fondo claro (gris/blanco como en Warehouse) -->
     <left>
         <VBox fx:id="profileMenu"
               spacing="10"
               alignment="TOP_LEFT"
-              style="-fx-background-color: #e0e0e0;">
+              style="-fx-background-color: #e0e0e0;"> <!-- 🎯 Fondo claro aplicado directamente -->
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
+
             <Button fx:id="btnOrder"
                     text="ORDER"
-                    maxWidth="150" />
+                    maxWidth="150"/>
+
+            <Button fx:id="btnTracking"
+                    text="TRACKING"
+                    maxWidth="150"/>
+
+            <Button fx:id="btnManage"
+                    text="MANAGE ORDERS"
+                    maxWidth="150"/>
+
             <Button fx:id="btnHistory"
                     text="HISTORY"
-                    maxWidth="150" />
+                    maxWidth="150"/>
         </VBox>
     </left>
 
+    <!-- Contenido central -->
     <center>
         <StackPane fx:id="contentArea"/>
     </center>
 
+    <!-- Pie con botón de volver -->
     <bottom>
         <HBox alignment="CENTER_LEFT">
             <padding>
@@ -37,7 +49,7 @@
             </padding>
             <Button text="← VOLVER"
                     onAction="#onBack"
-                    style="-fx-background-color: #00c000; -fx-text-fill: white;"/>
+                    styleClass="action-button"/>
         </HBox>
     </bottom>
 </BorderPane>

@@ -6,19 +6,28 @@
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.adama_ui.ProductManagementController"
-            maxWidth="Infinity" maxHeight="Infinity">
+            styleClass="root-pane"> <!-- ✅ Fondo gestionado por el CSS -->
 
+    <!-- Menú lateral izquierdo -->
     <left>
-        <VBox spacing="10" style="-fx-background-color: #e0e0e0;">
+        <VBox spacing="10"
+              alignment="TOP_LEFT"
+              style="-fx-background-color: #e0e0e0;"> <!-- 🎯 Fondo claro aplicado directamente -->
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
-            <Button text="ADD PRODUCT" maxWidth="150" />
-            <Button text="PRODUCT MANAGEMENT" maxWidth="150"
-                    style="-fx-border-color: green; -fx-border-width: 2;" />
+
+            <Button fx:id="btnAddProduct"
+                    text="ADD PRODUCT"
+                    maxWidth="150"/>
+
+            <Button fx:id="btnManageProduct"
+                    text="PRODUCT MANAGEMENT"
+                    maxWidth="150"/>
         </VBox>
     </left>
 
+    <!-- Contenido central -->
     <center>
         <VBox spacing="15" alignment="TOP_LEFT">
             <padding>
@@ -26,32 +35,42 @@
             </padding>
 
             <!-- Filtros -->
-            <Label text="Search product by:" />
+            <Label text="Search product by:" styleClass="section-title"/>
             <HBox spacing="10">
-                <TextField fx:id="fieldIdOrTag" promptText="Enter ID or tag" prefWidth="250" />
-                <Button text="SEARCH" onAction="#onSearchByIdOrTag"
-                        style="-fx-background-color: #00c000; -fx-text-fill: white;" />
+                <TextField fx:id="fieldIdOrTag"
+                           promptText="Enter ID or tag"
+                           prefWidth="250"/>
+                <Button text="SEARCH"
+                        onAction="#onSearchByIdOrTag"/>
             </HBox>
 
-            <Label text="or select:" />
-            <ComboBox fx:id="comboProductType" promptText="Product type" prefWidth="250" />
-            <ComboBox fx:id="comboBrand" promptText="Brand" prefWidth="250" />
-            <Button text="SEARCH" onAction="#onSearchByFilters"
-                    style="-fx-background-color: #00c000; -fx-text-fill: white;" maxWidth="100" />
+            <Label text="or select:" styleClass="section-title"/>
+            <ComboBox fx:id="comboProductType"
+                      promptText="Product type"
+                      prefWidth="250"/>
+            <ComboBox fx:id="comboBrand"
+                      promptText="Brand"
+                      prefWidth="250"/>
+            <Button text="SEARCH"
+                    onAction="#onSearchByFilters"
+                    maxWidth="100"/>
 
             <!-- Lista de productos -->
             <ListView fx:id="listViewProducts"
                       prefHeight="400"
-                      style="-fx-background-color: #1e1e1e;" />
+                      styleClass="styled-list"/>
         </VBox>
     </center>
 
+    <!-- Pie con botón de volver -->
     <bottom>
         <HBox alignment="CENTER_LEFT">
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
-            <Button text="← VOLVER" onAction="#onBack" />
+            <Button text="← VOLVER"
+                    onAction="#onBack"
+                    styleClass="action-button"/>
         </HBox>
     </bottom>
 </BorderPane>

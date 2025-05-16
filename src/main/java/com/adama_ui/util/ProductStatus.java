@@ -4,10 +4,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 
 
 public enum ProductStatus {
-    EN_STOCK("En stock", "#007bff"),            // Azul
-    EN_REPARACION("En reparación", "#dc3545"),  // Rojo
-    PENDIENTE_DE_RECIBIR("Pendiente de recibir", "#ffc107"), // Amarillo
-    ASIGNADO("Asignado", "#28a745");            // Verde
+    STOCK("En stock", "#007bff"),            // Azul
+    ON_REPAIR("En reparacion", "#c700ff"),  // Rojo
+    PENDING("Pendiente de recibir", "#ffc107"), // Amarillo
+    ASSIGNED("Asignado", "#28a745"),
+    INACTIVE ("Inactivo", "#dc3545");            // Verde
 
     private final String label;
     private final String colorHex;

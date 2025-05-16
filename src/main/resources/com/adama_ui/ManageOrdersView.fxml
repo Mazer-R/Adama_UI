@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.adama_ui.ManageOrdersController"
+            fx:id="rootPane"
+            styleClass="root-pane">
+
+    <center>
+        <ListView fx:id="listViewManage"
+                  VBox.vgrow="ALWAYS"
+                  styleClass="styled-list"/>
+    </center>
+</BorderPane>

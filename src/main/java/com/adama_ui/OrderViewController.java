@@ -1,17 +1,17 @@
 package com.adama_ui;
 
+import com.adama_ui.auth.SessionManager;
+import com.adama_ui.OrderRequest;
+import com.adama_ui.OrderService;
 import com.adama_ui.util.Brands;
 import com.adama_ui.util.ProductStatus;
 import com.adama_ui.util.ProductType;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 public class OrderViewController {
@@ -21,7 +21,7 @@ public class OrderViewController {
     @FXML private ListView<Product> listViewProducts;
 
     private final ProductService productService = new ProductService();
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final OrderService orderService = new OrderService();
 
     @FXML
     public void initialize() {
@@ -43,7 +43,7 @@ public class OrderViewController {
                     setGraphic(null);
                 } else {
                     HBox cell = new HBox(10);
-                    cell.setStyle("-fx-background-color: #1e1e1e; -fx-padding: 10; -fx-border-color: gray; -fx-border-radius: 5;");
+                    cell.getStyleClass().add("custom-list-cell");
 
                     Label name = new Label(item.getName());
                     name.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
@@ -76,18 +76,16 @@ public class OrderViewController {
 
                     Button requestButton = new Button("Solicitar");
                     requestButton.setStyle("-fx-background-color: #28a745; -fx-text-fill: white;");
-                    requestButton.setOnAction(e -> saveRequestAsJson(item));
+                    requestButton.setOnAction(e -> saveRequestToBackend(item));
 
                     cell.getChildren().addAll(name, type, brand, statusBox, spacer, requestButton);
                     setGraphic(cell);
                 }
             }
         });
-
-        // Ya no llamamos aquí, se hará desde ProfileViewController
     }
 
-    private void saveRequestAsJson(Product product) {
+    private void saveRequestToBackend(Product product) {
         Dialog<String> dialog = new Dialog<>();
         dialog.setTitle("Motivo de la solicitud");
         dialog.setHeaderText("Introduce el motivo por el cual solicitas este producto:");
@@ -98,8 +96,8 @@ public class OrderViewController {
         TextArea motivoArea = new TextArea();
         motivoArea.setPromptText("Escribe el motivo aquí...");
         motivoArea.setWrapText(true);
-        motivoArea.setPrefRowCount(6); // Altura visible
-        motivoArea.setPrefColumnCount(40); // Anchura visible
+        motivoArea.setPrefRowCount(6);
+        motivoArea.setPrefColumnCount(40);
 
         dialog.getDialogPane().setContent(motivoArea);
 
@@ -116,23 +114,27 @@ public class OrderViewController {
                 return;
             }
 
-            // Simulación de datos
-            String userId = "123456";
-            String supervisorId = "Juanito";
+            SessionManager session = SessionManager.getInstance();
+            String productId = product.getId();
+            String userId = session.getUserId();
+            String managerUsername = session.getUsername();
 
-            SolicitudRequest solicitud = new SolicitudRequest(userId, supervisorId, motivo);
+            if (managerUsername == null || managerUsername.isBlank()) {
+                managerUsername = "admin";
+            }
+
+            OrderRequest order = new OrderRequest(productId, userId, managerUsername, motivo);
 
             try {
-                File file = new File("solicitud.json");
-                objectMapper.writeValue(file, solicitud);
-                showAlert("Solicitud guardada", "El producto ha sido solicitado con éxito.");
-            } catch (IOException e) {
+                orderService.createOrder(order);
+                showAlert("Solicitud enviada", "El producto ha sido solicitado con éxito.");
+                loadInStockProducts();
+            } catch (Exception e) {
                 e.printStackTrace();
-                showAlert("Error", "Error al guardar la solicitud.");
+                showAlert("Error", "No se pudo enviar la solicitud.");
             }
         });
     }
-
 
     @FXML
     private void onSearchByFilters() {
@@ -143,28 +145,20 @@ public class OrderViewController {
         String brand = selectedBrand != null ? selectedBrand.toString() : null;
 
         try {
-            List<Product> filtered;
+            List<Product> filtered = productService.getProductsByFilters(type, brand);
+            List<String> orderedProductIds = orderService.getOrdersByStatus("ORDERED")
+                    .stream().map(Order::getProductId).toList();
 
-            if (type != null && brand != null) {
-                filtered = productService.getProductsByFilters(type, brand);
-            } else if (type != null) {
-                filtered = productService.getProductsByType(type);
-            } else if (brand != null) {
-                filtered = productService.getProductsByBrand(brand);
-            } else {
-                loadInStockProducts();
-                return;
-            }
-
-            List<Product> inStock = filtered.stream()
-                    .filter(p -> p.getStatus() == ProductStatus.EN_STOCK)
+            List<Product> available = filtered.stream()
+                    .filter(p -> p.getStatus() == ProductStatus.STOCK)
+                    .filter(p -> !orderedProductIds.contains(p.getId()))
                     .toList();
 
-            if (inStock.isEmpty()) {
+            if (available.isEmpty()) {
                 showAlert("Sin resultados", "No hay productos en stock con esos filtros.");
                 listViewProducts.setVisible(false);
             } else {
-                listViewProducts.getItems().setAll(inStock);
+                listViewProducts.getItems().setAll(available);
                 listViewProducts.setVisible(true);
             }
 
@@ -174,19 +168,22 @@ public class OrderViewController {
         }
     }
 
-    // 👇 Este es el método que necesitas hacer público
     public void loadInStockProducts() {
         try {
             List<Product> allProducts = productService.getAllProducts();
-            List<Product> inStock = allProducts.stream()
-                    .filter(p -> p.getStatus() == ProductStatus.EN_STOCK)
+            List<String> orderedProductIds = orderService.getOrdersByStatus("ORDERED")
+                    .stream().map(Order::getProductId).toList();
+
+            List<Product> available = allProducts.stream()
+                    .filter(p -> p.getStatus() == ProductStatus.STOCK)
+                    .filter(p -> !orderedProductIds.contains(p.getId()))
                     .toList();
 
-            if (inStock.isEmpty()) {
+            if (available.isEmpty()) {
                 showAlert("Sin productos", "No hay productos en stock disponibles.");
                 listViewProducts.setVisible(false);
             } else {
-                listViewProducts.getItems().setAll(inStock);
+                listViewProducts.getItems().setAll(available);
                 listViewProducts.setVisible(true);
             }
         } catch (Exception e) {

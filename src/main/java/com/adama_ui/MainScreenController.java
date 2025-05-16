@@ -22,8 +22,6 @@ public class MainScreenController {
     private final Image sunIcon = new Image(getClass().getResourceAsStream("/icons/light-mode.png"));
     private final Image moonIcon = new Image(getClass().getResourceAsStream("/icons/night-mode.png"));
 
-    private boolean darkMode = true;
-
     @FXML
     public void initialize() {
         ViewManager.setMainContainer(mainContainer);
@@ -36,7 +34,7 @@ public class MainScreenController {
                     stage.setUserData(this);
                     stage.setMaximized(true);
                 }
-                applyThemeToScene(newScene);
+                AppTheme.applyTheme(newScene); // ✅ Usa AppTheme
             }
         });
 
@@ -44,31 +42,36 @@ public class MainScreenController {
             themeToggleButton.getStyleClass().add("theme-toggle");
         }
 
+        // ✅ Asegura que el botón está sincronizado con el estado actual
         updateThemeToggleIcon();
     }
 
     private void applyThemeToScene(Scene scene) {
         if (scene != null) {
             scene.getStylesheets().clear();
-            scene.getStylesheets().add(AppTheme.class.getResource(AppTheme.getThemePath(darkMode)).toExternalForm());
+            scene.getStylesheets().add(AppTheme.class.getResource(AppTheme.getThemePath()).toExternalForm());
             updateThemeToggleIcon();
         }
     }
 
     private void updateThemeToggleIcon() {
-        Image icon = darkMode ? moonIcon : sunIcon;
+        boolean isDark = AppTheme.isDarkMode();
+        Image icon = isDark ? moonIcon : sunIcon;
         ImageView iconView = new ImageView(icon);
         iconView.setFitWidth(16);
         iconView.setFitHeight(16);
         themeToggleButton.setGraphic(iconView);
-        themeToggleButton.setSelected(!darkMode);
+        themeToggleButton.setSelected(!isDark);
     }
 
     @FXML
     private void onToggleTheme() {
-        darkMode = !darkMode;
-        applyThemeToScene(themeToggleButton.getScene());
+        boolean nuevoModoOscuro = !AppTheme.isDarkMode();
+        AppTheme.setDarkMode(nuevoModoOscuro);
+        AppTheme.applyTheme(themeToggleButton.getScene());
+        updateThemeToggleIcon();
     }
+
     public void setAuthToken(String token) {
         this.authToken = token;
     }

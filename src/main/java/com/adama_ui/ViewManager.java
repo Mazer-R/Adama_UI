@@ -1,7 +1,9 @@
 package com.adama_ui;
 
+import com.adama_ui.style.AppTheme;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
@@ -37,7 +39,7 @@ public class ViewManager {
 
             if (cache && viewCache.containsKey(fxmlPath)) {
                 view = viewCache.get(fxmlPath);
-                currentController = null; // No se puede recuperar el controller desde la caché
+                currentController = null;
             } else {
                 FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource(fxmlPath));
                 view = loader.load();
@@ -46,6 +48,8 @@ public class ViewManager {
             }
 
             mainContainer.setCenter(view);
+            applyThemeIfAvailable();
+
         } catch (IOException e) {
             System.err.println("Error loading view: " + fxmlPath);
             e.printStackTrace();
@@ -63,6 +67,8 @@ public class ViewManager {
             }
 
             mainContainer.setCenter(view);
+            applyThemeIfAvailable();
+
         } catch (IOException e) {
             System.err.println("Error loading view with product: " + fxmlPath);
             e.printStackTrace();
@@ -89,6 +95,8 @@ public class ViewManager {
             }
 
             mainContainer.setCenter(view);
+            applyThemeIfAvailable();
+
         } catch (IOException e) {
             System.err.println("Error loading view with product list: " + fxmlPath);
             e.printStackTrace();
@@ -126,7 +134,6 @@ public class ViewManager {
         }
     }
 
-    // ✅ NUEVO MÉTODO: Carga la vista y devuelve su controlador (no usa caché)
     public static <T> T loadViewAndReturnController(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource(fxmlPath));
@@ -134,11 +141,20 @@ public class ViewManager {
             T controller = loader.getController();
             currentController = controller;
             mainContainer.setCenter(view);
+            applyThemeIfAvailable();
             return controller;
         } catch (IOException e) {
             System.err.println("Error loading view and returning controller: " + fxmlPath);
             e.printStackTrace();
             return null;
+        }
+    }
+
+    // ✅ Aplica tema si hay una escena
+    private static void applyThemeIfAvailable() {
+        Scene scene = mainContainer.getScene();
+        if (scene != null) {
+            AppTheme.applyTheme(scene);
         }
     }
 }

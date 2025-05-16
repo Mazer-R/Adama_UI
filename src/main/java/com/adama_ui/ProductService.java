@@ -3,6 +3,7 @@ package com.adama_ui;
 import java.net.URI;
 import java.net.http.*;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import com.adama_ui.auth.SessionManager;
@@ -10,13 +11,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ProductService {
 
-    private static final String BASE_URL = "http://localhost:8080/products";
+    private static final String BASE_URL = "https://touching-deadly-reindeer.ngrok-free.app";
+    private static final String PRODUCTS_PATH = "/products";
+
     private final HttpClient httpClient = HttpClient.newHttpClient();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public Product getProductById(String id) throws Exception {
+        String url = BASE_URL + PRODUCTS_PATH + "/" + id;
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(BASE_URL + "/" + id))
+                .uri(URI.create(url))
                 .GET()
                 .header("Authorization", SessionManager.getInstance().getAuthHeader())
                 .build();
@@ -26,36 +30,13 @@ public class ProductService {
         if (response.statusCode() == 200) {
             return objectMapper.readValue(response.body(), Product.class);
         } else {
+            System.err.println("Error al obtener producto por ID: " + response.body());
             throw new Exception("Producto no encontrado");
         }
     }
 
-    public List<Product> getProductsByType(String type) throws Exception {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(BASE_URL + "?type=" + type))
-                .GET()
-                .header("Authorization", SessionManager.getInstance().getAuthHeader())
-                .build();
-
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-        return Arrays.asList(objectMapper.readValue(response.body(), Product[].class));
-    }
-
-    public List<Product> getProductsByBrand(String brand) throws Exception {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(BASE_URL + "?brand=" + brand))
-                .GET()
-                .header("Authorization", SessionManager.getInstance().getAuthHeader())
-                .build();
-
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-        return Arrays.asList(objectMapper.readValue(response.body(), Product[].class));
-    }
-
     public List<Product> getProductsByFilters(String type, String brand) throws Exception {
-        StringBuilder uriBuilder = new StringBuilder(BASE_URL);
+        StringBuilder uriBuilder = new StringBuilder(BASE_URL + PRODUCTS_PATH);
         boolean hasParams = false;
 
         if (type != null && !type.isEmpty()) {
@@ -67,26 +48,26 @@ public class ProductService {
             uriBuilder.append(hasParams ? "&" : "?").append("brand=").append(brand);
         }
 
+        String url = uriBuilder.toString();
+        System.out.println(">>> Petición a: " + url);
+
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(uriBuilder.toString()))
-                .GET()
-                .build();
-
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-        return Arrays.asList(objectMapper.readValue(response.body(), Product[].class));
-    }
-
-    // ✅ NUEVO MÉTODO PARA CARGAR TODOS LOS PRODUCTOS
-    public List<Product> getAllProducts() throws Exception {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(BASE_URL))
+                .uri(URI.create(url))
                 .GET()
                 .header("Authorization", SessionManager.getInstance().getAuthHeader())
                 .build();
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
-        return Arrays.asList(objectMapper.readValue(response.body(), Product[].class));
+        if (response.statusCode() == 200) {
+            return Arrays.asList(objectMapper.readValue(response.body(), Product[].class));
+        } else {
+            System.err.println("Error al obtener productos por filtros: " + response.body());
+            return Collections.emptyList();
+        }
+    }
+
+    public List<Product> getAllProducts() throws Exception {
+        return getProductsByFilters(null, null);
     }
 }
