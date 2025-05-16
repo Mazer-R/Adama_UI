@@ -1,5 +1,6 @@
 package com.adama_ui;
 
+import com.adama_ui.auth.SessionManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
@@ -13,10 +14,11 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+import static com.adama_ui.LoginToAppController.API_BASE_URL;
+
 public class AddUserController {
 
     private final HttpClient httpClient = HttpClient.newHttpClient();
-    private final String API_BASE_URL = "http://localhost:8080/api";
 
     // Campos del formulario
     @FXML private TextField fieldUsername;
@@ -29,8 +31,8 @@ public class AddUserController {
 
     // Método que se ejecuta cuando se presiona el botón "ADD USER"
     @FXML
-    private void onAddUser() {
-        System.out.println("Adding a new user...");
+    private void goAddUser() {
+        ViewManager.loadView("/com/adama_ui/AddUser.fxml");
     }
 
     // Método que se ejecuta cuando se presiona el botón "USER MANAGEMENT"
@@ -40,7 +42,7 @@ public class AddUserController {
     }
 
     @FXML
-    private void onSaveUser() {
+    public void onSaveUser() {
         String username = fieldUsername.getText().trim();
         String password = fieldPassword.getText().trim();
         String firstName = fieldFirstName.getText().trim();
@@ -83,6 +85,7 @@ public class AddUserController {
                     .uri(URI.create(API_BASE_URL + "/users"))
                     .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
                     .header("Content-Type", "application/json")
+                    .header("Authorization", SessionManager.getInstance().getAuthHeader())
                     .build();
 
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());

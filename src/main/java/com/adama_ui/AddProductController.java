@@ -1,5 +1,6 @@
 package com.adama_ui;
 
+import com.adama_ui.auth.SessionManager;
 import com.adama_ui.util.Brands;
 import com.adama_ui.util.ProductType;
 import javafx.fxml.FXML;
@@ -10,10 +11,11 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+import static com.adama_ui.LoginToAppController.API_BASE_URL;
+
 public class AddProductController {
 
     private final HttpClient httpClient = HttpClient.newHttpClient();
-    private final String API_BASE_URL = "http://localhost:8080/api";
 
     @FXML private TextField fieldName;
     @FXML private TextArea fieldDescription;
@@ -65,6 +67,7 @@ public class AddProductController {
                     .uri(URI.create(API_BASE_URL + "/products"))
                     .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
                     .header("Content-Type", "application/json")
+                    .header("Authorization", SessionManager.getInstance().getAuthHeader())
                     .build();
 
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());

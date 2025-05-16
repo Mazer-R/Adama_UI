@@ -1,12 +1,24 @@
 package com.adama_ui;
 
+import com.adama_ui.auth.SessionManager;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 
+import java.net.URI;
+import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import static com.adama_ui.LoginToAppController.API_BASE_URL;
+
 public class UserManagementController {
+
+    private final HttpClient httpClient = HttpClient.newHttpClient();
 
     @FXML
     private TextField fieldUsername;
@@ -28,24 +40,47 @@ public class UserManagementController {
         ViewManager.loadView("/com/adama_ui/UserManagement.fxml");
     }
 
-    // Método llamado cuando se hace clic en el botón "FILTER USERS"
     @FXML
     private void onFilterUsers() {
-        String username = fieldUsername.getText().trim();
-        String role = comboRole.getValue();
+        String selectedRole = comboRole.getValue();
+        String usernameFilter = fieldUsername.getText();
 
-        // Validación de campos
-        if (username.isEmpty() && role == null) {
-            showAlert("Error", "Por favor ingrese al menos un criterio de filtro.");
-            return;
+        try {
+            String endpoint = API_BASE_URL + "/users";
+            if (selectedRole != null && !selectedRole.isEmpty()) {
+                endpoint += "?role=" + URLEncoder.encode(selectedRole, StandardCharsets.UTF_8);
+            }
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(endpoint))
+                    .GET()
+                    .header("Accept", "application/json")
+                    .header("Authorization", SessionManager.getInstance().getAuthHeader())
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                String json = response.body();
+
+                ObjectMapper mapper = new ObjectMapper();
+                List<UserResponse> users = mapper.readValue(json, new TypeReference<>() {});
+
+                // Aplicar filtro por username en frontend (si hay texto)
+                if (usernameFilter != null && !usernameFilter.isEmpty()) {
+                    users = users.stream()
+                            .filter(u -> u.getUsername().toLowerCase().contains(usernameFilter.toLowerCase()))
+                            .collect(Collectors.toList());
+                }
+
+                updateUserTable(users);
+            } else {
+                showAlert("Error", "Error al obtener usuarios: " + response.statusCode(), Alert.AlertType.ERROR);
+            }
+
+        } catch (Exception e) {
+            showAlert("Error", "Excepción al filtrar usuarios:\n" + e.getMessage(), Alert.AlertType.ERROR);
         }
-
-        // Aquí deberías realizar la lógica de filtrado, por ejemplo, llamando a un servicio que obtenga los datos de la base de datos
-        // Simulación de la obtención de datos filtrados
-        var users = getFilteredUsers(username, role);
-
-        // Mostrar los usuarios filtrados en la TableView
-        tableUsers.setItems(FXCollections.observableArrayList(users));
     }
 
     // Simulación de un servicio que devuelve usuarios filtrados
