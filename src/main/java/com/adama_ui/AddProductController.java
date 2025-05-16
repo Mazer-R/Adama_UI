@@ -11,11 +11,10 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-import static com.adama_ui.LoginToAppController.API_BASE_URL;
-
 public class AddProductController {
 
     private final HttpClient httpClient = HttpClient.newHttpClient();
+    private final String API_BASE_URL = "http://localhost:8080/api";
 
     @FXML private TextField fieldName;
     @FXML private TextArea fieldDescription;

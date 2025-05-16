@@ -19,6 +19,7 @@ import static com.adama_ui.LoginToAppController.API_BASE_URL;
 public class AddUserController {
 
     private final HttpClient httpClient = HttpClient.newHttpClient();
+    private final String API_BASE_URL = "http://localhost:8080/api";
 
     // Campos del formulario
     @FXML private TextField fieldUsername;

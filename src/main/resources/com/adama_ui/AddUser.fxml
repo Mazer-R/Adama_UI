@@ -16,7 +16,7 @@
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
-            <Button text="ADD USER" maxWidth="150" onAction="#goAddUser" />
+            <Button text="ADD USER" maxWidth="150" onAction="#onAddUser" />
             <Button text="USER MANAGEMENT" maxWidth="150"
                     onAction="#onGoToUserManagement"
                     style="-fx-border-color: green; -fx-border-width: 2;" />
