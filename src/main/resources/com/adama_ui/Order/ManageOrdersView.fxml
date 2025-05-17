@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.adama_ui.Order.ManageOrdersController"
+            fx:id="rootPane"
+            styleClass="root-pane">
+
+    <center>
+        <VBox spacing="10" alignment="CENTER">
+            <ListView fx:id="listViewManage"
+                      VBox.vgrow="ALWAYS"
+                      styleClass="styled-list"/>
+
+            <Label fx:id="emptyLabel"
+                   text="No hay solicitudes pendientes de validación."
+                   visible="false"
+                   managed="false"
+                   styleClass="empty-message"/>
+        </VBox>
+    </center>
+</BorderPane>

@@ -53,9 +53,6 @@
             <TextField fx:id="brandField" promptText="Brand"/>
         </HBox>
 
-        <Button text="ADD USER" onAction="#onClick" prefWidth="300" prefHeight="40"
-                style="-fx-font-size: 14; -fx-background-color: #F44336; -fx-text-fill: white;"/>
-
 
     </VBox>
 

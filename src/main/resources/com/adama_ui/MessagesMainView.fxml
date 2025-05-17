@@ -5,7 +5,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/17.0.12"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.adama_ui.MessagesMainViewController"
+            fx:controller="com.adama_ui.Message.MessagesMainViewController"
             maxWidth="Infinity" maxHeight="Infinity">
 
    <VBox spacing="20" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="20.0"

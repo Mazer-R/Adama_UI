@@ -6,7 +6,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.adama_ui.TrackingController"
+            fx:controller="com.adama_ui.Order.TrackingController"
             fx:id="rootPane"
             styleClass="root-pane">
 

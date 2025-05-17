@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.adama_ui.Product.ProductListCellController"
+      style="-fx-background-color: #2a2a2a; -fx-padding: 10; -fx-background-radius: 5;"
+      spacing="20"
+      onMouseClicked="#handleClick">
+
+    <VBox spacing="5">
+        <Label fx:id="labelName" style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" />
+        <Label fx:id="labelType" style="-fx-text-fill: #cccccc;" />
+        <Label fx:id="labelBrand" style="-fx-text-fill: #cccccc;" />
+    </VBox>
+</HBox>

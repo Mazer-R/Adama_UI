@@ -1,6 +1,7 @@
 package com.adama_ui;
 
 import com.adama_ui.style.AppTheme;
+import com.adama_ui.util.ViewManager;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ToggleButton;
@@ -84,9 +85,7 @@ public class MainScreenController {
     }
 
     @FXML
-    private void loadProfileView() {
-        ViewManager.load("/com/adama_ui/ProfileView.fxml");
-    }
+    private void loadOrderView() {ViewManager.load("/com/adama_ui/OrderMainView.fxml");}
 
     @FXML
     private void loadSettingsView() {
@@ -100,7 +99,12 @@ public class MainScreenController {
 
     @FXML
     public void loadWarehouseView() {
-        ViewManager.load("/com/adama_ui/ProductManagement.fxml");
+        ViewManager.load("/com/adama_ui/Product/ProductManagement.fxml");
+    }
+
+    @FXML
+    private void loadUserView() {
+        ViewManager.load("/com/adama_ui/User/AddUser.fxml");
     }
 
     public void setCenterContent(Node node) {

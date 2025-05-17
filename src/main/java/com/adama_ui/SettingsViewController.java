@@ -1,6 +1,7 @@
 package com.adama_ui;
 
 import com.adama_ui.auth.SessionManager;
+import com.adama_ui.util.ViewManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
@@ -278,8 +279,5 @@ public class SettingsViewController {
         }
     }
 
-    @FXML
-    private void onClick() {
-        ViewManager.load("/com/adama_ui/AddUser.fxml");
-    }
+
 }
