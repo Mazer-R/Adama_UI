@@ -177,3 +177,21 @@
     -fx-padding: 6 8;
     -fx-font-size: 13px;
 }
+
+.sidebar-button {
+    -fx-background-color: #00A651;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-pref-width: 180;
+}
+
+.back-button {
+    -fx-background-color: #00A651;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-pref-width: 180;
+}

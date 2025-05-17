@@ -5,13 +5,12 @@ import com.adama_ui.util.Brands;
 import com.adama_ui.util.ProductType;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class AddProductController {
+public class AddProductController implements Reloadable {
 
     private final HttpClient httpClient = HttpClient.newHttpClient();
     private final String API_BASE_URL = "http://localhost:8080/api";
@@ -41,7 +40,6 @@ public class AddProductController {
             return;
         }
 
-        // Construir JSON manualmente (ajusta userId si aplica)
         String jsonBody = String.format(
                 """
                 {
@@ -109,20 +107,26 @@ public class AddProductController {
         return json;
     }
 
-
     @FXML
     private void onBack() {
-        ViewManager.load("/com/adama_ui/ProductManagement.fxml");
+        if (WarehouseController.getCurrentSubview() != null) {
+            switch (WarehouseController.getCurrentSubview()) {
+                case "MANAGE" -> ViewManager.loadInto("/com/adama_ui/ProductManagement.fxml", WarehouseController.getContentPane());
+                default -> ViewManager.loadInto("/com/adama_ui/AddProductView.fxml", WarehouseController.getContentPane());
+            }
+        } else {
+            ViewManager.loadInto("/com/adama_ui/AddProductView.fxml", WarehouseController.getContentPane());
+        }
     }
 
     @FXML
     private void onAddProduct() {
-        ViewManager.load("/com/adama_ui/AddProductView.fxml");
+        ViewManager.loadInto("/com/adama_ui/AddProductView.fxml", WarehouseController.getContentPane());
     }
 
     @FXML
     private void onGoToProductManagement() {
-        ViewManager.load("/com/adama_ui/ProductManagement.fxml");
+        ViewManager.loadInto("/com/adama_ui/ProductManagement.fxml", WarehouseController.getContentPane());
     }
 
     private void showAlert(String title, String message) {
@@ -131,5 +135,10 @@ public class AddProductController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    @Override
+    public void onReload() {
+        // Si necesitas lógica de recarga al volver a esta vista, añádela aquí
     }
 }

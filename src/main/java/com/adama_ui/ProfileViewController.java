@@ -1,6 +1,7 @@
 package com.adama_ui;
 
 import com.adama_ui.auth.SessionManager;
+import com.adama_ui.Reloadable;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
@@ -24,11 +25,13 @@ public class ProfileViewController {
             btnOrder.setOnAction(event -> {
                 ViewManager.loadInto("/com/adama_ui/OrderView.fxml", contentArea, () -> {
                     currentSubview = "ORDER";
-                    OrderViewController controller = (OrderViewController) ViewManager.getCurrentController();
-                    if (controller != null) {
-                        controller.loadInStockProducts();
-                    }
                     highlightMenuButton(btnOrder);
+
+                    // 🔄 Forzar recarga si el controlador implementa Reloadable
+                    Object controller = ViewManager.getCurrentController();
+                    if (controller instanceof Reloadable reloadable) {
+                        reloadable.onReload();
+                    }
                 });
             });
         }
@@ -70,9 +73,9 @@ public class ProfileViewController {
             }
         }
 
-        // Cargar la subvista que corresponda
+        // Cargar la subvista por defecto o la última usada
         if (currentSubview == null) {
-            btnOrder.fire(); // por defecto
+            btnOrder.fire();
         } else {
             switch (currentSubview) {
                 case "ORDER" -> btnOrder.fire();

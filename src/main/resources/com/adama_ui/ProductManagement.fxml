@@ -5,42 +5,70 @@
 <?import javafx.geometry.Insets?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
+            xmlns="http://javafx.com/javafx"
             fx:controller="com.adama_ui.ProductManagementController"
-            maxWidth="Infinity" maxHeight="Infinity">
+            styleClass="root-pane"
+            maxWidth="Infinity"
+            maxHeight="Infinity">
 
     <center>
-        <VBox spacing="15" alignment="TOP_LEFT">
+        <VBox spacing="15" alignment="TOP_LEFT" styleClass="content-area">
             <padding>
-                <Insets top="20" right="20" bottom="20" left="20"/>
+                <Insets top="20" right="20" bottom="10" left="20"/>
             </padding>
 
-            <!-- Filtros -->
-            <Label text="Search product by:" />
-            <HBox spacing="10">
-                <TextField fx:id="fieldIdOrTag" promptText="Enter ID or tag" prefWidth="250" />
-                <Button text="SEARCH" onAction="#onSearchByIdOrTag"
-                        style="-fx-background-color: #00c000; -fx-text-fill: white;" />
+            <!-- Título -->
+            <Label text="Buscar productos" styleClass="section-title"/>
+
+            <!-- Búsqueda directa -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <TextField fx:id="fieldIdOrTag"
+                           promptText="ID o etiqueta"
+                           prefWidth="250"
+                           styleClass="input-combo"/>
+                <Button text="BUSCAR"
+                        onAction="#onSearchByIdOrTag"
+                        styleClass="action-button"
+                        prefWidth="100"
+                        prefHeight="32"/>
             </HBox>
 
-            <Label text="or select:" />
-            <ComboBox fx:id="comboProductType" promptText="Product type" prefWidth="250" />
-            <ComboBox fx:id="comboBrand" promptText="Brand" prefWidth="250" />
-            <Button text="SEARCH" onAction="#onSearchByFilters"
-                    style="-fx-background-color: #00c000; -fx-text-fill: white;" maxWidth="100" />
+            <!-- Filtros -->
+            <Label text="O filtrar por:" styleClass="section-title"/>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <ComboBox fx:id="comboProductType"
+                          promptText="Tipo de producto"
+                          prefWidth="250"
+                          styleClass="input-combo"/>
+                <ComboBox fx:id="comboBrand"
+                          promptText="Marca"
+                          prefWidth="250"
+                          styleClass="input-combo"/>
+                <Button text="BUSCAR"
+                        onAction="#onSearchByFilters"
+                        styleClass="action-button"
+                        prefWidth="100"
+                        prefHeight="32"/>
+            </HBox>
 
             <!-- Lista de productos -->
             <ListView fx:id="listViewProducts"
                       prefHeight="400"
-                      style="-fx-background-color: #1e1e1e;" />
+                      VBox.vgrow="ALWAYS"
+                      styleClass="styled-list"/>
         </VBox>
     </center>
 
     <bottom>
         <HBox alignment="CENTER_LEFT">
             <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
+                <Insets top="10" right="20" bottom="10" left="20"/>
             </padding>
-            <Button text="← VOLVER" onAction="#onBack" />
+            <Button text="← VOLVER"
+                    onAction="#onBack"
+                    styleClass="back-button"
+                    prefHeight="32"
+                    prefWidth="100"/>
         </HBox>
     </bottom>
 </BorderPane>
