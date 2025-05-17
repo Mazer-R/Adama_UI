@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.adama_ui.AddProductController"
+            styleClass="root-pane">
+
+    <!-- Formulario central -->
+    <center>
+        <VBox spacing="15" alignment="TOP_LEFT" styleClass="content-area">
+            <padding>
+                <Insets top="20" left="20" right="20" bottom="20"/>
+            </padding>
+
+            <Label text="Añadir nuevo producto" styleClass="section-title"/>
+
+            <TextField fx:id="fieldName"
+                       promptText="Nombre del producto"
+                       styleClass="input-combo"
+                       prefWidth="300"/>
+
+            <TextArea fx:id="fieldDescription"
+                      promptText="Descripción"
+                      prefRowCount="4"
+                      wrapText="true"
+                      styleClass="input-combo"
+                      prefWidth="500"/>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <ComboBox fx:id="comboType"
+                          promptText="Tipo de producto"
+                          prefWidth="250"
+                          styleClass="input-combo"/>
+                <ComboBox fx:id="comboBrand"
+                          promptText="Marca"
+                          prefWidth="250"
+                          styleClass="input-combo"/>
+            </HBox>
+
+            <TextField fx:id="fieldModel"
+                       promptText="Modelo"
+                       styleClass="input-combo"
+                       prefWidth="300"/>
+
+            <Button text="GUARDAR"
+                    onAction="#onSaveProduct"
+                    styleClass="action-button"
+                    prefHeight="32"
+                    prefWidth="100"/>
+        </VBox>
+    </center>
+
+    <!-- Botón volver abajo a la izquierda -->
+    <bottom>
+        <HBox alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="10" left="20" bottom="10" right="20"/>
+            </padding>
+            <Button text="← VOLVER"
+                    onAction="#onBack"
+                    styleClass="back-button"
+                    prefHeight="32"
+                    prefWidth="100"/>
+        </HBox>
+    </bottom>
+</BorderPane>

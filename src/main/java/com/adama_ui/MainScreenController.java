@@ -103,6 +103,16 @@ public class MainScreenController {
     @FXML
     private void loadSettingsView() {
         ViewManager.load("/com/adama_ui/TestView.fxml");
+        ViewManager.load("/com/adama_ui/WarehouseView.fxml");
+        // Una vez cargado WarehouseView, cargamos dentro el AddProduct por defecto
+        javafx.application.Platform.runLater(() -> {
+            var node = mainContainer.lookup("#contentPane");
+            if (node instanceof StackPane contentPane) {
+                ViewManager.loadInto("/com/adama_ui/AddProductView.fxml", contentPane);
+            } else {
+                System.err.println("⚠️ No se encontró el StackPane con fx:id=\"contentPane\" en WarehouseView.fxml");
+            }
+        });
     }
 
     public void setCenterContent(Node node) {

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.adama_ui.WarehouseController"
+            styleClass="root-pane">
+
+    <left>
+        <VBox fx:id="warehouseMenu"
+              spacing="10"
+              alignment="TOP_LEFT"
+              style="-fx-background-color: #e0e0e0;">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+
+            <Button fx:id="btnAddProduct"
+                    text="AGREGAR PRODUCTO"
+                    maxWidth="180"/>
+
+            <Button fx:id="btnManageProduct"
+                    text="GESTIONAR PRODUCTOS"
+                    maxWidth="180"/>
+
+        </VBox>
+    </left>
+
+    <center>
+        <StackPane fx:id="contentPane"/>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Button fx:id="btnBack"
+                    text="← VOLVER"
+                    styleClass="action-button"/>
+        </HBox>
+    </bottom>
+</BorderPane>

@@ -19,19 +19,19 @@
             </padding>
 
             <Button fx:id="btnOrder"
-                    text="ORDER"
+                    text="SOLICITUD"
                     maxWidth="150"/>
 
             <Button fx:id="btnTracking"
-                    text="TRACKING"
+                    text="SEGUIMIENTO SOLICITUDES"
                     maxWidth="150"/>
 
             <Button fx:id="btnManage"
-                    text="MANAGE ORDERS"
+                    text="GESTION SOLICITUDES"
                     maxWidth="150"/>
 
             <Button fx:id="btnHistory"
-                    text="HISTORY"
+                    text="HISTORIAL SOLICITUDES"
                     maxWidth="150"/>
         </VBox>
     </left>

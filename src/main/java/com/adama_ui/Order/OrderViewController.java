@@ -1,72 +1,74 @@
-package com.adama_ui.Order;
+// Adaptado para usar ComboBox<LabeledValue> correctamente
 
-import com.adama_ui.Product.DTO.Product;
-import com.adama_ui.Product.ProductService;
-import com.adama_ui.Reloadable;
+package com.adama_ui;
+
 import com.adama_ui.auth.SessionManager;
-import com.adama_ui.util.Brands;
-import com.adama_ui.util.ProductStatus;
-import com.adama_ui.util.ProductType;
+import com.adama_ui.util.*;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.*;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class OrderViewController implements Reloadable {
 
-    @FXML private ComboBox<ProductType> comboProductType;
-    @FXML private ComboBox<Brands> comboBrand;
+    @FXML private ComboBox<LabeledValue> comboProductType;
+    @FXML private ComboBox<LabeledValue> comboBrand;
     @FXML private ListView<Product> listViewProducts;
 
     private final ProductService productService = new ProductService();
     private final OrderService orderService = new OrderService();
 
+    private List<Product> allStockProducts = new ArrayList<>();
+
     @FXML
     public void initialize() {
-        comboProductType.getItems().add(null);
-        comboProductType.getItems().addAll(ProductType.values());
-        comboProductType.setValue(null);
+        setupComboBoxes();
+        setupListView();
+        loadInStockProducts();
+    }
+
+    private void setupComboBoxes() {
+        comboProductType.setPromptText("Todos los tipos");
+        comboBrand.setPromptText("Todas las marcas");
+
         comboProductType.setCellFactory(cb -> new ListCell<>() {
-            @Override
-            protected void updateItem(ProductType item, boolean empty) {
+            @Override protected void updateItem(LabeledValue item, boolean empty) {
                 super.updateItem(item, empty);
-                setText(empty || item == null ? "Tipo de producto" : item.getLabel());
+                setText(empty || item == null ? "Todos los tipos" : item.label());
             }
         });
-
         comboProductType.setButtonCell(new ListCell<>() {
-            @Override
-            protected void updateItem(ProductType item, boolean empty) {
+            @Override protected void updateItem(LabeledValue item, boolean empty) {
                 super.updateItem(item, empty);
-                setText(empty || item == null ? "Tipo de producto" : item.getLabel());
+                setText(empty || item == null ? "Todos los tipos" : item.label());
             }
         });
 
-        comboBrand.getItems().add(null);
-        comboBrand.getItems().addAll(Brands.values());
-        comboBrand.setPromptText("Marca del producto");
-
-        comboProductType.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                onSearchByFilters();
+        comboBrand.setCellFactory(cb -> new ListCell<>() {
+            @Override protected void updateItem(LabeledValue item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? "Todas las marcas" : item.label());
+            }
+        });
+        comboBrand.setButtonCell(new ListCell<>() {
+            @Override protected void updateItem(LabeledValue item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? "Todas las marcas" : item.label());
             }
         });
 
-        comboBrand.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                onSearchByFilters();
-            }
-        });
+        comboProductType.setOnKeyPressed(e -> { if (e.getCode() == KeyCode.ENTER) onSearchByFilters(); });
+        comboBrand.setOnKeyPressed(e -> { if (e.getCode() == KeyCode.ENTER) onSearchByFilters(); });
+    }
 
+    private void setupListView() {
         listViewProducts.setVisible(false);
-
-        listViewProducts.setCellFactory(listView -> new ListCell<>() {
-            @Override
-            protected void updateItem(Product item, boolean empty) {
+        listViewProducts.setCellFactory(list -> new ListCell<>() {
+            @Override protected void updateItem(Product item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
                     setGraphic(null);
@@ -86,15 +88,13 @@ public class OrderViewController implements Reloadable {
                     brand.setPrefWidth(100);
                     brand.getStyleClass().add("product-info");
 
-                    ProductStatus statusEnum = item.getStatus();
-                    String statusLabelText = statusEnum != null ? statusEnum.getLabel() : "Desconocido";
-                    String color = statusEnum != null ? statusEnum.getColorHex() : "gray";
-
+                    ProductStatus status = item.getStatus();
                     Label statusDot = new Label();
                     statusDot.setPrefSize(12, 12);
-                    statusDot.setStyle("-fx-background-radius: 6em; -fx-background-color: " + color + ";");
+                    statusDot.setStyle("-fx-background-radius: 6em; -fx-background-color: " +
+                            (status != null ? status.getColorHex() : "gray") + ";");
 
-                    Label statusLabel = new Label(" " + statusLabelText);
+                    Label statusLabel = new Label(" " + (status != null ? status.getLabel() : "Desconocido"));
                     statusLabel.getStyleClass().add("status-label");
 
                     HBox statusBox = new HBox(5, statusDot, statusLabel);
@@ -104,8 +104,8 @@ public class OrderViewController implements Reloadable {
                     HBox.setHgrow(spacer, Priority.ALWAYS);
 
                     Button requestButton = new Button("Solicitar");
-                    requestButton.setOnAction(e -> saveRequestToBackend(item));
                     requestButton.getStyleClass().add("action-button");
+                    requestButton.setOnAction(e -> saveRequestToBackend(item));
 
                     cell.getChildren().addAll(name, type, brand, statusBox, spacer, requestButton);
                     setGraphic(cell);
@@ -114,50 +114,63 @@ public class OrderViewController implements Reloadable {
         });
     }
 
+    public void loadInStockProducts() {
+        try {
+            allStockProducts = productService.getAllProducts().stream()
+                    .filter(p -> p.getStatus() == ProductStatus.STOCK)
+                    .collect(Collectors.toList());
+
+            if (allStockProducts.isEmpty()) {
+                listViewProducts.setVisible(false);
+                listViewProducts.getItems().clear();
+                return;
+            }
+
+            listViewProducts.getItems().setAll(allStockProducts);
+            listViewProducts.setVisible(true);
+            updateComboBoxFilters(allStockProducts);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Error", "No se pudieron cargar los productos disponibles.");
+        }
+    }
+
     private void saveRequestToBackend(Product product) {
         Dialog<String> dialog = new Dialog<>();
         dialog.setTitle("Motivo de la solicitud");
-        dialog.setHeaderText("Introduce el motivo por el cual solicitas este producto:");
-
-        ButtonType sendButtonType = new ButtonType("Enviar", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(sendButtonType, ButtonType.CANCEL);
+        dialog.setHeaderText("Introduce el motivo de tu solicitud:");
+        dialog.getDialogPane().getButtonTypes().addAll(
+                new ButtonType("Enviar", ButtonBar.ButtonData.OK_DONE), ButtonType.CANCEL);
 
         TextArea motivoArea = new TextArea();
         motivoArea.setPromptText("Escribe el motivo aquí...");
         motivoArea.setWrapText(true);
-        motivoArea.setPrefRowCount(6);
-        motivoArea.setPrefColumnCount(40);
-
         dialog.getDialogPane().setContent(motivoArea);
 
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == sendButtonType) {
-                return motivoArea.getText();
-            }
-            return null;
-        });
+        dialog.setResultConverter(button -> button.getButtonData() == ButtonBar.ButtonData.OK_DONE ? motivoArea.getText() : null);
 
         dialog.showAndWait().ifPresent(motivo -> {
             if (motivo.isBlank()) {
-                showAlert("Campo vacío", "Debes introducir un motivo para realizar la solicitud.");
+                showAlert("Campo vacío", "Debes introducir un motivo.");
                 return;
             }
 
             SessionManager session = SessionManager.getInstance();
-            String productId = product.getId();
-            String userId = session.getUserId();
-            String managerUsername = session.getUsername();
-
-            if (managerUsername == null || managerUsername.isBlank()) {
-                managerUsername = "admin";
-            }
-
-            OrderRequest order = new OrderRequest(productId, userId, managerUsername, motivo);
+            String manager = Optional.ofNullable(session.getUsername()).orElse("admin");
 
             try {
-                orderService.createOrder(order);
-                showAlert("Solicitud enviada", "El producto ha sido solicitado con éxito.");
-                loadInStockProducts();
+                orderService.createOrder(new OrderRequest(product.getId(), session.getUserId(), manager, motivo));
+                showAlert("Solicitud enviada", "Producto solicitado correctamente.");
+
+                allStockProducts.remove(product);
+                listViewProducts.getItems().remove(product);
+                updateComboBoxFilters(listViewProducts.getItems());
+
+                if (listViewProducts.getItems().isEmpty()) {
+                    listViewProducts.setVisible(false);
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
                 showAlert("Error", "No se pudo enviar la solicitud.");
@@ -165,76 +178,65 @@ public class OrderViewController implements Reloadable {
         });
     }
 
+    private void updateComboBoxFilters(List<Product> products) {
+        Set<String> types = products.stream()
+                .map(Product::getType)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toCollection(TreeSet::new));
+
+        Set<String> brands = products.stream()
+                .map(Product::getBrand)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toCollection(TreeSet::new));
+
+        List<LabeledValue> typeItems = new ArrayList<>();
+        typeItems.add(null);
+        for (String type : types) {
+            ProductType mapped = EnumMapper.fromProductTypeString(type);
+            String label = mapped != null ? mapped.getLabel() : type;
+            typeItems.add(new LabeledValue(type, label));
+        }
+
+        List<LabeledValue> brandItems = new ArrayList<>();
+        brandItems.add(null);
+        for (String brand : brands) {
+            brandItems.add(new LabeledValue(brand, brand));
+        }
+
+        comboProductType.getItems().setAll(typeItems);
+        comboBrand.getItems().setAll(brandItems);
+    }
+
     @FXML
     private void onSearchByFilters() {
-        ProductType selectedType = comboProductType.getValue();
-        Brands selectedBrand = comboBrand.getValue();
+        LabeledValue selectedType = comboProductType.getValue();
+        LabeledValue selectedBrand = comboBrand.getValue();
 
-        String type = selectedType != null ? selectedType.toString() : null;
-        String brand = selectedBrand != null ? selectedBrand.toString() : null;
+        List<Product> filtered = allStockProducts.stream()
+                .filter(p -> selectedType == null || selectedType.value().equalsIgnoreCase(p.getType()))
+                .filter(p -> selectedBrand == null || selectedBrand.value().equalsIgnoreCase(p.getBrand()))
+                .collect(Collectors.toList());
 
-        try {
-            List<Product> filtered = productService.getProductsByFilters(type, brand);
-            List<String> orderedProductIds = orderService.getOrdersByStatus("ORDERED")
-                    .stream().map(Order::getProductId).toList();
-
-            List<Product> available = filtered.stream()
-                    .filter(p -> p.getStatus() == ProductStatus.STOCK)
-                    .filter(p -> !orderedProductIds.contains(p.getId()))
-                    .toList();
-
-            if (available.isEmpty()) {
-                showAlert("Sin resultados", "No hay productos en stock con esos filtros.");
-                listViewProducts.setVisible(false);
-            } else {
-                listViewProducts.getItems().setAll(available);
-                listViewProducts.setVisible(true);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Error", "Ocurrió un error al filtrar productos.");
+        if (filtered.isEmpty()) {
+            listViewProducts.setVisible(false);
+            listViewProducts.getItems().clear();
+            showAlert("Sin resultados", "No hay productos disponibles con esos filtros.");
+        } else {
+            listViewProducts.getItems().setAll(filtered);
+            listViewProducts.setVisible(true);
         }
     }
 
-    public void loadInStockProducts() {
-        try {
-            List<Product> allProducts = productService.getAllProducts();
-            List<String> orderedProductIds = orderService.getOrdersByStatus("ORDERED")
-                    .stream().map(Order::getProductId).toList();
-
-            List<Product> available = allProducts.stream()
-                    .filter(p -> p.getStatus() == ProductStatus.STOCK)
-                    .filter(p -> !orderedProductIds.contains(p.getId()))
-                    .toList();
-
-            if (available.isEmpty()) {
-                showAlert("Sin productos", "No hay productos en stock disponibles.");
-                listViewProducts.setVisible(false);
-            } else {
-                listViewProducts.getItems().setAll(available);
-                listViewProducts.setVisible(true);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Error", "No se pudieron cargar los productos en stock.");
-        }
-    }
-
-    private void showAlert(String title, String message) {
+    private void showAlert(String title, String msg) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
-        alert.setContentText(message);
+        alert.setContentText(msg);
         alert.showAndWait();
     }
 
     @Override
     public void onReload() {
-        System.out.println("🔄 onReload() ejecutado en OrderViewController");
-        javafx.application.Platform.runLater(() -> {
-            System.out.println("✅ Ejecutando loadInStockProducts()");
-            loadInStockProducts();
-        });
+        Platform.runLater(this::loadInStockProducts);
     }
 }

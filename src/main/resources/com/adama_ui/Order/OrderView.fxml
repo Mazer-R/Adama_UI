@@ -21,12 +21,12 @@
 
     <HBox spacing="10" alignment="CENTER_LEFT">
         <ComboBox fx:id="comboProductType"
-                  promptText="Tipo de producto"
+                  promptText="Todos los tipos"
                   prefWidth="250"
                   styleClass="input-combo"/>
 
         <ComboBox fx:id="comboBrand"
-                  promptText="Marca del producto"
+                  promptText="Todas las marcas"
                   prefWidth="250"
                   styleClass="input-combo"/>
 
