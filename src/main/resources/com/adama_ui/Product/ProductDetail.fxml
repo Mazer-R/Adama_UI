@@ -57,9 +57,5 @@
         </HBox>
     </VBox>
 
-    <!-- Botón VOLVER anclado abajo izquierda -->
-    <Button fx:id="btnBack" text="← VOLVER"
-            onAction="#onBack"
-            AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
-            style="-fx-background-color: #999999; -fx-text-fill: white; -fx-font-weight: bold;" />
+
 </AnchorPane>

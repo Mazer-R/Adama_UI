@@ -76,18 +76,9 @@ public class AddProductController {
 
     @FXML
     private void onBack() {
-        ViewManager.load("/com/adama_ui/Product/ProductManagement.fxml");
+        ViewManager.load("/com/adama_ui/Product/ProductMainView.fxml");
     }
 
-    @FXML
-    private void onAddProduct() {
-        ViewManager.load("/com/adama_ui/Product/AddProduct.fxml");
-    }
-
-    @FXML
-    private void onGoToProductManagement() {
-        ViewManager.load("/com/adama_ui/Product/ProductManagement.fxml");
-    }
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

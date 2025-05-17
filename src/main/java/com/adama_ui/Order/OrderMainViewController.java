@@ -21,7 +21,6 @@ public class OrderMainViewController {
 
     public void initialize() {
         boolean isManagerOrAdmin = SessionManager.getInstance().isAdminOrManager();
-
         if (btnOrder != null) {
             btnOrder.setOnAction(event -> {
                 ViewManager.loadInto("/com/adama_ui/Order/OrderView.fxml", contentArea, () -> {
@@ -74,7 +73,6 @@ public class OrderMainViewController {
             }
         }
 
-        // Cargar la subvista que corresponda
         if (currentSubview == null) {
             btnOrder.fire(); // por defecto
         } else {

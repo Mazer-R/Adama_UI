@@ -24,16 +24,12 @@
 
             <!-- ✅ Tus botones tal como los tenías -->
             <HBox fx:id="navButtons" spacing="10">
-                <Button text="Home" onAction="#loadHomeView">
-
-
-                </Button>
-                <Button text="Solicitudes" onAction="#loadOrderView"/>
-                <Button text="Messages" onAction="#loadMessagesView"/>
-                <Button text="Productos" onAction="#loadProductView"/>
-                <Button text="Gestión Usuarios" onAction="#loadUserView"/>
-
-                <Button text="Entregas" />
+                <Button fx:id="Home" onAction="#loadHomeView"/>
+                <Button fx:id="Order" onAction="#loadOrderView"/>
+                <Button fx:id="Messages" onAction="#loadMessagesView"/>
+                <Button fx:id="Products" onAction="#loadProductView"/>
+                <Button fx:id="Users" onAction="#loadUserView"/>
+                <Button fx:id="Delivery" onAction="#loadDeliveryView" />
 
                 <Button text="Test" onAction="#loadSettingsView"/>
 
@@ -54,7 +50,6 @@
     </top>
 
     <center>
-        <!-- El contenido dinámico se cargará aquí desde los controladores -->
     </center>
 
     <bottom>

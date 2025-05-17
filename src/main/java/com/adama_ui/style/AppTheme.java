@@ -3,6 +3,7 @@ package com.adama_ui.style;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import lombok.Getter;
 
 import java.util.prefs.Preferences;
 
@@ -19,11 +20,8 @@ public class AppTheme {
     private static final Preferences prefs = Preferences.userRoot().node("com.adama_ui.theme");
     private static final String THEME_KEY = "darkMode";
 
+    @Getter
     private static boolean darkMode = prefs.getBoolean(THEME_KEY, true); // por defecto: oscuro
-
-    public static boolean isDarkMode() {
-        return darkMode;
-    }
 
     public static void setDarkMode(boolean dark) {
         darkMode = dark;

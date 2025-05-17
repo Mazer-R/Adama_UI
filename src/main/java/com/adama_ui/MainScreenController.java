@@ -1,9 +1,12 @@
 package com.adama_ui;
 
 import com.adama_ui.style.AppTheme;
+import com.adama_ui.util.ButtonCreator;
 import com.adama_ui.util.ViewManager;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,6 +16,13 @@ import javafx.stage.Stage;
 
 public class MainScreenController {
 
+    private ButtonCreator buttonCreator;
+    @FXML private Button Order;
+    @FXML private Button Home;
+    @FXML private Button Messages;
+    @FXML private Button Products;
+    @FXML private Button Users;
+    @FXML private Button Delivery;
     @FXML private BorderPane mainContainer;
     @FXML private ToggleButton themeToggleButton;
 
@@ -21,11 +31,12 @@ public class MainScreenController {
 
     @FXML
     public void initialize() {
+        buttonCreator = new ButtonCreator();
         ViewManager.setMainContainer(mainContainer);
-
         ViewManager.load("/com/adama_ui/HomeView.fxml");
+        configureButtons();
 
-        // Escuchar el cambio de escena para aplicar tema
+
         mainContainer.sceneProperty().addListener((obs, oldScene, newScene) -> {
             if (newScene != null) {
                 Stage stage = (Stage) newScene.getWindow();
@@ -67,10 +78,8 @@ public class MainScreenController {
         ViewManager.refreshCurrentView(); // Recarga sin usar caché
         updateThemeToggleIcon();
     }
-
     @FXML
-    private void loadHomeView() {
-        ViewManager.load("/com/adama_ui/HomeView.fxml");
+    private void loadHomeView() {ViewManager.load("/com/adama_ui/HomeView.fxml");
     }
 
     @FXML
@@ -107,5 +116,15 @@ public class MainScreenController {
 
     public void setCenterContent(Node node) {
         mainContainer.setCenter(node);
+    }
+
+    public void loadDeliveryView(ActionEvent actionEvent) {
+    }
+    private void configureButtons() {
+        buttonCreator.configureIconButton(Home, "/ExternalResources/HomeIcon.png", 40);
+        buttonCreator.configureIconButton(Order, "/ExternalResources/OrderIcon.png", 40);
+        buttonCreator.configureIconButton(Messages, "/ExternalResources/MessageIcon.png", 40);
+        buttonCreator.configureIconButton(Products, "/ExternalResources/ProductIcon.png", 40);
+        buttonCreator.configureIconButton(Delivery, "/ExternalResources/DeliveryIcon.png", 40);
     }
 }

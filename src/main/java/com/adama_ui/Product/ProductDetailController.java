@@ -154,10 +154,7 @@ public class ProductDetailController {
         });
     }
 
-    @FXML
-    private void onBack() {
-        ViewManager.load("/com/adama_ui/Product/ProductManagement.fxml");
-    }
+
 
     private void setEditable(boolean editable) {
         fieldName.setEditable(editable);

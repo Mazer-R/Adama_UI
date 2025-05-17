@@ -15,36 +15,32 @@ public class ProductMainViewController implements Reloadable {
     @FXML private Button btnManageProduct;
     @FXML private Button btnBack;
 
-    private static String currentSubview = null;
+    private String currentSubview = null;
 
     @FXML
     public void initialize() {
-        if (btnAddProduct != null) {
-            btnAddProduct.setOnAction(event -> {
-                ViewManager.loadInto("/com/adama_ui/Product/AddProductView.fxml", contentPane, () -> {
-                    currentSubview = "ADD";
-                    highlightMenuButton(btnAddProduct);
-                    Object controller = ViewManager.getCurrentController();
-                    if (controller instanceof Reloadable reloadable) {
-                        reloadable.onReload();
-                    }
-                });
+        // Configurar botón Add Product
+        btnAddProduct.setOnAction(event -> {
+            ViewManager.loadInto("/com/adama_ui/Product/AddProductView.fxml", contentPane, () -> {
+                currentSubview = "ADD";
+                highlightMenuButton(btnAddProduct);
+                Object controller = ViewManager.getCurrentController();
+                // Lógica adicional si es necesario
             });
-        }
+        });
 
-        if (btnManageProduct != null) {
-            btnManageProduct.setOnAction(event -> {
-                ViewManager.loadInto("/com/adama_ui/ProductManagement.fxml", contentPane, () -> {
-                    currentSubview = "MANAGE";
-                    highlightMenuButton(btnManageProduct);
-                    Object controller = ViewManager.getCurrentController();
-                    if (controller instanceof Reloadable reloadable) {
-                        reloadable.onReload();
-                    }
-                });
+        btnManageProduct.setOnAction(event -> {
+            ViewManager.loadInto("/com/adama_ui/Product/ProductManagement.fxml", contentPane, () -> {
+                currentSubview = "MANAGE";
+                highlightMenuButton(btnManageProduct);
+                Object controller = ViewManager.getCurrentController();
+                if (controller instanceof Reloadable reloadable) {
+                    reloadable.onReload();
+                }
             });
-        }
+        });
 
+        // Configurar botón Back
         if (btnBack != null) {
             btnBack.setOnAction(e -> {
                 ViewManager.load("/com/adama_ui/HomeView.fxml");
@@ -52,6 +48,7 @@ public class ProductMainViewController implements Reloadable {
             });
         }
 
+        // Cargar vista inicial
         if (currentSubview == null) {
             btnAddProduct.fire();
         } else {
@@ -63,11 +60,14 @@ public class ProductMainViewController implements Reloadable {
     }
 
     private void highlightMenuButton(Button activeButton) {
+        // Quitar estilo de todos los botones
         for (var node : warehouseMenu.getChildren()) {
             if (node instanceof Button button) {
                 button.getStyleClass().remove("active-button");
             }
         }
+
+        // Resaltar botón activo
         if (activeButton != null && !activeButton.getStyleClass().contains("active-button")) {
             activeButton.getStyleClass().add("active-button");
         }
@@ -75,6 +75,13 @@ public class ProductMainViewController implements Reloadable {
 
     @Override
     public void onReload() {
-
+        // Lógica de recarga si es necesaria
+        System.out.println("Recargando vista de productos...");
+        if (currentSubview != null) {
+            switch (currentSubview) {
+                case "ADD" -> btnAddProduct.fire();
+                case "MANAGE" -> btnManageProduct.fire();
+            }
+        }
     }
 }

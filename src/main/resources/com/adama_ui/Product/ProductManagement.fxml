@@ -27,7 +27,6 @@
             <Button text="BUSCAR" onAction="#onSearchByFilters"
                     style="-fx-background-color: #00c000; -fx-text-fill: white;" maxWidth="100" />
 
-            <!-- Lista de productos -->
             <ListView fx:id="listViewProducts"
                       prefHeight="400"
                       style="-fx-background-color: #1e1e1e;" />
@@ -35,11 +34,6 @@
     </center>
 
     <bottom>
-        <HBox alignment="CENTER_LEFT">
-            <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
-            </padding>
-            <Button text="← VOLVER" onAction="#onBack" />
-        </HBox>
+
     </bottom>
 </BorderPane>

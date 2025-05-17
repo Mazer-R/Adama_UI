@@ -53,17 +53,11 @@
         </VBox>
     </center>
 
-    <!-- Botón volver abajo a la izquierda -->
     <bottom>
         <HBox alignment="CENTER_LEFT">
             <padding>
                 <Insets top="10" left="20" bottom="10" right="20"/>
             </padding>
-            <Button text="← VOLVER"
-                    onAction="#onBack"
-                    styleClass="back-button"
-                    prefHeight="32"
-                    prefWidth="100"/>
         </HBox>
     </bottom>
 </BorderPane>
