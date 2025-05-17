@@ -22,10 +22,8 @@ public class MainScreenController {
 
     @FXML
     public void initialize() {
-        // Establecer contenedor principal en ViewManager
         ViewManager.setMainContainer(mainContainer);
 
-        // Cargar vista inicial
         ViewManager.load("/com/adama_ui/HomeView.fxml");
 
         // Escuchar el cambio de escena para aplicar tema

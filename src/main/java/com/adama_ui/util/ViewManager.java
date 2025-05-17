@@ -13,6 +13,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -21,24 +23,18 @@ import java.util.Map;
 
 public class ViewManager {
     private static final Map<String, Pane> viewCache = new HashMap<>();
+    @Setter
     private static BorderPane mainContainer;
+    @Getter
     private static Object currentController;
     private static String currentFxmlPath;
-
-    public static void setMainContainer(BorderPane container) {
-        mainContainer = container;
-    }
 
     public static void clearViewCache() {
         viewCache.clear();
     }
 
-    public static Object getCurrentController() {
-        return currentController;
-    }
-
     public static void load(String fxmlPath) {
-        load(fxmlPath, true);
+        load(fxmlPath, false);
     }
 
     public static void load(String fxmlPath, boolean cache) {
