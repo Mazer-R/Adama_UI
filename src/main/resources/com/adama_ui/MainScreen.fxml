@@ -8,6 +8,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 
+<?import javax.swing.text.html.ImageView?>
+<?import java.awt.Image?>
 <BorderPane xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.adama_ui.MainScreenController"
@@ -22,10 +24,13 @@
 
             <!-- ✅ Tus botones tal como los tenías -->
             <HBox fx:id="navButtons" spacing="10">
-                <Button text="Home" onAction="#loadHomeView"/>
+                <Button text="Home" onAction="#loadHomeView">
+
+
+                </Button>
                 <Button text="Solicitudes" onAction="#loadOrderView"/>
                 <Button text="Messages" onAction="#loadMessagesView"/>
-                <Button text="Productos" onAction="#loadWarehouseView"/>
+                <Button text="Productos" onAction="#loadProductView"/>
                 <Button text="Gestión Usuarios" onAction="#loadUserView"/>
 
                 <Button text="Entregas" />

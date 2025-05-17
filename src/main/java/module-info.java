@@ -26,4 +26,6 @@ module com.adama_ui {
     opens com.adama_ui.Message to com.fasterxml.jackson.databind, javafx.fxml;
     exports com.adama_ui.Product.DTO;
     opens com.adama_ui.Product.DTO to com.fasterxml.jackson.databind, javafx.fxml;
+    exports com.adama_ui.User.DTO;
+    opens com.adama_ui.User.DTO to com.fasterxml.jackson.databind, javafx.fxml;
 }

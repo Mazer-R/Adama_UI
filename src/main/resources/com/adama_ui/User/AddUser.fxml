@@ -10,13 +10,12 @@
             fx:controller="com.adama_ui.User.AddUserController"
             maxWidth="Infinity" maxHeight="Infinity">
 
-    <!-- Lateral izquierdo con botones -->
     <left>
         <VBox spacing="10" style="-fx-background-color: #e0e0e0;">
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
-            <Button text="ADD USER" maxWidth="150" onAction="#onSaveUser" />
+            <Button text="ADD USER" maxWidth="150" onAction="#goAddUser" />
             <Button text="USER MANAGEMENT" maxWidth="150"
                     onAction="#onGoToUserManagement"
                     style="-fx-border-color: green; -fx-border-width: 2;" />
@@ -25,7 +24,7 @@
 
     <!-- Formulario -->
     <center>
-        <VBox spacing="15" alignment="TOP_LEFT">
+        <VBox spacing="15">
             <padding>
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>

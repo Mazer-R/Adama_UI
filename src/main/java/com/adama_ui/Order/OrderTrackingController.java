@@ -16,7 +16,7 @@ import javafx.scene.layout.Region;
 
 import java.util.List;
 
-public class TrackingController {
+public class OrderTrackingController {
 
     @FXML
     private BorderPane rootPane;

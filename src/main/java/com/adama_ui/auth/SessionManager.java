@@ -2,9 +2,12 @@ package com.adama_ui.auth;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.net.http.HttpClient;
-
+@Setter
+@Getter
 public class SessionManager {
     public static final String API_BASE_URL = "https://touching-deadly-reindeer.ngrok-free.app";
     public static final HttpClient HTTP_CLIENT = HttpClient.newHttpClient();
@@ -54,21 +57,6 @@ public class SessionManager {
         this.username = username;
     }
 
-    public void setManagerId(String managerId) {
-        this.managerId = managerId;
-    }
-
-    public void setManagerUsername(String managerUsername) {
-        this.managerUsername = managerUsername;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getAuthToken() {
-        return authToken;
-    }
 
     public String getAuthHeader() {
         if (authToken != null && !authToken.isEmpty()) {
@@ -76,26 +64,6 @@ public class SessionManager {
         } else {
             throw new IllegalStateException("Authorization token is missing.");
         }
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public String getManagerId() {
-        return managerId;
-    }
-
-    public String getManagerUsername() {
-        return managerUsername;
-    }
-
-    public String getUsername() {
-        return username;
     }
 
     public boolean isAdminOrManager() {
@@ -109,6 +77,5 @@ public class SessionManager {
         this.managerId = null;
         this.managerUsername = null;
         this.username = null;
-        System.out.println("Sesión limpiada correctamente.");
     }
 }

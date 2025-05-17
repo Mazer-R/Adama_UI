@@ -7,6 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import lombok.Setter;
 
 public class OrderDetailController {
 
@@ -16,16 +17,13 @@ public class OrderDetailController {
     @FXML private TextField fieldUsername;
     @FXML private TextArea fieldMotivo;
 
+    @Setter
     private static Order currentOrder;
     private final OrderService orderService = new OrderService();
 
-    public static void setCurrentOrder(Order order) {
-        currentOrder = order;
-    }
-
     @FXML
     public void initialize() {
-        AppTheme.applyThemeTo(rootPane); // Aplica tema dinámico
+        AppTheme.applyThemeTo(rootPane);
 
         if (currentOrder != null) {
             fieldProductType.setText(safe(currentOrder.getProductType()));

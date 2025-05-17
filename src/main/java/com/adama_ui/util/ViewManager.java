@@ -28,7 +28,7 @@ public class ViewManager {
     @Getter
     private static Object currentController;
     private static String currentFxmlPath;
-    private static String currentSubViewPath = "/com/adama_ui/AddProductView.fxml"; // Valor por defecto en Inventario
+    private static String currentSubViewPath = "/com/adama_ui/Product/AddProductView.fxml"; // Valor por defecto en Inventario
 
     public static void clearViewCache() {
         viewCache.clear();
@@ -225,16 +225,16 @@ public class ViewManager {
 
     public static void refreshCurrentView() {
         if (mainContainer != null && currentFxmlPath != null) {
-            if (currentFxmlPath.contains("WarehouseView.fxml")) {
+            if (currentFxmlPath.contains("ProductMainView.fxml")) {
                 load(currentFxmlPath, false);
 
                 javafx.application.Platform.runLater(() -> {
-                    String subview = currentSubViewPath != null ? currentSubViewPath : "/com/adama_ui/AddProductView.fxml";
+                    String subview = currentSubViewPath != null ? currentSubViewPath : "/com/adama_ui/Product/AddProductView.fxml";
                     Node node = mainContainer.lookup("#contentPane");
                     if (node instanceof StackPane contentPane) {
                         loadInto(subview, contentPane);
                     } else {
-                        System.err.println("⚠️ No se encontró el StackPane con fx:id=\"contentPane\" en WarehouseView.fxml");
+                        System.err.println("⚠️ No se encontró el StackPane con fx:id=\"contentPane\" en ProductMainView.fxml");
                     }
                 });
             } else {
@@ -252,7 +252,6 @@ public class ViewManager {
 
     public static void loadProfileAndManageOrders() {
         load("/com/adama_ui/Order/OrderMainView.fxml", false);
-        // Esperar a que la vista cargue para luego cargar ManageOrdersView en el StackPane
         javafx.application.Platform.runLater(() -> {
             Node node = mainContainer.lookup("#contentArea");
             if (node instanceof StackPane contentArea) {

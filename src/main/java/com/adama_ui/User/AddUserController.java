@@ -9,16 +9,15 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.net.URI;
-import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+import static com.adama_ui.auth.SessionManager.API_BASE_URL;
+import static com.adama_ui.auth.SessionManager.HTTP_CLIENT;
+
 public class AddUserController {
 
-    private final HttpClient httpClient = HttpClient.newHttpClient();
-    private final String API_BASE_URL = "http://localhost:8080/api";
 
-    // Campos del formulario
     @FXML private TextField fieldUsername;
     @FXML private PasswordField fieldPassword;
     @FXML private TextField fieldFirstName;
@@ -27,13 +26,11 @@ public class AddUserController {
     @FXML private TextField fieldSupervisorId;
     @FXML private ComboBox<String> comboRole;
 
-    // Método que se ejecuta cuando se presiona el botón "ADD USER"
     @FXML
     private void goAddUser() {
         ViewManager.load("/com/adama_ui/User/AddUser.fxml");
     }
 
-    // Método que se ejecuta cuando se presiona el botón "USER MANAGEMENT"
     @FXML
     private void onGoToUserManagement() {
         ViewManager.load("/com/adama_ui/User/UserManagement.fxml");
@@ -49,9 +46,8 @@ public class AddUserController {
         String supervisorId = fieldSupervisorId.getText().trim();
         String role = comboRole.getValue();  // Puede ser ROLE_ADMIN, ROLE_USER, ROLE_WAREHOUSE, ROLE_MANAGER
 
-        // Validación de campos obligatorios
         if (username.isEmpty() || password.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || department.isEmpty() || role == null) {
-            showAlert("Campos obligatorios", "Por favor completa todos los campos obligatorios (*)");
+            showAlert();
             return;
         }
 
@@ -78,7 +74,6 @@ public class AddUserController {
         );
 
         try {
-            // Realizar la solicitud HTTP POST para crear el usuario
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(API_BASE_URL + "/users"))
                     .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
@@ -86,10 +81,10 @@ public class AddUserController {
                     .header("Authorization", SessionManager.getInstance().getAuthHeader())
                     .build();
 
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() == 201) {
-                showInfoAlert("Usuario creado", "Respuesta del servidor:\n" + formatJson(response.body()));
+                showInfoAlert("Respuesta del servidor:\n" + formatJson(response.body()));
             } else {
                 showErrorAlert("Error al crear usuario", "Código: " + response.statusCode() + "\n" + formatJson(response.body()));
             }
@@ -108,17 +103,17 @@ public class AddUserController {
         return value.replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "");
     }
 
-    private void showAlert(String title, String message) {
+    private void showAlert() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
+        alert.setTitle("Campos obligatorios");
         alert.setHeaderText(null);
-        alert.setContentText(message);
+        alert.setContentText("Por favor completa todos los campos obligatorios (*)");
         alert.showAndWait();
     }
 
-    private void showInfoAlert(String title, String message) {
+    private void showInfoAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
+        alert.setTitle("Usuario creado");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();

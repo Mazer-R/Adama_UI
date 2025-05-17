@@ -8,24 +8,12 @@
             fx:controller="com.adama_ui.Product.ProductManagementController"
             maxWidth="Infinity" maxHeight="Infinity">
 
-    <left>
-        <VBox spacing="10" style="-fx-background-color: #e0e0e0;">
-            <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
-            </padding>
-            <Button text="NUEVO PRODUCTO" maxWidth="150" onAction="#onAddProduct" />
-            <Button text="GESTIÓN DE PRODUCTOS" maxWidth="150"
-                    style="-fx-border-color: green; -fx-border-width: 2;" />
-        </VBox>
-    </left>
-
     <center>
         <VBox spacing="15" >
             <padding>
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
 
-            <!-- Filtros -->
             <Label text="Buscar producto por:" />
             <HBox spacing="10">
                 <TextField fx:id="fieldIdOrTag" promptText="Introduzca el ID del producto" prefWidth="250" />

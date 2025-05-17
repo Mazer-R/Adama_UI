@@ -1,7 +1,12 @@
 // Adaptado para usar ComboBox<LabeledValue> correctamente
 
-package com.adama_ui;
+package com.adama_ui.Order;
 
+import com.adama_ui.Order.OrderRequest;
+import com.adama_ui.Order.OrderService;
+import com.adama_ui.Product.DTO.Product;
+import com.adama_ui.Product.ProductService;
+import com.adama_ui.Reloadable;
 import com.adama_ui.auth.SessionManager;
 import com.adama_ui.util.*;
 import javafx.application.Platform;

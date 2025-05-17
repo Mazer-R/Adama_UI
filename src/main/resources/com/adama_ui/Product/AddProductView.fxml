@@ -6,12 +6,11 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.adama_ui.AddProductController"
+            fx:controller="com.adama_ui.Product.AddProductController"
             styleClass="root-pane">
 
-    <!-- Formulario central -->
     <center>
-        <VBox spacing="15" alignment="TOP_LEFT" styleClass="content-area">
+        <VBox spacing="15" >
             <padding>
                 <Insets top="20" left="20" right="20" bottom="20"/>
             </padding>

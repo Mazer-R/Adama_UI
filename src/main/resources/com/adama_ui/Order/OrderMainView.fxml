@@ -5,7 +5,7 @@
 <?import javafx.geometry.Insets?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.adama_ui.OrderMainViewController"
+            fx:controller="com.adama_ui.Order.OrderMainViewController"
             styleClass="root-pane">
 
     <!-- Menú lateral con fondo claro (gris/blanco como en Warehouse) -->

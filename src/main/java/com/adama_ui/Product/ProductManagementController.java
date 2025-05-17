@@ -56,19 +56,7 @@ public class ProductManagementController {
                     brand.setStyle("-fx-text-fill: white;");
                     brand.setPrefWidth(100);
 
-                    ProductStatus statusEnum = item.getStatus();
-                    String statusLabelText = statusEnum != null ? statusEnum.getLabel() : "Desconocido";
-                    String color = statusEnum != null ? statusEnum.getColorHex() : "gray";
-
-                    Label statusDot = new Label();
-                    statusDot.setPrefSize(12, 12);
-                    statusDot.setStyle("-fx-background-radius: 6em; -fx-background-color: " + color + ";");
-
-                    Label statusLabel = new Label(" " + statusLabelText);
-                    statusLabel.setStyle("-fx-text-fill: white;");
-
-                    HBox statusBox = new HBox(5, statusDot, statusLabel);
-                    statusBox.setPrefWidth(150);
+                    HBox statusBox = getHBox(item);
 
                     Region spacer = new Region();
                     HBox.setHgrow(spacer, Priority.ALWAYS);
@@ -82,6 +70,23 @@ public class ProductManagementController {
                 }
             }
         });
+    }
+
+    private static HBox getHBox(Product item) {
+        ProductStatus statusEnum = item.getStatus();
+        String statusLabelText = statusEnum != null ? statusEnum.getLabel() : "Desconocido";
+        String color = statusEnum != null ? statusEnum.getColorHex() : "gray";
+
+        Label statusDot = new Label();
+        statusDot.setPrefSize(12, 12);
+        statusDot.setStyle("-fx-background-radius: 6em; -fx-background-color: " + color + ";");
+
+        Label statusLabel = new Label(" " + statusLabelText);
+        statusLabel.setStyle("-fx-text-fill: white;");
+
+        HBox statusBox = new HBox(5, statusDot, statusLabel);
+        statusBox.setPrefWidth(150);
+        return statusBox;
     }
 
     @FXML

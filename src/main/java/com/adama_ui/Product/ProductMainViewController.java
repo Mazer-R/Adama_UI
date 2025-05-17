@@ -1,13 +1,13 @@
-package com.adama_ui;
+package com.adama_ui.Product;
 
-import com.adama_ui.auth.SessionManager;
 import com.adama_ui.Reloadable;
+import com.adama_ui.util.ViewManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class WarehouseController {
+public class ProductMainViewController implements Reloadable {
 
     @FXML private StackPane contentPane;
     @FXML private VBox warehouseMenu;
@@ -21,7 +21,7 @@ public class WarehouseController {
     public void initialize() {
         if (btnAddProduct != null) {
             btnAddProduct.setOnAction(event -> {
-                ViewManager.loadInto("/com/adama_ui/AddProductView.fxml", contentPane, () -> {
+                ViewManager.loadInto("/com/adama_ui/Product/AddProductView.fxml", contentPane, () -> {
                     currentSubview = "ADD";
                     highlightMenuButton(btnAddProduct);
                     Object controller = ViewManager.getCurrentController();
@@ -52,7 +52,6 @@ public class WarehouseController {
             });
         }
 
-        // Subvista por defecto o persistida
         if (currentSubview == null) {
             btnAddProduct.fire();
         } else {
@@ -72,5 +71,10 @@ public class WarehouseController {
         if (activeButton != null && !activeButton.getStyleClass().contains("active-button")) {
             activeButton.getStyleClass().add("active-button");
         }
+    }
+
+    @Override
+    public void onReload() {
+
     }
 }

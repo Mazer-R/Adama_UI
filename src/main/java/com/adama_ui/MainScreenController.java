@@ -8,11 +8,10 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class MainScreenController {
-
-    private String authToken;
 
     @FXML private BorderPane mainContainer;
     @FXML private ToggleButton themeToggleButton;
@@ -34,7 +33,7 @@ public class MainScreenController {
                     stage.setUserData(this);
                     stage.setMaximized(true);
                 }
-                AppTheme.applyTheme(newScene); // Aplica el tema global a la escena
+                AppTheme.applyTheme(newScene);
             }
         });
 
@@ -56,27 +55,19 @@ public class MainScreenController {
         iconView.setFitWidth(16);
         iconView.setFitHeight(16);
         themeToggleButton.setGraphic(iconView);
-        themeToggleButton.setSelected(!isDark); // True si está en modo claro
-    }
+        themeToggleButton.setSelected(!isDark); }
 
-    /**
-     * Cambia entre modo oscuro y claro.
-     */
+
     @FXML
     private void onToggleTheme() {
         boolean nuevoModo = !AppTheme.isDarkMode();
         AppTheme.setDarkMode(nuevoModo);
 
-        // Aplicar tema a la vista actual y a la escena
+
         ViewManager.refreshCurrentView(); // Recarga sin usar caché
         updateThemeToggleIcon();
     }
 
-    public void setAuthToken(String token) {
-        this.authToken = token;
-    }
-
-    // Métodos para navegación entre vistas
     @FXML
     private void loadHomeView() {
         ViewManager.load("/com/adama_ui/HomeView.fxml");
@@ -92,8 +83,8 @@ public class MainScreenController {
     }
 
     @FXML
-    public void loadWarehouseView() {
-        ViewManager.load("/com/adama_ui/Product/ProductManagement.fxml");
+    public void loadProductView() {
+        ViewManager.load("/com/adama_ui/Product/ProductMainView.fxml");
     }
 
     @FXML
@@ -103,14 +94,13 @@ public class MainScreenController {
     @FXML
     private void loadSettingsView() {
         ViewManager.load("/com/adama_ui/TestView.fxml");
-        ViewManager.load("/com/adama_ui/WarehouseView.fxml");
-        // Una vez cargado WarehouseView, cargamos dentro el AddProduct por defecto
+
         javafx.application.Platform.runLater(() -> {
             var node = mainContainer.lookup("#contentPane");
             if (node instanceof StackPane contentPane) {
-                ViewManager.loadInto("/com/adama_ui/AddProductView.fxml", contentPane);
+                ViewManager.loadInto("/com/adama_ui/Product/AddProductView.fxml", contentPane);
             } else {
-                System.err.println("⚠️ No se encontró el StackPane con fx:id=\"contentPane\" en WarehouseView.fxml");
+                System.err.println("⚠️ No se encontró el StackPane con fx:id=\"contentPane\" en ProductMainView.fxml");
             }
         });
     }

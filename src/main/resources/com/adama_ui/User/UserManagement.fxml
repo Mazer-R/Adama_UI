@@ -10,7 +10,6 @@
             fx:controller="com.adama_ui.User.UserManagementController"
             maxWidth="Infinity" maxHeight="Infinity">
 
-    <!-- Lateral izquierdo con botones -->
     <left>
         <VBox spacing="10" style="-fx-background-color: #e0e0e0;">
             <padding>

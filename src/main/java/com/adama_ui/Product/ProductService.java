@@ -10,16 +10,17 @@ import com.adama_ui.Product.DTO.Product;
 import com.adama_ui.auth.SessionManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import static com.adama_ui.auth.SessionManager.API_BASE_URL;
+
 public class ProductService {
 
-    private static final String BASE_URL = "https://touching-deadly-reindeer.ngrok-free.app";
-    private static final String PRODUCTS_PATH = "/products";
+    private static final String PRODUCTS_PATH = API_BASE_URL +"/products";
 
     private final HttpClient httpClient = HttpClient.newHttpClient();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public Product getProductById(String id) throws Exception {
-        String url = BASE_URL + PRODUCTS_PATH + "/" + id;
+        String url = PRODUCTS_PATH + "/" + id;
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .GET()
@@ -37,7 +38,7 @@ public class ProductService {
     }
 
     public List<Product> getProductsByFilters(String type, String brand) throws Exception {
-        StringBuilder uriBuilder = new StringBuilder(BASE_URL + PRODUCTS_PATH);
+        StringBuilder uriBuilder = new StringBuilder(PRODUCTS_PATH);
         boolean hasParams = false;
 
         if (type != null && !type.isEmpty()) {
@@ -50,7 +51,6 @@ public class ProductService {
         }
 
         String url = uriBuilder.toString();
-        System.out.println(">>> Petición a: " + url);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))

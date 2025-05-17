@@ -1,13 +1,15 @@
 package com.adama_ui.User;
 
+import com.adama_ui.User.DTO.UserResponse;
 import com.adama_ui.auth.SessionManager;
-import com.adama_ui.util.UserResponse;
 import com.adama_ui.util.ViewManager;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.net.URI;
 import java.net.URLEncoder;
@@ -109,6 +111,8 @@ public class UserManagementController {
         ViewManager.load("/com/adama_ui/TestView.fxml");
     }
 
+    @Getter
+    @Setter
     public static class User {
         private String username;
         private String firstName;
@@ -124,24 +128,5 @@ public class UserManagementController {
             this.department = department;
         }
 
-        public String getUsername() {
-            return username;
-        }
-
-        public String getFirstName() {
-            return firstName;
-        }
-
-        public String getLastName() {
-            return lastName;
-        }
-
-        public String getRole() {
-            return role;
-        }
-
-        public String getDepartment() {
-            return department;
-        }
     }
 }

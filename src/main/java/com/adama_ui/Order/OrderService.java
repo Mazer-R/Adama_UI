@@ -10,13 +10,14 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 
+import static com.adama_ui.auth.SessionManager.API_BASE_URL;
+import static com.adama_ui.auth.SessionManager.HTTP_CLIENT;
+
 public class OrderService {
 
-    private static final String BASE_URL = "https://touching-deadly-reindeer.ngrok-free.app/orders";
-    private final HttpClient client = HttpClient.newHttpClient();
+    private static final String BASE_URL = (API_BASE_URL+"/orders");
     private final ObjectMapper mapper = new ObjectMapper();
 
-    // ✅ Crear una nueva orden
     public void createOrder(OrderRequest order) throws Exception {
         String body = mapper.writeValueAsString(order);
 
@@ -27,21 +28,20 @@ public class OrderService {
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
         if (response.statusCode() != 201) {
             throw new RuntimeException("❌ Error al crear la solicitud: " + response.statusCode() + " - " + response.body());
         }
     }
 
-    // ✅ Obtener todas las órdenes
     public List<Order> getAllOrders() throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(BASE_URL))
                 .header("Authorization", SessionManager.getInstance().getAuthHeader())
                 .build();
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
         if (response.statusCode() == 200) {
             return mapper.readValue(response.body(), new TypeReference<>() {});
@@ -50,7 +50,6 @@ public class OrderService {
         }
     }
 
-    // ✅ Obtener órdenes por usuario
     public List<Order> getOrdersByUser(String userId) throws Exception {
         String url = BASE_URL + "/user/" + userId;
 
@@ -59,7 +58,7 @@ public class OrderService {
                 .header("Authorization", SessionManager.getInstance().getAuthHeader())
                 .build();
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
         if (response.statusCode() == 200) {
             return mapper.readValue(response.body(), new TypeReference<>() {});
@@ -68,7 +67,6 @@ public class OrderService {
         }
     }
 
-    // ✅ Obtener órdenes por estado
     public List<Order> getOrdersByStatus(String status) throws Exception {
         String url = BASE_URL + "/status/" + status.toLowerCase();
 
@@ -77,7 +75,7 @@ public class OrderService {
                 .header("Authorization", SessionManager.getInstance().getAuthHeader())
                 .build();
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
         if (response.statusCode() == 200) {
             return mapper.readValue(response.body(), new TypeReference<>() {});
@@ -86,17 +84,16 @@ public class OrderService {
         }
     }
 
-    // ✅ Validar una orden (POST)
     public void validateOrder(String orderId) throws Exception {
         String url = BASE_URL + "/" + orderId + "/validate";
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .header("Authorization", SessionManager.getInstance().getAuthHeader())
-                .POST(HttpRequest.BodyPublishers.noBody()) // CORREGIDO
+                .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
         if (response.statusCode() != 200) {
             throw new RuntimeException("❌ Error al validar la orden: " + response.statusCode());
@@ -110,10 +107,10 @@ public class OrderService {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .header("Authorization", SessionManager.getInstance().getAuthHeader())
-                .POST(HttpRequest.BodyPublishers.noBody()) // CORREGIDO
+                .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
         if (response.statusCode() != 200) {
             throw new RuntimeException("❌ Error al rechazar la orden: " + response.statusCode());

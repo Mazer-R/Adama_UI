@@ -1,4 +1,4 @@
-package com.adama_ui;
+package com.adama_ui.User.DTO;
 
 import com.adama_ui.auth.SessionManager;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -10,20 +10,22 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Map;
 
+import static com.adama_ui.auth.SessionManager.API_BASE_URL;
+import static com.adama_ui.auth.SessionManager.HTTP_CLIENT;
+
 public class UserService {
 
-    private static final String BASE_URL = "https://touching-deadly-reindeer.ngrok-free.app/users";
-    private final HttpClient client = HttpClient.newHttpClient();
+
     private final ObjectMapper mapper = new ObjectMapper();
 
     public String getUsernameById(String userId) throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(BASE_URL + "/" + userId))
+                .uri(URI.create(API_BASE_URL + "/" + userId))
                 .header("Authorization", SessionManager.getInstance().getAuthHeader())
                 .GET()
                 .build();
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
         if (response.statusCode() == 200) {
             Map<String, Object> userData = mapper.readValue(response.body(), new TypeReference<>() {});

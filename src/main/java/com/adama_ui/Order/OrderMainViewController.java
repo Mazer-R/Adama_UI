@@ -1,9 +1,8 @@
-package com.adama_ui;
+package com.adama_ui.Order;
 
-import com.adama_ui.Order.OrderViewController;
+import com.adama_ui.Reloadable;
 import com.adama_ui.auth.SessionManager;
 import com.adama_ui.util.ViewManager;
-import com.adama_ui.Reloadable;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
@@ -40,7 +39,7 @@ public class OrderMainViewController {
 
         if (btnTracking != null) {
             btnTracking.setOnAction(event -> {
-                ViewManager.loadInto("/com/adama_ui/TrackingView.fxml", contentArea, () -> {
+                ViewManager.loadInto("/com/adama_ui/Order/OrderTrackingView.fxml", contentArea, () -> {
                     currentSubview = "TRACKING";
                     highlightMenuButton(btnTracking);
                 });
