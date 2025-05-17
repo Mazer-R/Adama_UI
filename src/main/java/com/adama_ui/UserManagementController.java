@@ -1,10 +1,12 @@
 package com.adama_ui;
 
 import com.adama_ui.auth.SessionManager;
+import com.adama_ui.util.UserResponse;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.collections.FXCollections;
 
 import java.net.URI;
 import java.net.URLEncoder;
@@ -13,6 +15,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.adama_ui.LoginToAppController.API_BASE_URL;
 
@@ -29,15 +32,14 @@ public class UserManagementController {
     @FXML
     private TableView<User> tableUsers;
 
-
     @FXML
     private void onAddUser() {
-        ViewManager.loadView("/com/adama_ui/AddUser.fxml");
+        ViewManager.load("/com/adama_ui/AddUser.fxml");
     }
 
     @FXML
     private void onGoToUserManagement() {
-        ViewManager.loadView("/com/adama_ui/UserManagement.fxml");
+        ViewManager.load("/com/adama_ui/UserManagement.fxml");
     }
 
     @FXML
@@ -66,31 +68,32 @@ public class UserManagementController {
                 ObjectMapper mapper = new ObjectMapper();
                 List<UserResponse> users = mapper.readValue(json, new TypeReference<>() {});
 
-                // Aplicar filtro por username en frontend (si hay texto)
+                // Filtrar por username si se ha escrito algo
                 if (usernameFilter != null && !usernameFilter.isEmpty()) {
                     users = users.stream()
                             .filter(u -> u.getUsername().toLowerCase().contains(usernameFilter.toLowerCase()))
                             .collect(Collectors.toList());
                 }
 
-                updateUserTable(users);
+                // Convertir UserResponse a User
+                List<User> userList = users.stream()
+                        .map(u -> new User(u.getUsername(), u.getFirstName(), u.getLastName(), u.getRole(), u.getDepartment()))
+                        .collect(Collectors.toList());
+
+                updateUserTable(userList);
             } else {
-                showAlert("Error", "Error al obtener usuarios: " + response.statusCode(), Alert.AlertType.ERROR);
+                showAlert("Error", "Error al obtener usuarios: " + response.statusCode());
             }
 
         } catch (Exception e) {
-            showAlert("Error", "Excepción al filtrar usuarios:\n" + e.getMessage(), Alert.AlertType.ERROR);
+            showAlert("Error", "Excepción al filtrar usuarios:\n" + e.getMessage());
         }
     }
 
-    // Simulación de un servicio que devuelve usuarios filtrados
-    private List<User> getFilteredUsers(String username, String role) {
-        // Aquí deberías consultar la base de datos o un servicio REST para obtener los usuarios
-        // Este es un ejemplo de cómo podría ser la lógica
-        return List.of(new User("johndoe", "John", "Doe", "ROLE_USER", "Sales"));
+    private void updateUserTable(List<User> users) {
+        tableUsers.setItems(FXCollections.observableArrayList(users));
     }
 
-    // Método para mostrar alertas
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -101,10 +104,9 @@ public class UserManagementController {
 
     @FXML
     private void onBack() {
-        ViewManager.loadView("/com/adama_ui/SettingsView.fxml");
+        ViewManager.load("/com/adama_ui/SettingsView.fxml");
     }
 
-    // Clase User para simular los datos
     public static class User {
         private String username;
         private String firstName;

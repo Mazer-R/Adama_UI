@@ -33,13 +33,13 @@ public class AddUserController {
     // Método que se ejecuta cuando se presiona el botón "ADD USER"
     @FXML
     private void goAddUser() {
-        ViewManager.loadView("/com/adama_ui/AddUser.fxml");
+        ViewManager.load("/com/adama_ui/AddUser.fxml");
     }
 
     // Método que se ejecuta cuando se presiona el botón "USER MANAGEMENT"
     @FXML
     private void onGoToUserManagement() {
-        ViewManager.loadView("/com/adama_ui/UserManagement.fxml");
+        ViewManager.load("/com/adama_ui/UserManagement.fxml");
     }
 
     @FXML
@@ -104,7 +104,7 @@ public class AddUserController {
 
     @FXML
     private void onBack() {
-        ViewManager.loadView("/com/adama_ui/SettingsView.fxml");
+        ViewManager.load("/com/adama_ui/SettingsView.fxml");
     }
 
     private String escapeJson(String value) {

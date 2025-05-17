@@ -280,6 +280,6 @@ public class SettingsViewController {
 
     @FXML
     private void onClick() {
-        ViewManager.loadView("/com/adama_ui/AddUser.fxml");
+        ViewManager.load("/com/adama_ui/AddUser.fxml");
     }
 }

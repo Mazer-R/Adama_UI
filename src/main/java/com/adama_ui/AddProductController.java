@@ -112,17 +112,17 @@ public class AddProductController {
 
     @FXML
     private void onBack() {
-        ViewManager.loadView("/com/adama_ui/ProductManagement.fxml");
+        ViewManager.load("/com/adama_ui/ProductManagement.fxml");
     }
 
     @FXML
     private void onAddProduct() {
-        ViewManager.loadView("/com/adama_ui/AddProduct.fxml");
+        ViewManager.load("/com/adama_ui/AddProduct.fxml");
     }
 
     @FXML
     private void onGoToProductManagement() {
-        ViewManager.loadView("/com/adama_ui/ProductManagement.fxml");
+        ViewManager.load("/com/adama_ui/ProductManagement.fxml");
     }
 
     private void showAlert(String title, String message) {
