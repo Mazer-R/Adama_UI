@@ -221,6 +221,10 @@ public class ViewManager {
         }
     }
 
+    public static void loadInto(String fxmlPath, StackPane container) {
+        loadInto(fxmlPath, container, null);
+    }
+
     public static void refreshCurrentView() {
         if (mainContainer != null && currentFxmlPath != null) {
             load(currentFxmlPath, false); // Forzar recarga sin cache
@@ -252,4 +256,33 @@ public class ViewManager {
             }
         });
     }
+
+    private static final Map<String, Node> cachedInternalViews = new HashMap<>();
+
+    public static void loadIntoCached(String fxmlPath, StackPane container) {
+        try {
+            Node view;
+            if (cachedInternalViews.containsKey(fxmlPath)) {
+                view = cachedInternalViews.get(fxmlPath);
+            } else {
+                FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource(fxmlPath));
+                view = loader.load();
+                currentController = loader.getController();
+
+                if (currentController instanceof Reloadable reloadable) {
+                    reloadable.onReload();
+                }
+
+                cachedInternalViews.put(fxmlPath, view);
+            }
+
+            AppTheme.applyThemeTo(view); // ✅ asegura que el tema se mantenga aplicado
+            container.getChildren().setAll(view);
+
+        } catch (IOException e) {
+            System.err.println("❌ Error al cargar vista en contenedor desde caché: " + fxmlPath);
+            e.printStackTrace();
+        }
+    }
+
 }

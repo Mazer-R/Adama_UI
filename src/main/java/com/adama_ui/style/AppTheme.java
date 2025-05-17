@@ -53,6 +53,10 @@ public class AppTheme {
             if (!parent.getStylesheets().contains(theme)) {
                 parent.getStylesheets().add(theme);
             }
+
+            // ✅ Reaplica el CSS y relayout
+            parent.applyCss();
+            parent.layout();
         }
     }
 }

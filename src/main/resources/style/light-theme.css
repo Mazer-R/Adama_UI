@@ -177,3 +177,22 @@
     -fx-padding: 6 8;
     -fx-font-size: 13px;
 }
+
+.card-item {
+    -fx-background-color: #ffffff;
+    -fx-padding: 10;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0.2, 0, 1);
+    -fx-spacing: 10;
+}
+.card-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+}
+.card-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: #444444;
+}

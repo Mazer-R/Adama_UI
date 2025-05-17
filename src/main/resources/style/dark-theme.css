@@ -77,7 +77,7 @@
 }
 
 .side-menu {
-    -fx-background-color: #2B2B2B;
+    -fx-background-color: #E0E0E0;
 }
 
 .custom-list-cell {
@@ -159,4 +159,23 @@
 .input-dark-aware {
     -fx-background-color: #1e1e1e;
     -fx-text-fill: white;
+}
+
+.card-item {
+    -fx-background-color: #1e1e1e;
+    -fx-padding: 10;
+    -fx-border-color: #555;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 6, 0.3, 0, 2);
+    -fx-spacing: 10;
+}
+.card-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+.card-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: #cccccc;
 }

@@ -24,7 +24,7 @@
             <HBox fx:id="navButtons" spacing="10">
                 <Button text="Home" onAction="#loadHomeView"/>
                 <Button text="Solicitudes" onAction="#loadOrderView"/>
-                <Button text="Messages" onAction="#loadMessagesView"/>
+                <Button text="Mensajes" onAction="#loadMessagesView"/>
                 <Button text="Productos" onAction="#loadWarehouseView"/>
                 <Button text="Gestión Usuarios" onAction="#loadUserView"/>
 

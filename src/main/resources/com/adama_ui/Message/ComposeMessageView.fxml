@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.adama_ui.Message.ComposeMessageController"
+            fx:id="rootPane"
+            styleClass="root-pane">
+
+    <center>
+        <VBox alignment="TOP_LEFT"
+              spacing="15"
+              maxWidth="650"
+              styleClass="compose-container">
+            <padding>
+                <Insets top="20" left="30" right="30" bottom="20"/>
+            </padding>
+
+            <ComboBox fx:id="recipientCombo"
+                      promptText="Selecciona destinatario"
+                      styleClass="input-combo"
+                      maxWidth="400"/>
+
+            <TextField fx:id="subjectField"
+                       promptText="Asunto"
+                       styleClass="input-dark-aware"
+                       maxWidth="400"/>
+
+            <TextArea fx:id="messageArea"
+                      promptText="Escribe tu mensaje..."
+                      prefRowCount="10"
+                      wrapText="true"
+                      styleClass="input-dark-aware"
+                      maxWidth="600"/>
+
+            <Button fx:id="sendButton"
+                    text="ENVIAR"
+                    styleClass="action-button"
+                    maxWidth="150"/>
+        </VBox>
+    </center>
+</BorderPane>
