@@ -24,43 +24,47 @@ public class OrderViewController implements Reloadable {
 
     @FXML
     public void initialize() {
-        comboProductType.getItems().add(null);
-        comboProductType.getItems().addAll(ProductType.values());
-        comboProductType.setValue(null);
+        comboProductType.setPromptText("Todos los tipos");
         comboProductType.setCellFactory(cb -> new ListCell<>() {
             @Override
             protected void updateItem(ProductType item, boolean empty) {
                 super.updateItem(item, empty);
-                setText(empty || item == null ? "Tipo de producto" : item.getLabel());
+                setText(empty || item == null ? "Todos los tipos" : item.getLabel());
             }
         });
-
         comboProductType.setButtonCell(new ListCell<>() {
             @Override
             protected void updateItem(ProductType item, boolean empty) {
                 super.updateItem(item, empty);
-                setText(empty || item == null ? "Tipo de producto" : item.getLabel());
+                setText(empty || item == null ? "Todos los tipos" : item.getLabel());
             }
         });
 
-        comboBrand.getItems().add(null);
-        comboBrand.getItems().addAll(Brands.values());
-        comboBrand.setPromptText("Marca del producto");
+        comboBrand.setPromptText("Todas las marcas");
+        comboBrand.setCellFactory(cb -> new ListCell<>() {
+            @Override
+            protected void updateItem(Brands item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? "Todas las marcas" : item.name());
+            }
+        });
+        comboBrand.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(Brands item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? "Todas las marcas" : item.name());
+            }
+        });
 
         comboProductType.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                onSearchByFilters();
-            }
+            if (event.getCode() == KeyCode.ENTER) onSearchByFilters();
         });
 
         comboBrand.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                onSearchByFilters();
-            }
+            if (event.getCode() == KeyCode.ENTER) onSearchByFilters();
         });
 
         listViewProducts.setVisible(false);
-
         listViewProducts.setCellFactory(listView -> new ListCell<>() {
             @Override
             protected void updateItem(Product item, boolean empty) {
@@ -109,6 +113,9 @@ public class OrderViewController implements Reloadable {
                 }
             }
         });
+
+        // Carga inicial
+        loadInStockProducts();
     }
 
     private void saveRequestToBackend(Product product) {
@@ -167,8 +174,8 @@ public class OrderViewController implements Reloadable {
         ProductType selectedType = comboProductType.getValue();
         Brands selectedBrand = comboBrand.getValue();
 
-        String type = selectedType != null ? selectedType.toString() : null;
-        String brand = selectedBrand != null ? selectedBrand.toString() : null;
+        String type = selectedType != null ? selectedType.name() : null;
+        String brand = selectedBrand != null ? selectedBrand.name() : null;
 
         try {
             List<Product> filtered = productService.getProductsByFilters(type, brand);
@@ -186,6 +193,7 @@ public class OrderViewController implements Reloadable {
             } else {
                 listViewProducts.getItems().setAll(available);
                 listViewProducts.setVisible(true);
+                // NO volvemos a poblar filtros aquí
             }
 
         } catch (Exception e) {
@@ -211,10 +219,51 @@ public class OrderViewController implements Reloadable {
             } else {
                 listViewProducts.getItems().setAll(available);
                 listViewProducts.setVisible(true);
+                populateFilters(available);
             }
         } catch (Exception e) {
             e.printStackTrace();
             showAlert("Error", "No se pudieron cargar los productos en stock.");
+        }
+    }
+
+    private void populateFilters(List<Product> products) {
+        // TIPOS
+        var types = products.stream()
+                .map(Product::getType)
+                .filter(s -> s != null && !s.isBlank())
+                .map(String::trim)
+                .distinct()
+                .sorted()
+                .toList();
+
+        comboProductType.getItems().clear();
+        comboProductType.getItems().add(null);
+        for (String type : types) {
+            try {
+                comboProductType.getItems().add(ProductType.valueOf(type));
+            } catch (IllegalArgumentException ex) {
+                System.err.println("⚠️ Tipo no válido en enum ProductType: " + type);
+            }
+        }
+
+        // MARCAS
+        var brands = products.stream()
+                .map(Product::getBrand)
+                .filter(s -> s != null && !s.isBlank())
+                .map(String::trim)
+                .distinct()
+                .sorted()
+                .toList();
+
+        comboBrand.getItems().clear();
+        comboBrand.getItems().add(null);
+        for (String brand : brands) {
+            try {
+                comboBrand.getItems().add(Brands.valueOf(brand));
+            } catch (IllegalArgumentException ex) {
+                System.err.println("⚠️ Marca no válida en enum Brands: " + brand);
+            }
         }
     }
 

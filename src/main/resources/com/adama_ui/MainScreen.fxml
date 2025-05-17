@@ -23,10 +23,10 @@
             <!-- ✅ Tus botones tal como los tenías -->
             <HBox fx:id="navButtons" spacing="10">
                 <Button text="Home" onAction="#loadHomeView"/>
-                <Button text="Perfil" onAction="#loadProfileView"/>
+                <Button text="Solicitudes" onAction="#loadProfileView"/>
                 <Button text="Configuración" onAction="#loadSettingsView"/>
-                <Button text="Messages" onAction="#loadMessagesView"/>
-                <Button text="Warehouse" onAction="#loadWarehouseView"/>
+                <Button text="Mensajes" onAction="#loadMessagesView"/>
+                <Button text="Inventario" onAction="#loadWarehouseView"/>
             </HBox>
 
             <!-- Espaciador flexible -->

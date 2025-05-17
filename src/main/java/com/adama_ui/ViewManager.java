@@ -19,6 +19,7 @@ public class ViewManager {
     private static BorderPane mainContainer;
     private static Object currentController;
     private static String currentFxmlPath;
+    private static String currentSubViewPath = "/com/adama_ui/AddProductView.fxml"; // Valor por defecto en Inventario
 
     public static void setMainContainer(BorderPane container) {
         mainContainer = container;
@@ -193,11 +194,16 @@ public class ViewManager {
         }
     }
 
-    public static void loadInto(String fxmlPath, StackPane container, Runnable onLoadCallback) {
+    public static void loadInto(String fxmlPath, Pane container) {
+        loadInto(fxmlPath, container, null);
+    }
+
+    public static void loadInto(String fxmlPath, Pane container, Runnable onLoadCallback) {
         try {
             FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource(fxmlPath));
             Node view = loader.load();
             currentController = loader.getController();
+            currentSubViewPath = fxmlPath;
 
             if (currentController instanceof Reloadable reloadable) {
                 reloadable.onReload();
@@ -218,7 +224,21 @@ public class ViewManager {
 
     public static void refreshCurrentView() {
         if (mainContainer != null && currentFxmlPath != null) {
-            load(currentFxmlPath, false); // Forzar recarga sin cache
+            if (currentFxmlPath.contains("WarehouseView.fxml")) {
+                load(currentFxmlPath, false);
+
+                javafx.application.Platform.runLater(() -> {
+                    String subview = currentSubViewPath != null ? currentSubViewPath : "/com/adama_ui/AddProductView.fxml";
+                    Node node = mainContainer.lookup("#contentPane");
+                    if (node instanceof StackPane contentPane) {
+                        loadInto(subview, contentPane);
+                    } else {
+                        System.err.println("⚠️ No se encontró el StackPane con fx:id=\"contentPane\" en WarehouseView.fxml");
+                    }
+                });
+            } else {
+                load(currentFxmlPath, false);
+            }
         }
     }
 
@@ -231,20 +251,27 @@ public class ViewManager {
 
     public static void loadProfileAndManageOrders() {
         load("/com/adama_ui/ProfileView.fxml", false);
-        // Esperar a que la vista cargue para luego cargar ManageOrdersView en el StackPane
         javafx.application.Platform.runLater(() -> {
             Node node = mainContainer.lookup("#contentArea");
             if (node instanceof StackPane contentArea) {
                 loadInto("/com/adama_ui/ManageOrdersView.fxml", contentArea, () -> {
                     Object controller = getCurrentController();
                     if (controller instanceof ManageOrdersController manageOrdersController) {
-                        // Asegúrate de que el método exista y esté público
-                        manageOrdersController.initialize(); // O un método como reload() o updateOrders() si lo prefieres
+                        manageOrdersController.initialize();
                     }
                 });
             } else {
                 System.err.println("⚠️ No se encontró el StackPane con fx:id=\"contentArea\" en ProfileView.fxml");
             }
         });
+    }
+
+    // Método auxiliar para actualizar la subvista actual de Warehouse
+    public static void setCurrentSubView(String subViewPath) {
+        currentSubViewPath = subViewPath;
+    }
+
+    public static String getCurrentSubView() {
+        return currentSubViewPath;
     }
 }

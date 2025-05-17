@@ -7,6 +7,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class MainScreenController {
@@ -100,7 +101,16 @@ public class MainScreenController {
 
     @FXML
     public void loadWarehouseView() {
-        ViewManager.load("/com/adama_ui/ProductManagement.fxml");
+        ViewManager.load("/com/adama_ui/WarehouseView.fxml");
+        // Una vez cargado WarehouseView, cargamos dentro el AddProduct por defecto
+        javafx.application.Platform.runLater(() -> {
+            var node = mainContainer.lookup("#contentPane");
+            if (node instanceof StackPane contentPane) {
+                ViewManager.loadInto("/com/adama_ui/AddProductView.fxml", contentPane);
+            } else {
+                System.err.println("⚠️ No se encontró el StackPane con fx:id=\"contentPane\" en WarehouseView.fxml");
+            }
+        });
     }
 
     public void setCenterContent(Node node) {

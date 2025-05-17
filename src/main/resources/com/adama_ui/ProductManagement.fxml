@@ -8,17 +8,6 @@
             fx:controller="com.adama_ui.ProductManagementController"
             maxWidth="Infinity" maxHeight="Infinity">
 
-    <left>
-        <VBox spacing="10" style="-fx-background-color: #e0e0e0;">
-            <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
-            </padding>
-            <Button text="ADD PRODUCT" maxWidth="150" onAction="#onAddProduct" />
-            <Button text="PRODUCT MANAGEMENT" maxWidth="150"
-                    style="-fx-border-color: green; -fx-border-width: 2;" />
-        </VBox>
-    </left>
-
     <center>
         <VBox spacing="15" alignment="TOP_LEFT">
             <padding>

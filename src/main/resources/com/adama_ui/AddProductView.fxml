@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.adama_ui.AddProductController"
+      spacing="15"
+      alignment="TOP_LEFT"
+      styleClass="content-area">
+
+    <padding>
+        <Insets top="20" left="20" right="20" bottom="20"/>
+    </padding>
+
+    <Label text="Añadir nuevo producto" styleClass="title-label"/>
+
+    <TextField fx:id="fieldName" promptText="Nombre del producto" />
+    <TextArea fx:id="fieldDescription" promptText="Descripción" prefRowCount="4"/>
+
+    <HBox spacing="10">
+        <ComboBox fx:id="comboType" promptText="Tipo de producto" prefWidth="200"/>
+        <ComboBox fx:id="comboBrand" promptText="Marca" prefWidth="200"/>
+    </HBox>
+
+    <TextField fx:id="fieldModel" promptText="Modelo" />
+
+    <HBox spacing="10">
+        <Button text="GUARDAR PRODUCTO"
+                onAction="#onSaveProduct"
+                styleClass="action-button"/>
+
+        <Button text="← VOLVER"
+                onAction="#onBack"
+                styleClass="back-button"/>
+    </HBox>
+
+</VBox>

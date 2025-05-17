@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.adama_ui.WarehouseController"
+      spacing="0"
+      styleClass="root-pane">
+
+    <!-- Menú lateral izquierdo -->
+    <VBox spacing="10" styleClass="side-menu" alignment="TOP_LEFT">
+        <padding>
+            <Insets top="20" left="10" right="10" bottom="10"/>
+        </padding>
+
+        <Button text="AGREGAR PRODUCTO"
+                onAction="#loadAddProduct"
+                styleClass="sidebar-button"/>
+
+        <Button text="GESTIONAR PRODUCTOS"
+                onAction="#loadProductManagement"
+                styleClass="sidebar-button"/>
+
+        <Button text="← VOLVER"
+                onAction="#onBack"
+                styleClass="back-button"/>
+    </VBox>
+
+    <!-- Contenedor principal -->
+    <VBox spacing="15" alignment="TOP_LEFT" VBox.vgrow="ALWAYS">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+
+        <StackPane fx:id="contentPane" VBox.vgrow="ALWAYS" styleClass="content-pane"/>
+    </VBox>
+
+</HBox>

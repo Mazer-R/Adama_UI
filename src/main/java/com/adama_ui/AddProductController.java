@@ -117,7 +117,7 @@ public class AddProductController {
 
     @FXML
     private void onAddProduct() {
-        ViewManager.load("/com/adama_ui/AddProduct.fxml");
+        ViewManager.load("/com/adama_ui/AddProductView.fxml");
     }
 
     @FXML
