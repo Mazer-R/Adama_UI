@@ -1,5 +1,6 @@
 package com.adama_ui.Product;
 
+import com.adama_ui.Product.DTO.Product;
 import com.adama_ui.auth.SessionManager;
 import com.adama_ui.util.ProductStatus;
 import com.adama_ui.util.ViewManager;
@@ -12,6 +13,9 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+
+import static com.adama_ui.auth.SessionManager.API_BASE_URL;
+import static com.adama_ui.auth.SessionManager.HTTP_CLIENT;
 
 public class ProductDetailController {
 
@@ -29,11 +33,7 @@ public class ProductDetailController {
 
     private Product currentProduct;
 
-    private final HttpClient httpClient = HttpClient.newHttpClient();
     private final ObjectMapper objectMapper = new ObjectMapper();
-
-    // URL actual del backend
-    private static final String BASE_URL = "https://touching-deadly-reindeer.ngrok-free.app/products";
 
     public void setProduct(Product product) {
         this.currentProduct = product;
@@ -92,13 +92,13 @@ public class ProductDetailController {
             String json = objectMapper.writeValueAsString(currentProduct);
 
             HttpRequest req = HttpRequest.newBuilder()
-                    .uri(URI.create(BASE_URL + "/" + currentProduct.getId()))
+                    .uri(URI.create(API_BASE_URL + "/products/" + currentProduct.getId()))
                     .header("Content-Type", "application/json")
                     .header("Authorization", SessionManager.getInstance().getAuthHeader())
                     .method("PATCH", HttpRequest.BodyPublishers.ofString(json))
                     .build();
 
-            HttpResponse<String> resp = httpClient.send(req, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> resp = HTTP_CLIENT.send(req, HttpResponse.BodyHandlers.ofString());
 
             if (resp.statusCode() == 200) {
                 showAlert("Producto actualizado con éxito.", AlertType.INFORMATION);
@@ -132,12 +132,12 @@ public class ProductDetailController {
             if (bt == ButtonType.OK) {
                 try {
                     HttpRequest req = HttpRequest.newBuilder()
-                            .uri(URI.create(BASE_URL + "/" + currentProduct.getId()))
+                            .uri(URI.create(API_BASE_URL + "/products/" + currentProduct.getId()))
                             .header("Authorization", SessionManager.getInstance().getAuthHeader())
                             .DELETE()
                             .build();
 
-                    HttpResponse<String> resp = httpClient.send(req, HttpResponse.BodyHandlers.ofString());
+                    HttpResponse<String> resp = HTTP_CLIENT.send(req, HttpResponse.BodyHandlers.ofString());
 
                     if (resp.statusCode() == 200 || resp.statusCode() == 204) {
                         showAlert("Producto eliminado con éxito.", AlertType.INFORMATION);

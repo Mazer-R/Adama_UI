@@ -1,5 +1,6 @@
 package com.adama_ui.Product;
 
+import com.adama_ui.Product.DTO.Product;
 import com.adama_ui.util.Brands;
 import com.adama_ui.util.ProductStatus;
 import com.adama_ui.util.ProductType;
@@ -25,11 +26,11 @@ public class ProductManagementController {
     public void initialize() {
         comboProductType.getItems().add(null);
         comboProductType.getItems().addAll(ProductType.values());
-        comboProductType.setPromptText("-- Select product type --");
+        comboProductType.setPromptText("-- Selecciona un tipo de producto --");
 
         comboBrand.getItems().add(null);
         comboBrand.getItems().addAll(Brands.values());
-        comboBrand.setPromptText("-- Select brand --");
+        comboBrand.setPromptText("-- Selecciona una marca --");
 
         listViewProducts.setVisible(false);
 

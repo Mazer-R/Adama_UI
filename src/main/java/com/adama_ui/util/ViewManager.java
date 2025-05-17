@@ -2,7 +2,7 @@ package com.adama_ui.util;
 
 import com.adama_ui.*;
 import com.adama_ui.Order.ManageOrdersController;
-import com.adama_ui.Product.Product;
+import com.adama_ui.Product.DTO.Product;
 import com.adama_ui.Product.ProductDetailController;
 import com.adama_ui.Product.ProductListController;
 import com.adama_ui.style.AppTheme;
@@ -235,7 +235,7 @@ public class ViewManager {
     }
 
     public static void loadProfileAndManageOrders() {
-        load("/com/adama_ui/OrderMainView.fxml", false);
+        load("/com/adama_ui/Order/OrderMainView.fxml", false);
         // Esperar a que la vista cargue para luego cargar ManageOrdersView en el StackPane
         javafx.application.Platform.runLater(() -> {
             Node node = mainContainer.lookup("#contentArea");

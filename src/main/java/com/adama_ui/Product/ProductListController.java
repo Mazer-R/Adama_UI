@@ -1,5 +1,6 @@
 package com.adama_ui.Product;
 
+import com.adama_ui.Product.DTO.Product;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;

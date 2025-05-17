@@ -18,9 +18,10 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+import static com.adama_ui.auth.SessionManager.API_BASE_URL;
+import static com.adama_ui.auth.SessionManager.HTTP_CLIENT;
+
 public class LoginToAppController {
-    public static final String API_BASE_URL = "https://touching-deadly-reindeer.ngrok-free.app";
-    private static final HttpClient HTTP_CLIENT = HttpClient.newHttpClient();
 
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;

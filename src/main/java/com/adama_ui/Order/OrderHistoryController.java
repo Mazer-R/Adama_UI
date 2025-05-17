@@ -1,6 +1,6 @@
 package com.adama_ui.Order;
 
-import com.adama_ui.Product.Product;
+import com.adama_ui.Product.DTO.Product;
 import com.adama_ui.Product.ProductService;
 import com.adama_ui.util.*;
 import com.adama_ui.style.AppTheme;
@@ -209,6 +209,6 @@ public class OrderHistoryController {
 
     @FXML
     private void onBack() {
-        ViewManager.load("/com/adama_ui/OrderMainView.fxml");
+        ViewManager.load("/com/adama_ui/Order/OrderMainView.fxml");
     }
 }

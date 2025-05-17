@@ -85,16 +85,12 @@ public class MainScreenController {
     }
 
     @FXML
-    private void loadOrderView() {ViewManager.load("/com/adama_ui/OrderMainView.fxml");}
+    private void loadOrderView() {ViewManager.load("/com/adama_ui/Order/OrderMainView.fxml");}
 
-    @FXML
-    private void loadSettingsView() {
-        ViewManager.load("/com/adama_ui/SettingsView.fxml");
-    }
 
     @FXML
     private void loadMessagesView() {
-        ViewManager.load("/com/adama_ui/MessagesMainView.fxml");
+        ViewManager.load("/com/adama_ui/Message/MessagesMainView.fxml");
     }
 
     @FXML
@@ -105,6 +101,10 @@ public class MainScreenController {
     @FXML
     private void loadUserView() {
         ViewManager.load("/com/adama_ui/User/AddUser.fxml");
+    }
+    @FXML
+    private void loadSettingsView() {
+        ViewManager.load("/com/adama_ui/TestView.fxml");
     }
 
     public void setCenterContent(Node node) {

@@ -25,7 +25,7 @@
                 <Button text="Home" onAction="#loadHomeView"/>
                 <Button text="Solicitudes" onAction="#loadOrderView"/>
                 <Button text="Messages" onAction="#loadMessagesView"/>
-                <Button text="Almacén" onAction="#loadWarehouseView"/>
+                <Button text="Productos" onAction="#loadWarehouseView"/>
                 <Button text="Gestión Usuarios" onAction="#loadUserView"/>
 
                 <Button text="Entregas" />
@@ -54,8 +54,9 @@
 
     <bottom>
         <HBox alignment="CENTER"
-              style="-fx-background-color: #f4f4f4; -fx-padding: 5;"> <!-- ✅ conservado -->
-            <Label text="© 2023 Mi App - Todos los derechos reservados"/>
+              styleClass="theme-toggle">
+            <Label text="© 2025 ADAMA Project (IFP)"
+                   styleClass="theme-toggle"/>
         </HBox>
     </bottom>
 </BorderPane>

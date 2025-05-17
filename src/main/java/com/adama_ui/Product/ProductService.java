@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import com.adama_ui.Product.DTO.Product;
 import com.adama_ui.auth.SessionManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

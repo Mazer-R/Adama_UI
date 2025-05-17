@@ -20,28 +20,28 @@
 
         <Label text="Product Detail" style="-fx-text-fill: white; -fx-font-size: 20px;" />
 
-        <TextField fx:id="fieldName" promptText="Name"
+        <TextField fx:id="fieldName" promptText="NOMBRE/MODELO"
                    style="-fx-background-color: #1e1e1e; -fx-text-fill: white;" />
-        <TextField fx:id="fieldType" promptText="Type"
+        <TextField fx:id="fieldType" promptText="TIPO"
                    style="-fx-background-color: #1e1e1e; -fx-text-fill: white;" />
-        <TextField fx:id="fieldBrand" promptText="Brand"
+        <TextField fx:id="fieldBrand" promptText="MARCA"
                    style="-fx-background-color: #1e1e1e; -fx-text-fill: white;" />
-        <TextField fx:id="fieldStatus" promptText="Status"
+        <TextField fx:id="fieldStatus" promptText="ESTADO"
                    style="-fx-background-color: #1e1e1e; -fx-text-fill: white;" />
-        <TextField fx:id="fieldUser" promptText="User ID"
+        <TextField fx:id="fieldUser" promptText="USUARIO ASIGNADO"
                    style="-fx-background-color: #1e1e1e; -fx-text-fill: white;" />
-        <TextArea fx:id="fieldDescription" promptText="Description"
+        <TextArea fx:id="fieldDescription" promptText="DESCRIPCIÓN"
                   style="-fx-background-color: #1e1e1e; -fx-text-fill: white;"
                   prefRowCount="4" />
 
         <!-- Botones alineados justo debajo del cuadro de texto -->
         <HBox spacing="10" alignment="CENTER_LEFT">
             <StackPane prefWidth="150">
-                <Button fx:id="btnModify" text="Modificar producto"
+                <Button fx:id="btnModify" text="MODIFICAR PRODUCTO"
                         onAction="#onModify"
                         maxWidth="Infinity"
                         style="-fx-background-color: #FFD700; -fx-text-fill: black; -fx-font-weight: bold;" />
-                <Button fx:id="btnAccept" text="Aceptar"
+                <Button fx:id="btnAccept" text="ACEPTAR"
                         onAction="#onAccept"
                         visible="false"
                         maxWidth="Infinity"
@@ -50,7 +50,7 @@
 
             <Region HBox.hgrow="ALWAYS" />
 
-            <Button fx:id="btnDelete" text="Eliminar producto"
+            <Button fx:id="btnDelete" text="ELIMINAR PRODUCTO"
                     onAction="#onCancelOrDelete"
                     minWidth="150"
                     style="-fx-background-color: #DC143C; -fx-text-fill: white; -fx-font-weight: bold;" />

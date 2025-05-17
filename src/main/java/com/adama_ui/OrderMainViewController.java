@@ -64,7 +64,7 @@ public class OrderMainViewController {
 
             if (isManagerOrAdmin) {
                 btnHistory.setOnAction(event -> {
-                    ViewManager.loadInto("/com/adama_ui/OrderHistoryView.fxml", contentArea, () -> {
+                    ViewManager.loadInto("/com/adama_ui/Order/OrderHistoryView.fxml", contentArea, () -> {
                         currentSubview = "HISTORY";
                         highlightMenuButton(btnHistory);
                     });

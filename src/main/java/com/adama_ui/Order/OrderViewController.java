@@ -1,6 +1,6 @@
 package com.adama_ui.Order;
 
-import com.adama_ui.Product.Product;
+import com.adama_ui.Product.DTO.Product;
 import com.adama_ui.Product.ProductService;
 import com.adama_ui.Reloadable;
 import com.adama_ui.auth.SessionManager;

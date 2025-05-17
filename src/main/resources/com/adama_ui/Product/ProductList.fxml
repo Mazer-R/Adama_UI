@@ -18,9 +18,9 @@
 
         <columns>
             <TableColumn fx:id="colId" text="ID" prefWidth="200"/>
-            <TableColumn fx:id="colName" text="Name" prefWidth="250"/>
-            <TableColumn fx:id="colType" text="Type" prefWidth="200"/>
-            <TableColumn fx:id="colBrand" text="Brand" prefWidth="200"/>
+            <TableColumn fx:id="colName" text="NOMBRE" prefWidth="250"/>
+            <TableColumn fx:id="colType" text="TIPO" prefWidth="200"/>
+            <TableColumn fx:id="colBrand" text="MARCA" prefWidth="200"/>
         </columns>
     </TableView>
 </AnchorPane>

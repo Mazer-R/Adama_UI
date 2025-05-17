@@ -18,7 +18,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.adama_ui.LoginToAppController.API_BASE_URL;
+import static com.adama_ui.auth.SessionManager.API_BASE_URL;
+
 
 public class UserManagementController {
 
@@ -105,7 +106,7 @@ public class UserManagementController {
 
     @FXML
     private void onBack() {
-        ViewManager.load("/com/adama_ui/SettingsView.fxml");
+        ViewManager.load("/com/adama_ui/TestView.fxml");
     }
 
     public static class User {

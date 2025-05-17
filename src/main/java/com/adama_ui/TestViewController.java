@@ -1,7 +1,6 @@
 package com.adama_ui;
 
 import com.adama_ui.auth.SessionManager;
-import com.adama_ui.util.ViewManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
@@ -14,9 +13,10 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Optional;
 
-import static com.adama_ui.LoginToAppController.API_BASE_URL;
+import static com.adama_ui.auth.SessionManager.API_BASE_URL;
 
-public class SettingsViewController {
+
+public class TestViewController {
 
     @FXML
     private TextField productIdField;

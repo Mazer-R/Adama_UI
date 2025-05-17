@@ -101,7 +101,7 @@ public class AddUserController {
 
     @FXML
     private void onBack() {
-        ViewManager.load("/com/adama_ui/SettingsView.fxml");
+        ViewManager.load("/com/adama_ui/TestView.fxml");
     }
 
     private String escapeJson(String value) {

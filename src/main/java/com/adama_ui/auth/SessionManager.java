@@ -3,7 +3,12 @@ package com.adama_ui.auth;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.net.http.HttpClient;
+
 public class SessionManager {
+    public static final String API_BASE_URL = "https://touching-deadly-reindeer.ngrok-free.app";
+    public static final HttpClient HTTP_CLIENT = HttpClient.newHttpClient();
+
 
     private static SessionManager instance;
     private String authToken;
