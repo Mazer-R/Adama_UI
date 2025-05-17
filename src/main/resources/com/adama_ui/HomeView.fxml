@@ -2,7 +2,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Label?>
 
-<VBox xmlns="http://javafx.com/javafx/11.0.1"
+<VBox fx:id="rootPane"
+      styleClass="root-pane home-container"
+      xmlns="http://javafx.com/javafx/11.0.1"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.adama_ui.HomeViewController"
       alignment="CENTER"
@@ -10,6 +12,6 @@
       maxWidth="Infinity"
       maxHeight="Infinity">
 
-    <Label text="HOME" style="-fx-font-size: 20;"/>
-    <Label text="Contenido de la página de inicio aquí"/>
+    <Label text="HOME" styleClass="section-title"/>
+    <Label text="Contenido de la página de inicio aquí" styleClass="section-subtitle"/>
 </VBox>

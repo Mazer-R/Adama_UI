@@ -20,6 +20,6 @@ public class ProductListCellController {
 
     @FXML
     private void handleClick(MouseEvent event) {
-        ViewManager.loadView("/com/adama_ui/ProductDetail.fxml", product);
+        ViewManager.loadWithProduct("/com/adama_ui/ProductDetail.fxml", product);
     }
 }

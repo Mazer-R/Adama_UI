@@ -2,10 +2,12 @@ package com.adama_ui;
 
 import com.adama_ui.style.AppTheme;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -16,12 +18,13 @@ public class ViewManager {
     private static final Map<String, Pane> viewCache = new HashMap<>();
     private static BorderPane mainContainer;
     private static Object currentController;
+    private static String currentFxmlPath;
 
     public static void setMainContainer(BorderPane container) {
         mainContainer = container;
     }
 
-    public static void clearCache() {
+    public static void clearViewCache() {
         viewCache.clear();
     }
 
@@ -29,13 +32,14 @@ public class ViewManager {
         return currentController;
     }
 
-    public static void loadView(String fxmlPath) {
-        loadView(fxmlPath, true);
+    public static void load(String fxmlPath) {
+        load(fxmlPath, true);
     }
 
-    public static void loadView(String fxmlPath, boolean cache) {
+    public static void load(String fxmlPath, boolean cache) {
         try {
             Pane view;
+            currentFxmlPath = fxmlPath;
 
             if (cache && viewCache.containsKey(fxmlPath)) {
                 view = viewCache.get(fxmlPath);
@@ -44,40 +48,53 @@ public class ViewManager {
                 FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource(fxmlPath));
                 view = loader.load();
                 currentController = loader.getController();
+
+                if (currentController instanceof Reloadable reloadable) {
+                    reloadable.onReload();
+                }
+
                 if (cache) viewCache.put(fxmlPath, view);
             }
 
+            AppTheme.applyThemeTo(view);
             mainContainer.setCenter(view);
-            applyThemeIfAvailable();
+            applyThemeToSceneIfAvailable();
 
         } catch (IOException e) {
-            System.err.println("Error loading view: " + fxmlPath);
+            System.err.println("❌ Error al cargar la vista: " + fxmlPath);
             e.printStackTrace();
         }
     }
 
-    public static void loadView(String fxmlPath, Product product) {
+    public static void loadWithProduct(String fxmlPath, Product product) {
         try {
             FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource(fxmlPath));
             Pane view = loader.load();
+            currentFxmlPath = fxmlPath;
             currentController = loader.getController();
 
             if (currentController instanceof ProductDetailController controller) {
                 controller.setProduct(product);
             }
 
+            if (currentController instanceof Reloadable reloadable) {
+                reloadable.onReload();
+            }
+
+            AppTheme.applyThemeTo(view);
             mainContainer.setCenter(view);
-            applyThemeIfAvailable();
+            applyThemeToSceneIfAvailable();
 
         } catch (IOException e) {
-            System.err.println("Error loading view with product: " + fxmlPath);
+            System.err.println("❌ Error al cargar la vista con producto: " + fxmlPath);
             e.printStackTrace();
         }
     }
 
-    public static void loadView(String fxmlPath, List<Product> productList, boolean cache) {
+    public static void loadWithProductList(String fxmlPath, List<Product> productList, boolean cache) {
         try {
             Pane view;
+            currentFxmlPath = fxmlPath;
 
             if (cache && viewCache.containsKey(fxmlPath)) {
                 view = viewCache.get(fxmlPath);
@@ -91,70 +108,143 @@ public class ViewManager {
                     controller.setProductList(productList);
                 }
 
+                if (currentController instanceof Reloadable reloadable) {
+                    reloadable.onReload();
+                }
+
                 if (cache) viewCache.put(fxmlPath, view);
             }
 
+            AppTheme.applyThemeTo(view);
             mainContainer.setCenter(view);
-            applyThemeIfAvailable();
+            applyThemeToSceneIfAvailable();
 
         } catch (IOException e) {
-            System.err.println("Error loading view with product list: " + fxmlPath);
+            System.err.println("❌ Error al cargar la vista con lista de productos: " + fxmlPath);
             e.printStackTrace();
         }
     }
 
-    public static Parent loadViewForScene(String fxmlPath) {
+    public static Parent loadForScene(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource(fxmlPath));
             Parent view = loader.load();
+            currentFxmlPath = fxmlPath;
             currentController = loader.getController();
+
+            if (currentController instanceof Reloadable reloadable) {
+                reloadable.onReload();
+            }
+
+            AppTheme.applyThemeTo(view);
             return view;
         } catch (IOException e) {
-            System.err.println("Error loading view for scene: " + fxmlPath);
+            System.err.println("❌ Error al cargar la vista para la escena: " + fxmlPath);
             e.printStackTrace();
             return null;
         }
     }
 
-    public static Parent loadViewForScene(String fxmlPath, Product product) {
+    public static Parent loadForSceneWithProduct(String fxmlPath, Product product) {
         try {
             FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource(fxmlPath));
             Parent view = loader.load();
+            currentFxmlPath = fxmlPath;
             currentController = loader.getController();
 
             if (currentController instanceof ProductDetailController controller) {
                 controller.setProduct(product);
             }
 
+            if (currentController instanceof Reloadable reloadable) {
+                reloadable.onReload();
+            }
+
+            AppTheme.applyThemeTo(view);
             return view;
         } catch (IOException e) {
-            System.err.println("Error loading view for scene with product: " + fxmlPath);
+            System.err.println("❌ Error al cargar la vista para la escena con producto: " + fxmlPath);
             e.printStackTrace();
             return null;
         }
     }
 
-    public static <T> T loadViewAndReturnController(String fxmlPath) {
+    public static <T> T loadAndReturnController(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource(fxmlPath));
             Pane view = loader.load();
+            currentFxmlPath = fxmlPath;
             T controller = loader.getController();
             currentController = controller;
+
+            if (controller instanceof Reloadable reloadable) {
+                reloadable.onReload();
+            }
+
+            AppTheme.applyThemeTo(view);
             mainContainer.setCenter(view);
-            applyThemeIfAvailable();
+            applyThemeToSceneIfAvailable();
+
             return controller;
         } catch (IOException e) {
-            System.err.println("Error loading view and returning controller: " + fxmlPath);
+            System.err.println("❌ Error al cargar la vista y devolver el controlador: " + fxmlPath);
             e.printStackTrace();
             return null;
         }
     }
 
-    // ✅ Aplica tema si hay una escena
-    private static void applyThemeIfAvailable() {
+    public static void loadInto(String fxmlPath, StackPane container, Runnable onLoadCallback) {
+        try {
+            FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource(fxmlPath));
+            Node view = loader.load();
+            currentController = loader.getController();
+
+            if (currentController instanceof Reloadable reloadable) {
+                reloadable.onReload();
+            }
+
+            AppTheme.applyThemeTo(view);
+            container.getChildren().setAll(view);
+
+            if (onLoadCallback != null) {
+                onLoadCallback.run();
+            }
+
+        } catch (Exception e) {
+            System.err.println("❌ Error al cargar vista en contenedor: " + fxmlPath);
+            e.printStackTrace();
+        }
+    }
+
+    public static void refreshCurrentView() {
+        if (mainContainer != null && currentFxmlPath != null) {
+            load(currentFxmlPath, false); // Forzar recarga sin cache
+        }
+    }
+
+    private static void applyThemeToSceneIfAvailable() {
         Scene scene = mainContainer.getScene();
         if (scene != null) {
             AppTheme.applyTheme(scene);
         }
+    }
+
+    public static void loadProfileAndManageOrders() {
+        load("/com/adama_ui/ProfileView.fxml", false);
+        // Esperar a que la vista cargue para luego cargar ManageOrdersView en el StackPane
+        javafx.application.Platform.runLater(() -> {
+            Node node = mainContainer.lookup("#contentArea");
+            if (node instanceof StackPane contentArea) {
+                loadInto("/com/adama_ui/ManageOrdersView.fxml", contentArea, () -> {
+                    Object controller = getCurrentController();
+                    if (controller instanceof ManageOrdersController manageOrdersController) {
+                        // Asegúrate de que el método exista y esté público
+                        manageOrdersController.initialize(); // O un método como reload() o updateOrders() si lo prefieres
+                    }
+                });
+            } else {
+                System.err.println("⚠️ No se encontró el StackPane con fx:id=\"contentArea\" en ProfileView.fxml");
+            }
+        });
     }
 }

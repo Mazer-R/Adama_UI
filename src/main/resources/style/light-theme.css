@@ -1,6 +1,5 @@
 /* 🎨 Tema claro */
 
-/* Estilo base */
 .root {
     -fx-base: #F0F0F0;
     -fx-background: #FFFFFF;
@@ -8,19 +7,20 @@
     -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 }
 
-/* Estilo general para vistas dinámicas */
 .root-pane {
     -fx-background-color: #FFFFFF;
 }
 
-/* Etiquetas */
 .label, .section-title {
-    -fx-text-fill: #2B2B2B;
+    -fx-text-fill: black;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
 }
 
-/* Combos */
+.section-subtitle {
+    -fx-text-fill: #444;
+}
+
 .input-combo {
     -fx-background-color: #ffffff;
     -fx-text-fill: black;
@@ -29,22 +29,20 @@
     -fx-padding: 5 8;
 }
 
-/* Botones */
 .button, .action-button {
     -fx-background-color: #00A651;
     -fx-text-fill: white;
     -fx-font-weight: bold;
 }
 
-/* Lista de productos */
 .styled-list {
     -fx-background-color: #F5F5F5;
     -fx-control-inner-background: #F5F5F5;
     -fx-cell-hover-color: #DDDDDD;
     -fx-text-fill: black;
+    -fx-padding: 5 0 15 0;
 }
 
-/* Toggle modo claro */
 .theme-toggle {
     -fx-background-color: #DDDDDD !important;
     -fx-background-radius: 20;
@@ -78,15 +76,104 @@
     -fx-alignment: center;
 }
 
-/* Menú lateral */
 .side-menu {
     -fx-background-color: #E0E0E0;
 }
 
-/* Celdas personalizadas */
 .custom-list-cell {
-    -fx-background-color: #f9f9f9;
+    -fx-background-color: #1e1e1e;
+    -fx-text-fill: white;
     -fx-padding: 10;
-    -fx-border-color: #ccc;
+    -fx-border-color: gray;
     -fx-border-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 6, 0.2, 0, 2);
+}
+
+.custom-list-cell:hover {
+    -fx-background-color: #2a2a2a;
+    -fx-cursor: hand;
+}
+
+/* Estilo específico de texto dentro de las tarjetas */
+.product-name {
+    -fx-font-weight: bold;
+}
+
+/* Textos blancos solo dentro de las tarjetas */
+.custom-list-cell .product-name,
+.custom-list-cell .product-info,
+.custom-list-cell .status-label {
+    -fx-text-fill: white;
+}
+
+/* Textos negros fuera de tarjetas */
+.product-info,
+.status-label {
+    -fx-text-fill: black;
+}
+
+/* Estados con fondo y texto blanco para fondo oscuro */
+.estado-nueva {
+    -fx-background-color: #FBC02D;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 5 10;
+    -fx-background-radius: 5;
+}
+
+.estado-aceptada {
+    -fx-background-color: #43A047;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 5 10;
+    -fx-background-radius: 5;
+}
+
+.estado-rechazada {
+    -fx-background-color: #E53935;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 5 10;
+    -fx-background-radius: 5;
+}
+
+.estado-entregada {
+    -fx-background-color: #757575;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 5 10;
+    -fx-background-radius: 5;
+}
+
+.nav-bar {
+    -fx-background-color: #FFFFFF;
+}
+
+.footer-bar {
+    -fx-background-color: #FFFFFF;
+}
+
+.footer-bar .label {
+    -fx-text-fill: black;
+}
+
+.active-button {
+    -fx-border-color: #00A651;
+    -fx-border-width: 2;
+    -fx-background-color: #e0f7e9;
+    -fx-text-fill: black;
+}
+
+.input-dark-aware {
+    -fx-background-color: #f0f0f0;
+    -fx-text-fill: black;
+}
+
+.input-dark-aware {
+    -fx-background-color: #eeeeee;
+    -fx-text-fill: black;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 4;
+    -fx-padding: 6 8;
+    -fx-font-size: 13px;
 }

@@ -11,7 +11,7 @@ public class StartAdamaApp extends Application {
     public void start(Stage primaryStage) {
         try {
             // ✅ Usar ViewManager para cargar el login
-            Parent root = ViewManager.loadViewForScene("/com/adama_ui/LoginToApp.fxml");
+            Parent root = ViewManager.loadForScene("/com/adama_ui/LoginToApp.fxml");
 
             Scene scene = new Scene(root);
 

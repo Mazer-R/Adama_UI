@@ -1,99 +1,112 @@
 package com.adama_ui;
 
-import com.adama_ui.style.AppTheme;
+import com.adama_ui.auth.SessionManager;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-
-import java.io.IOException;
 
 public class ProfileViewController {
 
     @FXML private StackPane contentArea;
     @FXML private VBox profileMenu;
-
     @FXML private Button btnOrder;
     @FXML private Button btnTracking;
     @FXML private Button btnManage;
     @FXML private Button btnHistory;
 
-    @FXML
+    private static String currentSubview = null;
+
     public void initialize() {
+        boolean isManagerOrAdmin = SessionManager.getInstance().isAdminOrManager();
+
         if (btnOrder != null) {
             btnOrder.setOnAction(event -> {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/adama_ui/OrderView.fxml"));
-                    Node view = loader.load();
-                    OrderViewController controller = loader.getController();
-                    controller.loadInStockProducts();
-                    contentArea.getChildren().setAll(view);
-                    AppTheme.applyThemeTo(contentArea);
+                ViewManager.loadInto("/com/adama_ui/OrderView.fxml", contentArea, () -> {
+                    currentSubview = "ORDER";
+                    OrderViewController controller = (OrderViewController) ViewManager.getCurrentController();
+                    if (controller != null) {
+                        controller.loadInStockProducts();
+                    }
                     highlightMenuButton(btnOrder);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                });
             });
         }
 
         if (btnTracking != null) {
             btnTracking.setOnAction(event -> {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/adama_ui/TrackingView.fxml"));
-                    Node view = loader.load();
-                    contentArea.getChildren().setAll(view);
-                    AppTheme.applyThemeTo(contentArea);
+                ViewManager.loadInto("/com/adama_ui/TrackingView.fxml", contentArea, () -> {
+                    currentSubview = "TRACKING";
                     highlightMenuButton(btnTracking);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                });
             });
         }
 
         if (btnManage != null) {
-            btnManage.setOnAction(event -> {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/adama_ui/ManageOrdersView.fxml"));
-                    Node view = loader.load();
-                    contentArea.getChildren().setAll(view);
-                    AppTheme.applyThemeTo(contentArea);
-                    highlightMenuButton(btnManage);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
+            btnManage.setVisible(isManagerOrAdmin);
+            btnManage.setManaged(isManagerOrAdmin);
+
+            if (isManagerOrAdmin) {
+                btnManage.setOnAction(event -> {
+                    ViewManager.loadInto("/com/adama_ui/ManageOrdersView.fxml", contentArea, () -> {
+                        currentSubview = "MANAGE";
+                        highlightMenuButton(btnManage);
+                    });
+                });
+            }
         }
 
         if (btnHistory != null) {
-            btnHistory.setOnAction(event -> {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/adama_ui/HistoryView.fxml")); // ✅ Corregido
-                    Node view = loader.load();
-                    contentArea.getChildren().setAll(view);
-                    AppTheme.applyThemeTo(contentArea);
-                    highlightMenuButton(btnHistory);
-                } catch (IOException e) {
-                    e.printStackTrace();
+            btnHistory.setVisible(isManagerOrAdmin);
+            btnHistory.setManaged(isManagerOrAdmin);
+
+            if (isManagerOrAdmin) {
+                btnHistory.setOnAction(event -> {
+                    ViewManager.loadInto("/com/adama_ui/HistoryView.fxml", contentArea, () -> {
+                        currentSubview = "HISTORY";
+                        highlightMenuButton(btnHistory);
+                    });
+                });
+            }
+        }
+
+        // Cargar la subvista que corresponda
+        if (currentSubview == null) {
+            btnOrder.fire(); // por defecto
+        } else {
+            switch (currentSubview) {
+                case "ORDER" -> btnOrder.fire();
+                case "TRACKING" -> btnTracking.fire();
+                case "MANAGE" -> {
+                    if (btnManage.isVisible()) btnManage.fire();
                 }
-            });
+                case "HISTORY" -> {
+                    if (btnHistory.isVisible()) btnHistory.fire();
+                }
+            }
         }
     }
 
     private void highlightMenuButton(Button activeButton) {
         for (var node : profileMenu.getChildren()) {
             if (node instanceof Button button) {
-                button.setStyle("");
+                button.getStyleClass().remove("active-button");
             }
         }
-        if (activeButton != null) {
-            activeButton.setStyle("-fx-border-color: green; -fx-border-width: 2;");
+        if (activeButton != null && !activeButton.getStyleClass().contains("active-button")) {
+            activeButton.getStyleClass().add("active-button");
         }
     }
 
     @FXML
     private void onBack() {
-        ViewManager.loadView("/com/adama_ui/HomeView.fxml");
+        ViewManager.load("/com/adama_ui/HomeView.fxml");
+        currentSubview = null;
+    }
+
+    public void loadManageOrders() {
+        if (btnManage != null && btnManage.isVisible()) {
+            btnManage.fire();
+        }
     }
 }

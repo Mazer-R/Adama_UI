@@ -140,7 +140,7 @@ public class ProductDetailController {
 
                     if (resp.statusCode() == 200 || resp.statusCode() == 204) {
                         showAlert("Producto eliminado con éxito.", AlertType.INFORMATION);
-                        ViewManager.loadView("/com/adama_ui/ProductManagement.fxml");
+                        ViewManager.load("/com/adama_ui/ProductManagement.fxml");
                     } else {
                         showAlert("Error al eliminar el producto.", AlertType.ERROR);
                     }
@@ -155,7 +155,7 @@ public class ProductDetailController {
 
     @FXML
     private void onBack() {
-        ViewManager.loadView("/com/adama_ui/ProductManagement.fxml");
+        ViewManager.load("/com/adama_ui/ProductManagement.fxml");
     }
 
     private void setEditable(boolean editable) {

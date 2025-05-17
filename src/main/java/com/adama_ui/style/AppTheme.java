@@ -27,7 +27,7 @@ public class AppTheme {
 
     public static void setDarkMode(boolean dark) {
         darkMode = dark;
-        prefs.putBoolean(THEME_KEY, dark); // 🔐 guardamos el valor
+        prefs.putBoolean(THEME_KEY, dark); // guardar estado en preferencias
     }
 
     public static String getThemePath() {
@@ -35,25 +35,24 @@ public class AppTheme {
     }
 
     public static void applyTheme(Scene scene) {
-        scene.getStylesheets().clear();
-        scene.getStylesheets().add(AppTheme.class.getResource(getThemePath()).toExternalForm());
+        String theme = AppTheme.class.getResource(getThemePath()).toExternalForm();
+        scene.getStylesheets().removeIf(s -> s.contains("dark-theme.css") || s.contains("light-theme.css"));
+        if (!scene.getStylesheets().contains(theme)) {
+            scene.getStylesheets().add(theme);
+        }
     }
 
     public static void applyThemeTo(Node node) {
         if (node == null) return;
 
         if (node.getScene() != null) {
-            // ✅ Aplica el CSS global a la escena SIN borrarlo antes
-            var stylesheets = node.getScene().getStylesheets();
-            String theme = AppTheme.class.getResource(getThemePath()).toExternalForm();
-            if (!stylesheets.contains(theme)) {
-                stylesheets.add(theme);
-            }
+            applyTheme(node.getScene());
         } else if (node instanceof Parent parent) {
-            // Para nodos independientes aún no añadidos a escena
-            parent.getStylesheets().clear();
-            parent.getStylesheets().add(AppTheme.class.getResource(getThemePath()).toExternalForm());
+            String theme = AppTheme.class.getResource(getThemePath()).toExternalForm();
+            parent.getStylesheets().removeIf(s -> s.contains("dark-theme.css") || s.contains("light-theme.css"));
+            if (!parent.getStylesheets().contains(theme)) {
+                parent.getStylesheets().add(theme);
+            }
         }
     }
-
 }

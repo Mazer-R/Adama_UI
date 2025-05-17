@@ -11,7 +11,7 @@ public class SessionManager {
     private String role;
     private String managerId;
     private String managerUsername;
-    private String username; // ✅ NUEVO
+    private String username;
 
     private SessionManager() {}
 
@@ -29,19 +29,16 @@ public class SessionManager {
 
             this.authToken = rootNode.path("token").asText();
             this.userId = rootNode.path("userId").asText(null);
-            this.role = rootNode.path("role").asText(null);
+
+            JsonNode roleNode = rootNode.path("role");
+            this.role = roleNode.isArray() ? roleNode.get(0).asText() : roleNode.asText(null);
+
             this.managerId = rootNode.path("managerId").asText(null);
             this.managerUsername = rootNode.path("managerUsername").asText(null);
-            this.username = rootNode.path("username").asText(null); // ✅ Extrae el username del token
-
-            System.out.println("🔐 Token recibido: " + this.authToken);
-            System.out.println("👤 userId extraído: " + this.userId);
-            System.out.println("🎭 Rol extraído: " + this.role);
-            System.out.println("🧑 Username: " + this.username);
-            System.out.println("🧑‍💼 ManagerUsername extraído: " + this.managerUsername);
+            this.username = rootNode.path("username").asText(null);
 
         } catch (Exception e) {
-            System.err.println("❌ Error al procesar el token JSON:");
+            System.err.println("Error al procesar el token JSON:");
             e.printStackTrace();
         }
     }
@@ -50,26 +47,18 @@ public class SessionManager {
         this.userId = userId;
         this.role = role;
         this.username = username;
-
-        System.out.println("📌 Datos de sesión establecidos manualmente:");
-        System.out.println("👤 userId: " + userId);
-        System.out.println("🎭 role: " + role);
-        System.out.println("🧑 username: " + username);
     }
 
     public void setManagerId(String managerId) {
         this.managerId = managerId;
-        System.out.println("📌 Manager ID: " + managerId);
     }
 
     public void setManagerUsername(String managerUsername) {
         this.managerUsername = managerUsername;
-        System.out.println("📌 Manager username: " + managerUsername);
     }
 
     public void setUsername(String username) {
         this.username = username;
-        System.out.println("📌 Username: " + username);
     }
 
     public String getAuthToken() {
@@ -105,7 +94,7 @@ public class SessionManager {
     }
 
     public boolean isAdminOrManager() {
-        return "ADMIN".equalsIgnoreCase(role) || "MANAGER".equalsIgnoreCase(role);
+        return role != null && (role.contains("ROLE_ADMIN") || role.contains("ROLE_MANAGER"));
     }
 
     public void clearSession() {
@@ -115,6 +104,6 @@ public class SessionManager {
         this.managerId = null;
         this.managerUsername = null;
         this.username = null;
-        System.out.println("🔓 Sesión limpiada correctamente.");
+        System.out.println("Sesión limpiada correctamente.");
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -9,9 +10,14 @@
             fx:id="rootPane"
             styleClass="root-pane">
 
-<center>
-    <ListView fx:id="listViewSolicitudes"
-              VBox.vgrow="ALWAYS"
-              styleClass="styled-list"/>
-</center>
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <ListView fx:id="listViewSolicitudes"
+                      styleClass="styled-list"
+                      VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </center>
 </BorderPane>

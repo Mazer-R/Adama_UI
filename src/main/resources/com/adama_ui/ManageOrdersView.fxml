@@ -10,8 +10,16 @@
             styleClass="root-pane">
 
     <center>
-        <ListView fx:id="listViewManage"
-                  VBox.vgrow="ALWAYS"
-                  styleClass="styled-list"/>
+        <VBox spacing="10" alignment="CENTER">
+            <ListView fx:id="listViewManage"
+                      VBox.vgrow="ALWAYS"
+                      styleClass="styled-list"/>
+
+            <Label fx:id="emptyLabel"
+                   text="No hay solicitudes pendientes de validación."
+                   visible="false"
+                   managed="false"
+                   styleClass="empty-message"/>
+        </VBox>
     </center>
 </BorderPane>

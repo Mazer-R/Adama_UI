@@ -75,7 +75,7 @@ public class LoginToAppController {
                 }
 
                 SessionManager.getInstance().setUserData(userId, role, username);
-                System.out.println("📌 Manager ID: " + managerId); // Si lo necesitas, puedes almacenarlo
+
 
                 openMainScreen(event);
             } else {

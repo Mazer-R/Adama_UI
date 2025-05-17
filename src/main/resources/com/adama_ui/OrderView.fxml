@@ -4,39 +4,43 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<!-- Se eliminan los estilos inline y se aplica class para AppTheme -->
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.adama_ui.OrderViewController"
       spacing="15"
       alignment="TOP_LEFT"
-      styleClass="root-pane">
+      styleClass="root-pane"
+      VBox.vgrow="ALWAYS">
 
     <padding>
         <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
     </padding>
 
     <!-- Filtros -->
-    <Label text="Search available products by:" styleClass="section-title" />
+    <Label text="Buscar productos disponibles por:" styleClass="section-title" />
 
-    <HBox spacing="10">
+    <HBox spacing="10" alignment="CENTER_LEFT">
         <ComboBox fx:id="comboProductType"
-                  promptText="Product type"
+                  promptText="Tipo de producto"
                   prefWidth="250"
                   styleClass="input-combo"/>
 
         <ComboBox fx:id="comboBrand"
-                  promptText="Brand"
+                  promptText="Marca del producto"
                   prefWidth="250"
                   styleClass="input-combo"/>
 
-        <Button text="SEARCH"
+        <Button text="BUSCAR"
                 onAction="#onSearchByFilters"
-                styleClass="action-button"/>
+                styleClass="action-button"
+                prefHeight="32"
+                minHeight="32"
+                maxHeight="32"
+                prefWidth="100"/>
     </HBox>
 
     <!-- Lista de productos -->
     <ListView fx:id="listViewProducts"
-              prefHeight="400"
+              VBox.vgrow="ALWAYS"
               styleClass="styled-list"/>
 </VBox>

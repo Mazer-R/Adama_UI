@@ -1,6 +1,11 @@
 package com.adama_ui;
 
 import com.adama_ui.auth.SessionManager;
+import com.adama_ui.util.EnumMapper;
+import com.adama_ui.util.LabeledValue;
+import com.adama_ui.util.OrderStatusLocal;
+import com.adama_ui.util.ProductType;
+import com.adama_ui.style.AppTheme;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -15,9 +20,9 @@ import java.util.stream.Stream;
 public class HistoryController {
 
     @FXML private ListView<Order> listViewOrders;
-    @FXML private ComboBox<String> filterStatus;
-    @FXML private ComboBox<String> filterType;
-    @FXML private ComboBox<String> filterBrand;
+    @FXML private ComboBox<LabeledValue> filterStatus;
+    @FXML private ComboBox<LabeledValue> filterType;
+    @FXML private ComboBox<LabeledValue> filterBrand;
     @FXML private TextField filterUser;
 
     private final OrderService orderService = new OrderService();
@@ -28,6 +33,9 @@ public class HistoryController {
 
     @FXML
     public void initialize() {
+        listViewOrders.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) AppTheme.applyTheme(newScene);
+        });
         loadAllOrders();
     }
 
@@ -49,7 +57,7 @@ public class HistoryController {
                         order.setUsername(username);
 
                     } catch (Exception e) {
-                        System.err.println("⚠️ Error al enriquecer orden ID: " + order.getId());
+                        System.err.println("Error al enriquecer orden ID: " + order.getId());
                     }
                 }
 
@@ -61,8 +69,8 @@ public class HistoryController {
                 e.printStackTrace();
                 Platform.runLater(() -> {
                     listViewOrders.getItems().clear();
-                    Label error = new Label("⚠ Error loading orders.");
-                    error.setStyle("-fx-text-fill: red; -fx-padding: 10;");
+                    Label error = new Label("Error al cargar las órdenes.");
+                    error.getStyleClass().add("estado-rechazada");
                     listViewOrders.setPlaceholder(error);
                 });
             }
@@ -85,35 +93,47 @@ public class HistoryController {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toCollection(TreeSet::new));
 
-        // Insertar opción por defecto (sin filtro)
-        List<String> statusList = new ArrayList<>();
-        statusList.add(null);
-        statusList.addAll(statuses);
+        List<LabeledValue> statusItems = new ArrayList<>();
+        statusItems.add(null);
+        for (String status : statuses) {
+            OrderStatusLocal mapped = EnumMapper.fromOrderStatusString(status);
+            String label = mapped != null ? mapped.getLabel() : status;
+            statusItems.add(new LabeledValue(status, label));
+        }
 
-        List<String> typeList = new ArrayList<>();
-        typeList.add(null);
-        typeList.addAll(types);
+        List<LabeledValue> typeItems = new ArrayList<>();
+        typeItems.add(null);
+        for (String type : types) {
+            ProductType mapped = EnumMapper.fromProductTypeString(type);
+            String label = mapped != null ? mapped.getLabel() : type;
+            typeItems.add(new LabeledValue(type, label));
+        }
 
-        List<String> brandList = new ArrayList<>();
-        brandList.add(null);
-        brandList.addAll(brands);
+        List<LabeledValue> brandItems = new ArrayList<>();
+        brandItems.add(null);
+        for (String brand : brands) {
+            brandItems.add(new LabeledValue(brand, brand));
+        }
 
-        filterStatus.getItems().setAll(statusList);
+        filterStatus.getItems().setAll(statusItems);
+        filterType.getItems().setAll(typeItems);
+        filterBrand.getItems().setAll(brandItems);
+
         filterStatus.setPromptText("Todos los estados");
-
-        filterType.getItems().setAll(typeList);
         filterType.setPromptText("Todos los tipos");
-
-        filterBrand.getItems().setAll(brandList);
         filterBrand.setPromptText("Todas las marcas");
     }
 
     @FXML
     private void applyFilters() {
-        String status = filterStatus.getValue();
-        String type = filterType.getValue();
-        String brand = filterBrand.getValue();
+        LabeledValue selectedStatus = filterStatus.getValue();
+        LabeledValue selectedType = filterType.getValue();
+        LabeledValue selectedBrand = filterBrand.getValue();
         String user = filterUser.getText() != null ? filterUser.getText().trim().toLowerCase() : "";
+
+        String status = selectedStatus != null ? selectedStatus.value() : null;
+        String type = selectedType != null ? selectedType.value() : null;
+        String brand = selectedBrand != null ? selectedBrand.value() : null;
 
         List<Order> filtered = allOrders.stream()
                 .filter(o -> status == null || status.equalsIgnoreCase(o.getStatus()))
@@ -137,13 +157,17 @@ public class HistoryController {
                     HBox cell = new HBox(10);
                     cell.getStyleClass().add("custom-list-cell");
 
-                    Label name = new Label("Product: " + safe(item.getProductName()));
-                    Label type = new Label("Type: " + safe(item.getProductType()));
-                    Label brand = new Label("Brand: " + safe(item.getBrand()));
-                    Label user = new Label("User: " + safe(item.getUsername()));
+                    Label name = new Label("Producto: " + safe(item.getProductName()));
+                    name.getStyleClass().add("product-name");
 
-                    Stream.of(name, type, brand, user)
-                            .forEach(label -> label.setStyle("-fx-text-fill: white;"));
+                    Label type = new Label("Tipo: " + safeLabel(item.getProductType(), ProductType.values()));
+                    type.getStyleClass().add("product-info");
+
+                    Label brand = new Label("Marca: " + safe(item.getBrand()));
+                    brand.getStyleClass().add("product-info");
+
+                    Label user = new Label("Usuario: " + safe(item.getUsername()));
+                    user.getStyleClass().add("product-info");
 
                     Region spacer = new Region();
                     HBox.setHgrow(spacer, Priority.ALWAYS);
@@ -157,41 +181,37 @@ public class HistoryController {
         });
     }
 
-    private HBox buildStatusBox(String status) {
-        String label = switch (status.toUpperCase()) {
-            case "ORDERED" -> "Solicitada";
-            case "VALIDATED" -> "Aceptada";
-            case "FULFILLED" -> "Entregada";
-            case "DENIED" -> "Rechazada";
-            default -> "Desconocida";
-        };
+    private HBox buildStatusBox(String statusStr) {
+        OrderStatusLocal status = EnumMapper.fromOrderStatusString(statusStr);
 
-        String color = switch (status.toUpperCase()) {
-            case "ORDERED" -> "#f1c40f";
-            case "VALIDATED" -> "#2ecc71";
-            case "FULFILLED" -> "#bdc3c7";
-            case "DENIED" -> "#e74c3c";
-            default -> "#ffffff";
-        };
+        String label = status != null ? status.getLabel() : "Desconocido";
+        String color = status != null ? status.getColorHex() : "#888888";
 
         Label dot = new Label();
         dot.setPrefSize(12, 12);
         dot.setStyle("-fx-background-radius: 6em; -fx-background-color: " + color + ";");
 
         Label text = new Label(" " + label);
-        text.setStyle("-fx-text-fill: white;");
+        text.getStyleClass().add("status-label");
 
         HBox box = new HBox(5, dot, text);
         box.setPrefWidth(150);
         return box;
     }
 
-    @FXML
-    private void onBack() {
-        ViewManager.loadView("/com/adama_ui/ProfileView.fxml");
+    private String safe(String val) {
+        return val != null ? val : "(no disponible)";
     }
 
-    private String safe(String val) {
-        return val != null ? val : "(not available)";
+    private String safeLabel(String enumValue, ProductType[] values) {
+        for (ProductType p : values) {
+            if (p.name().equalsIgnoreCase(enumValue)) return p.getLabel();
+        }
+        return "(tipo desconocido)";
+    }
+
+    @FXML
+    private void onBack() {
+        ViewManager.load("/com/adama_ui/ProfileView.fxml");
     }
 }

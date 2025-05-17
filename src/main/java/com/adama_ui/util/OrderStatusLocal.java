@@ -1,7 +1,7 @@
 package com.adama_ui.util;
 
 public enum OrderStatusLocal {
-    NEW("Nueva", "#f1c40f"),         // amarillo
+    NEW("Pedido", "#f1c40f"),         // amarillo
     ACCEPTED("Aceptada", "#2ecc71"),  // verde
     REJECTED("Rechazada", "#e74c3c"),  // rojo
     DELIVERED("Entregada", "#bdc3c7"); // gris

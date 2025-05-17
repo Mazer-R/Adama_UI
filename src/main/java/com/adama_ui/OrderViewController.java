@@ -1,20 +1,19 @@
 package com.adama_ui;
 
 import com.adama_ui.auth.SessionManager;
-import com.adama_ui.OrderRequest;
-import com.adama_ui.OrderService;
 import com.adama_ui.util.Brands;
 import com.adama_ui.util.ProductStatus;
 import com.adama_ui.util.ProductType;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 
 import java.util.List;
 
-public class OrderViewController {
+public class OrderViewController implements Reloadable {
 
     @FXML private ComboBox<ProductType> comboProductType;
     @FXML private ComboBox<Brands> comboBrand;
@@ -27,11 +26,38 @@ public class OrderViewController {
     public void initialize() {
         comboProductType.getItems().add(null);
         comboProductType.getItems().addAll(ProductType.values());
-        comboProductType.setPromptText("Product type");
+        comboProductType.setValue(null);
+        comboProductType.setCellFactory(cb -> new ListCell<>() {
+            @Override
+            protected void updateItem(ProductType item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? "Tipo de producto" : item.getLabel());
+            }
+        });
+
+        comboProductType.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(ProductType item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? "Tipo de producto" : item.getLabel());
+            }
+        });
 
         comboBrand.getItems().add(null);
         comboBrand.getItems().addAll(Brands.values());
-        comboBrand.setPromptText("Brand");
+        comboBrand.setPromptText("Marca del producto");
+
+        comboProductType.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                onSearchByFilters();
+            }
+        });
+
+        comboBrand.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                onSearchByFilters();
+            }
+        });
 
         listViewProducts.setVisible(false);
 
@@ -46,16 +72,16 @@ public class OrderViewController {
                     cell.getStyleClass().add("custom-list-cell");
 
                     Label name = new Label(item.getName());
-                    name.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
                     name.setPrefWidth(200);
+                    name.getStyleClass().add("product-name");
 
                     Label type = new Label(item.getType());
-                    type.setStyle("-fx-text-fill: white;");
                     type.setPrefWidth(100);
+                    type.getStyleClass().add("product-info");
 
                     Label brand = new Label(item.getBrand());
-                    brand.setStyle("-fx-text-fill: white;");
                     brand.setPrefWidth(100);
+                    brand.getStyleClass().add("product-info");
 
                     ProductStatus statusEnum = item.getStatus();
                     String statusLabelText = statusEnum != null ? statusEnum.getLabel() : "Desconocido";
@@ -66,7 +92,7 @@ public class OrderViewController {
                     statusDot.setStyle("-fx-background-radius: 6em; -fx-background-color: " + color + ";");
 
                     Label statusLabel = new Label(" " + statusLabelText);
-                    statusLabel.setStyle("-fx-text-fill: white;");
+                    statusLabel.getStyleClass().add("status-label");
 
                     HBox statusBox = new HBox(5, statusDot, statusLabel);
                     statusBox.setPrefWidth(150);
@@ -75,8 +101,8 @@ public class OrderViewController {
                     HBox.setHgrow(spacer, Priority.ALWAYS);
 
                     Button requestButton = new Button("Solicitar");
-                    requestButton.setStyle("-fx-background-color: #28a745; -fx-text-fill: white;");
                     requestButton.setOnAction(e -> saveRequestToBackend(item));
+                    requestButton.getStyleClass().add("action-button");
 
                     cell.getChildren().addAll(name, type, brand, statusBox, spacer, requestButton);
                     setGraphic(cell);
@@ -198,5 +224,14 @@ public class OrderViewController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    @Override
+    public void onReload() {
+        System.out.println("🔄 onReload() ejecutado en OrderViewController");
+        javafx.application.Platform.runLater(() -> {
+            System.out.println("✅ Ejecutando loadInStockProducts()");
+            loadInStockProducts();
+        });
     }
 }

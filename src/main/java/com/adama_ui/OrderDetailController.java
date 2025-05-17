@@ -1,12 +1,15 @@
 package com.adama_ui;
 
+import com.adama_ui.style.AppTheme;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 
 public class OrderDetailController {
 
+    @FXML private AnchorPane rootPane;
     @FXML private TextField fieldProductType;
     @FXML private TextField fieldBrand;
     @FXML private TextField fieldUsername;
@@ -21,6 +24,8 @@ public class OrderDetailController {
 
     @FXML
     public void initialize() {
+        AppTheme.applyThemeTo(rootPane); // Aplica tema dinámico
+
         if (currentOrder != null) {
             fieldProductType.setText(safe(currentOrder.getProductType()));
             fieldBrand.setText(safe(currentOrder.getBrand()));
@@ -35,7 +40,7 @@ public class OrderDetailController {
 
     @FXML
     private void onBack() {
-        ViewManager.loadView("/com/adama_ui/ManageOrdersView.fxml");
+        ViewManager.loadProfileAndManageOrders();
     }
 
     @FXML
@@ -44,11 +49,11 @@ public class OrderDetailController {
 
         try {
             orderService.validateOrder(currentOrder.getId());
-            showAlert("Orden aceptada", "La orden se ha validado correctamente.");
-            onBack();
+            showInfoAlert("Orden aceptada", "La orden se ha validado correctamente.");
+            onBack(); // Volver a Profile + Manage
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Error", "No se pudo validar la orden.");
+            showErrorAlert("Error", "No se pudo validar la orden.");
         }
     }
 
@@ -58,16 +63,24 @@ public class OrderDetailController {
 
         try {
             orderService.denyOrder(currentOrder.getId());
-            showAlert("Orden rechazada", "La orden ha sido rechazada correctamente.");
-            onBack();
+            showInfoAlert("Orden rechazada", "La orden ha sido rechazada correctamente.");
+            onBack(); // Volver a Profile + Manage
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Error", "No se pudo rechazar la orden.");
+            showErrorAlert("Error", "No se pudo rechazar la orden.");
         }
     }
 
-    private void showAlert(String title, String message) {
+    private void showInfoAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void showErrorAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);

@@ -27,7 +27,11 @@ public class TrackingController {
 
     @FXML
     public void initialize() {
-        AppTheme.applyThemeTo(rootPane);
+        rootPane.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                AppTheme.applyTheme(newScene);
+            }
+        });
         loadOrders();
     }
 
@@ -38,10 +42,10 @@ public class TrackingController {
                 String userId = session.getUserId();
 
                 if (userId == null || userId.isBlank()) {
-                    throw new RuntimeException("❌ No se puede recuperar el userId desde la sesión.");
+                    Platform.runLater(() -> showError("No se ha podido identificar tu sesión. Cierra y vuelve a iniciar sesión."));
+                    return;
                 }
 
-                System.out.println("🔎 Cargando órdenes del usuario ID = " + userId);
                 List<Order> orders = orderService.getOrdersByUser(userId);
 
                 for (Order order : orders) {
@@ -53,7 +57,7 @@ public class TrackingController {
                             order.setBrand(product.getBrand());
                         }
                     } catch (Exception e) {
-                        System.err.println("⚠️ No se pudo obtener producto con ID: " + order.getProductId());
+                        System.err.println("No se pudo obtener producto con ID: " + order.getProductId());
                     }
                 }
 
@@ -70,15 +74,15 @@ public class TrackingController {
                                 cell.getStyleClass().add("custom-list-cell");
 
                                 Label name = new Label(safe(item.getProductName()));
-                                name.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
+                                name.getStyleClass().add("product-name");
                                 name.setPrefWidth(200);
 
                                 Label type = new Label(safe(item.getProductType()));
-                                type.setStyle("-fx-text-fill: white;");
+                                type.getStyleClass().add("product-info");
                                 type.setPrefWidth(100);
 
                                 Label brand = new Label(safe(item.getBrand()));
-                                brand.setStyle("-fx-text-fill: white;");
+                                brand.getStyleClass().add("product-info");
                                 brand.setPrefWidth(100);
 
                                 Region spacer = new Region();
@@ -95,14 +99,17 @@ public class TrackingController {
 
             } catch (Exception e) {
                 e.printStackTrace();
-                Platform.runLater(() -> {
-                    listViewSolicitudes.getItems().clear();
-                    Label error = new Label("⚠ Error al cargar las órdenes. Revisa la consola.");
-                    error.setStyle("-fx-text-fill: red; -fx-padding: 10;");
-                    listViewSolicitudes.setPlaceholder(error);
-                });
+                Platform.runLater(() -> showError("Ocurrió un error al cargar tus solicitudes. Intenta más tarde."));
             }
         }).start();
+    }
+
+    private void showError(String message) {
+        listViewSolicitudes.getItems().clear();
+        Label error = new Label(message);
+        error.getStyleClass().add("product-name"); // texto blanco en fondo oscuro
+        error.setStyle("-fx-text-fill: red; -fx-padding: 10;");
+        listViewSolicitudes.setPlaceholder(error);
     }
 
     private HBox buildStatusBox(String status) {
@@ -127,7 +134,7 @@ public class TrackingController {
         dot.setStyle("-fx-background-radius: 6em; -fx-background-color: " + color + ";");
 
         Label text = new Label(" " + label);
-        text.setStyle("-fx-text-fill: white;");
+        text.getStyleClass().add("status-label");
 
         HBox box = new HBox(5, dot, text);
         box.setPrefWidth(150);

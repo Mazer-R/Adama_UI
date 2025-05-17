@@ -15,8 +15,6 @@ public class Order {
     private String productType;
     private String brand;
     private String username;
-
-    // ✅ Nuevo campo
     private String productName;
 
     // ====== Getters y Setters ======

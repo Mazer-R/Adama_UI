@@ -25,9 +25,12 @@ public class ManageOrdersController {
     @FXML
     private ListView<Order> listViewManage;
 
+    @FXML
+    private Label emptyLabel;
+
     private final OrderService orderService = new OrderService();
     private final ProductService productService = new ProductService();
-    private final UserService userService = new UserService(); // ✅ nuevo servicio para obtener usernames
+    private final UserService userService = new UserService();
 
     @FXML
     public void initialize() {
@@ -35,7 +38,7 @@ public class ManageOrdersController {
         loadOrderedRequests();
     }
 
-    private void loadOrderedRequests() {
+    public void loadOrderedRequests() {
         new Thread(() -> {
             try {
                 List<Order> orders = orderService.getOrdersByStatus("ordered");
@@ -51,7 +54,7 @@ public class ManageOrdersController {
                             order.setBrand(product.getBrand());
                         }
                     } catch (Exception e) {
-                        System.err.println("⚠️ No se pudo obtener producto con ID: " + order.getProductId());
+                        System.err.println("No se pudo obtener producto con ID: " + order.getProductId());
                     }
 
                     // Obtener username a partir de userId
@@ -65,65 +68,73 @@ public class ManageOrdersController {
                             userIdToUsername.put(userId, username);
                         }
                     } catch (Exception e) {
-                        System.err.println("⚠️ No se pudo obtener usuario con ID: " + order.getUserId() + " → " + e.getMessage());
+                        System.err.println("No se pudo obtener usuario con ID: " + order.getUserId() + " → " + e.getMessage());
                         order.setUsername("Desconocido");
                     }
                 }
 
                 Platform.runLater(() -> {
-                    listViewManage.getItems().setAll(orders);
-                    listViewManage.setCellFactory(list -> new ListCell<>() {
-                        @Override
-                        protected void updateItem(Order item, boolean empty) {
-                            super.updateItem(item, empty);
-                            if (empty || item == null) {
-                                setGraphic(null);
-                            } else {
-                                HBox cell = new HBox(10);
-                                cell.getStyleClass().add("custom-list-cell");
+                    if (orders == null || orders.isEmpty()) {
+                        listViewManage.getItems().clear();
+                        emptyLabel.setVisible(true);
+                        emptyLabel.setManaged(true);
+                    } else {
+                        emptyLabel.setVisible(false);
+                        emptyLabel.setManaged(false);
+                        listViewManage.getItems().setAll(orders);
+                        listViewManage.setCellFactory(list -> new ListCell<>() {
+                            @Override
+                            protected void updateItem(Order item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (empty || item == null) {
+                                    setGraphic(null);
+                                } else {
+                                    HBox cell = new HBox(10);
+                                    cell.getStyleClass().add("custom-list-cell");
 
-                                Label name = new Label(safe(item.getProductName()));
-                                name.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
-                                name.setPrefWidth(200);
+                                    Label name = new Label(safe(item.getProductName()));
+                                    name.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
+                                    name.setPrefWidth(200);
 
-                                Label type = new Label(safe(item.getProductType()));
-                                type.setStyle("-fx-text-fill: white;");
-                                type.setPrefWidth(100);
+                                    Label type = new Label(safe(item.getProductType()));
+                                    type.setStyle("-fx-text-fill: white;");
+                                    type.setPrefWidth(100);
 
-                                Label brand = new Label(safe(item.getBrand()));
-                                brand.setStyle("-fx-text-fill: white;");
-                                brand.setPrefWidth(100);
+                                    Label brand = new Label(safe(item.getBrand()));
+                                    brand.setStyle("-fx-text-fill: white;");
+                                    brand.setPrefWidth(100);
 
-                                Label user = new Label("Solicitado por: " + safe(item.getUsername()));
-                                user.setStyle("-fx-text-fill: white;");
-                                user.setPrefWidth(200);
+                                    Label user = new Label("Solicitado por: " + safe(item.getUsername()));
+                                    user.setStyle("-fx-text-fill: white;");
+                                    user.setPrefWidth(200);
 
-                                Region spacer = new Region();
-                                HBox.setHgrow(spacer, Priority.ALWAYS);
+                                    Region spacer = new Region();
+                                    HBox.setHgrow(spacer, Priority.ALWAYS);
 
-                                HBox statusBox = buildStatusBox(item.getStatus());
+                                    HBox statusBox = buildStatusBox(item.getStatus());
 
-                                Button detailButton = new Button("Detalle");
-                                detailButton.setStyle("-fx-background-color: #00A651; -fx-text-fill: white;");
-                                detailButton.setOnAction(e -> {
-                                    OrderDetailController.setCurrentOrder(item);
-                                    ViewManager.loadView("/com/adama_ui/OrderDetailView.fxml");
-                                });
+                                    Button detailButton = new Button("Detalle");
+                                    detailButton.setStyle("-fx-background-color: #00A651; -fx-text-fill: white;");
+                                    detailButton.setOnAction(e -> {
+                                        OrderDetailController.setCurrentOrder(item);
+                                        ViewManager.load("/com/adama_ui/OrderDetailView.fxml");
+                                    });
 
-                                cell.getChildren().addAll(name, type, brand, user, spacer, statusBox, detailButton);
-                                setGraphic(cell);
+                                    cell.getChildren().addAll(name, type, brand, user, spacer, statusBox, detailButton);
+                                    setGraphic(cell);
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 });
 
             } catch (Exception e) {
                 e.printStackTrace();
                 Platform.runLater(() -> {
                     listViewManage.getItems().clear();
-                    Label error = new Label("⚠ Error al cargar órdenes.");
-                    error.setStyle("-fx-text-fill: red; -fx-padding: 10;");
-                    listViewManage.setPlaceholder(error);
+                    emptyLabel.setText("Error al cargar órdenes.");
+                    emptyLabel.setVisible(true);
+                    emptyLabel.setManaged(true);
                 });
             }
         }).start();
@@ -160,5 +171,9 @@ public class ManageOrdersController {
 
     private String safe(String val) {
         return val != null ? val : "(no disponible)";
+    }
+
+    public void loadPendingOrders() {
+        loadOrderedRequests();
     }
 }

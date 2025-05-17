@@ -73,7 +73,7 @@ public class ProductManagementController {
 
                     Button viewButton = new Button("Ver detalles");
                     viewButton.setStyle("-fx-background-color: #00c000; -fx-text-fill: white;");
-                    viewButton.setOnAction(e -> ViewManager.loadView("/com/adama_ui/ProductDetail.fxml", item));
+                    viewButton.setOnAction(e -> ViewManager.loadWithProduct("/com/adama_ui/ProductDetail.fxml", item));
 
                     cell.getChildren().addAll(name, type, brand, statusBox, spacer, viewButton);
                     setGraphic(cell);
@@ -90,7 +90,7 @@ public class ProductManagementController {
         try {
             Product product = productService.getProductById(idOrTag);
             if (product != null) {
-                ViewManager.loadView("/com/adama_ui/ProductDetail.fxml", product);
+                ViewManager.loadWithProduct("/com/adama_ui/ProductDetail.fxml", product);
             } else {
                 showAlert("Sin resultados", "No se encontró un producto con ese ID o Tag.");
             }
@@ -132,7 +132,7 @@ public class ProductManagementController {
 
     @FXML
     private void onBack() {
-        ViewManager.loadView("/com/adama_ui/MainScreen.fxml");
+        ViewManager.load("/com/adama_ui/MainScreen.fxml");
     }
 
     private void showAlert(String title, String message) {

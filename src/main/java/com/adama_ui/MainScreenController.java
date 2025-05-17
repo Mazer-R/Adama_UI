@@ -2,10 +2,7 @@ package com.adama_ui;
 
 import com.adama_ui.style.AppTheme;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,9 +21,13 @@ public class MainScreenController {
 
     @FXML
     public void initialize() {
+        // Establecer contenedor principal en ViewManager
         ViewManager.setMainContainer(mainContainer);
-        ViewManager.loadView("/com/adama_ui/HomeView.fxml");
 
+        // Cargar vista inicial
+        ViewManager.load("/com/adama_ui/HomeView.fxml");
+
+        // Escuchar el cambio de escena para aplicar tema
         mainContainer.sceneProperty().addListener((obs, oldScene, newScene) -> {
             if (newScene != null) {
                 Stage stage = (Stage) newScene.getWindow();
@@ -34,26 +35,21 @@ public class MainScreenController {
                     stage.setUserData(this);
                     stage.setMaximized(true);
                 }
-                AppTheme.applyTheme(newScene); // ✅ Usa AppTheme
+                AppTheme.applyTheme(newScene); // Aplica el tema global a la escena
             }
         });
 
+        // Estilo del botón toggle
         if (!themeToggleButton.getStyleClass().contains("theme-toggle")) {
             themeToggleButton.getStyleClass().add("theme-toggle");
         }
 
-        // ✅ Asegura que el botón está sincronizado con el estado actual
         updateThemeToggleIcon();
     }
 
-    private void applyThemeToScene(Scene scene) {
-        if (scene != null) {
-            scene.getStylesheets().clear();
-            scene.getStylesheets().add(AppTheme.class.getResource(AppTheme.getThemePath()).toExternalForm());
-            updateThemeToggleIcon();
-        }
-    }
-
+    /**
+     * Actualiza el icono del botón según el modo actual.
+     */
     private void updateThemeToggleIcon() {
         boolean isDark = AppTheme.isDarkMode();
         Image icon = isDark ? moonIcon : sunIcon;
@@ -61,14 +57,19 @@ public class MainScreenController {
         iconView.setFitWidth(16);
         iconView.setFitHeight(16);
         themeToggleButton.setGraphic(iconView);
-        themeToggleButton.setSelected(!isDark);
+        themeToggleButton.setSelected(!isDark); // True si está en modo claro
     }
 
+    /**
+     * Cambia entre modo oscuro y claro.
+     */
     @FXML
     private void onToggleTheme() {
-        boolean nuevoModoOscuro = !AppTheme.isDarkMode();
-        AppTheme.setDarkMode(nuevoModoOscuro);
-        AppTheme.applyTheme(themeToggleButton.getScene());
+        boolean nuevoModo = !AppTheme.isDarkMode();
+        AppTheme.setDarkMode(nuevoModo);
+
+        // Aplicar tema a la vista actual y a la escena
+        ViewManager.refreshCurrentView(); // Recarga sin usar caché
         updateThemeToggleIcon();
     }
 
@@ -76,47 +77,33 @@ public class MainScreenController {
         this.authToken = token;
     }
 
-    // Carga vistas en el centro
-    @FXML private void loadHomeView() {
-        clearLeftPane();
-        ViewManager.loadView("/com/adama_ui/HomeView.fxml");
+    // Métodos para navegación entre vistas
+    @FXML
+    private void loadHomeView() {
+        ViewManager.load("/com/adama_ui/HomeView.fxml");
     }
 
     @FXML
     private void loadProfileView() {
-        clearLeftPane(); // ← Asegura que no quede el menú anterior cargado
-        ViewManager.loadView("/com/adama_ui/ProfileView.fxml");
+        ViewManager.load("/com/adama_ui/ProfileView.fxml");
     }
 
-    @FXML private void loadSettingsView() {
-        clearLeftPane();
-        ViewManager.loadView("/com/adama_ui/SettingsView.fxml");
+    @FXML
+    private void loadSettingsView() {
+        ViewManager.load("/com/adama_ui/SettingsView.fxml");
     }
 
-    @FXML private void loadMessagesView() {
-        clearLeftPane();
-        ViewManager.loadView("/com/adama_ui/MessagesMainView.fxml");
+    @FXML
+    private void loadMessagesView() {
+        ViewManager.load("/com/adama_ui/MessagesMainView.fxml");
     }
 
-    @FXML public void loadWarehouseView() {
-        clearLeftPane();
-        ViewManager.loadView("/com/adama_ui/ProductManagement.fxml");
+    @FXML
+    public void loadWarehouseView() {
+        ViewManager.load("/com/adama_ui/ProductManagement.fxml");
     }
 
     public void setCenterContent(Node node) {
         mainContainer.setCenter(node);
-    }
-
-    private void loadLeftPane(String fxmlPath) {
-        try {
-            Parent leftContent = FXMLLoader.load(getClass().getResource(fxmlPath));
-            mainContainer.setLeft(leftContent);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void clearLeftPane() {
-        mainContainer.setLeft(null);
     }
 }
