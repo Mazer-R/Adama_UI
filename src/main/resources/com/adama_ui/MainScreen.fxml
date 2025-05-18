@@ -55,10 +55,6 @@
     </center>
 
     <bottom>
-        <HBox alignment="CENTER"
-              styleClass="theme-toggle">
-            <Label text="© 2025 ADAMA Project (IFP)"
-                   styleClass="theme-toggle"/>
-        </HBox>
+
     </bottom>
 </BorderPane>

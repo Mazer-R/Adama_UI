@@ -1,4 +1,3 @@
-// Adaptado para usar ComboBox<LabeledValue> correctamente
 
 package com.adama_ui.Order;
 
@@ -175,6 +174,8 @@ public class OrderViewController implements Reloadable {
                 if (listViewProducts.getItems().isEmpty()) {
                     listViewProducts.setVisible(false);
                 }
+
+                onReload();
 
             } catch (Exception e) {
                 e.printStackTrace();

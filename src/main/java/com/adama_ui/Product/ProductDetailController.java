@@ -63,17 +63,17 @@ public class ProductDetailController {
         } else {
             fieldStatus.setText("");
         }
-
+        if(currentProduct.getUserId() == null){
+            fieldUser.setText("SIN USUARIO ASIGNADO");
+        }else{
         if (SessionManager.getInstance().getRole().equals("ROLE_ADMIN")){
             try {
                 fieldUser.setText(userService.getUsernameById(currentProduct.getUserId()));
             } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+                throw new RuntimeException(e);}
         }else{
-
             fieldUser.setText(currentProduct.getUserId());
-        }
+        }}
         fieldDescription.setText(currentProduct.getDescription());
 
         setEditable(false);
@@ -175,7 +175,7 @@ public class ProductDetailController {
     }
     @FXML
     private void onBack() {
-        ViewManager.load("/com/adama_ui/Product/ProductManagement.fxml");
+        ViewManager.load("/com/adama_ui/Product/ProductMainView.fxml");
     }
 
 
