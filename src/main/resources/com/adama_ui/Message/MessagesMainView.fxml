@@ -1,58 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.geometry.Insets?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.adama_ui.Message.MessagesMainViewController"
             styleClass="root-pane">
 
+
    <left>
       <VBox fx:id="messageMenu"
-            spacing="15"
-            alignment="TOP_CENTER"
-            styleClass="side-menu"
-            prefWidth="220">
-
+            spacing="10"
+            alignment="TOP_LEFT"
+            style="-fx-background-color: #e0e0e0;">
          <padding>
-            <Insets top="20" left="10" right="10" bottom="10"/>
+            <Insets top="10" right="10" bottom="10" left="10"/>
          </padding>
 
          <Button fx:id="btnCompose"
-                 text="REDACTAR"
-                 maxWidth="180"
-                 styleClass="action-button"/>
+                 text="REDACTAR MENSAJE"
+                 maxWidth="150"/>
 
          <Button fx:id="btnInbox"
                  text="RECIBIDOS"
-                 maxWidth="180"
-                 styleClass="action-button"/>
+                 maxWidth="150"/>
 
          <Button fx:id="btnSent"
                  text="ENVIADOS"
-                 maxWidth="180"
-                 styleClass="action-button"/>
+                 maxWidth="150"/>
 
          <Button fx:id="btnHistory"
                  text="HISTÓRICO"
-                 maxWidth="180"
-                 styleClass="action-button"/>
+                 maxWidth="150"/>
       </VBox>
    </left>
 
-   <!-- Panel de contenido central -->
+
    <center>
-      <StackPane fx:id="contentArea"
-                 styleClass="root-pane"/>
+      <StackPane fx:id="contentArea"/>
    </center>
 
+
    <bottom>
-      <HBox alignment="CENTER_LEFT"
-            spacing="10"
-            styleClass="footer-bar">
+      <HBox alignment="CENTER_LEFT">
          <padding>
-            <Insets top="10" bottom="10" left="20" right="20"/>
+            <Insets top="10" right="10" bottom="10" left="10"/>
          </padding>
          <Button text="← VOLVER"
                  onAction="#onBack"

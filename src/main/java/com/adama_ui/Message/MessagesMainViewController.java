@@ -1,58 +1,134 @@
 package com.adama_ui.Message;
 
+import com.adama_ui.Reloadable;
 import com.adama_ui.util.ViewManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 public class MessagesMainViewController {
 
     @FXML private StackPane contentArea;
+    @FXML private VBox messageMenu;
     @FXML private Button btnCompose;
     @FXML private Button btnInbox;
     @FXML private Button btnSent;
     @FXML private Button btnHistory;
 
-    private Runnable currentViewLoader;
+    private static String currentSubview = null;
+    private static boolean showingDetail = false;
 
     @FXML
     public void initialize() {
-        // Enlaces de botones
-        btnCompose.setOnAction(e -> loadCompose());
-        btnInbox.setOnAction(e -> loadInbox());
-        btnSent.setOnAction(e -> loadSent());
-        btnHistory.setOnAction(e -> loadHistory());
+        if (showingDetail) {
+            return;
+        }
 
-        // Si ya había una vista activa (por cambio de tema), se recarga esa
-        if (currentViewLoader == null) {
-            loadCompose(); // Vista por defecto solo si no había ninguna cargada
+        setupButtons();
+
+        if (currentSubview == null) {
+            btnCompose.fire();
         } else {
-            currentViewLoader.run();
+            switch (currentSubview) {
+                case "COMPOSE" -> btnCompose.fire();
+                case "INBOX" -> btnInbox.fire();
+                case "SENT" -> btnSent.fire();
+                case "HISTORY" -> btnHistory.fire();
+            }
         }
     }
 
-    private void loadCompose() {
-        ViewManager.loadInto("/com/adama_ui/Message/ComposeMessageView.fxml", contentArea);
-        currentViewLoader = this::loadCompose;
+    private void setupButtons() {
+        if (btnCompose != null) {
+            btnCompose.setOnAction(e -> loadSubview("COMPOSE", "/com/adama_ui/Message/ComposeMessageView.fxml", btnCompose));
+        }
+
+        if (btnInbox != null) {
+            btnInbox.setOnAction(e -> loadSubview("INBOX", "/com/adama_ui/Message/InboxMessagesView.fxml", btnInbox));
+        }
+
+        if (btnSent != null) {
+            btnSent.setOnAction(e -> {
+                ViewManager.loadInto("/com/adama_ui/Message/SentMessagesView.fxml", contentArea, () -> {
+                    currentSubview = "SENT";
+                    highlightMenuButton(btnSent);
+                    reloadIfNeeded();
+
+                    var controller = ViewManager.getCurrentController();
+                    if (controller instanceof InboxMessagesViewController inboxController) {
+                        inboxController.setContentArea(contentArea);
+                    } else if (controller instanceof SentMessagesViewController sentController) {
+                        sentController.setContentArea(contentArea);
+                    } else if (controller instanceof MessageHistoryViewController historyController) {
+                        historyController.setContentArea(contentArea);
+                    }
+
+                    showingDetail = false;
+                });
+            });
+        }
+
+        if (btnHistory != null) {
+            btnHistory.setOnAction(e -> loadSubview("HISTORY", "/com/adama_ui/Message/MessageHistoryView.fxml", btnHistory));
+        }
     }
 
-    private void loadInbox() {
-        ViewManager.loadInto("/com/adama_ui/Message/InboxMessagesView.fxml", contentArea);
-        currentViewLoader = this::loadInbox;
+    private void loadSubview(String subviewName, String fxmlPath, Button activeButton) {
+        ViewManager.loadInto(fxmlPath, contentArea, () -> {
+            currentSubview = subviewName;
+            highlightMenuButton(activeButton);
+            reloadIfNeeded();
+
+            var controller = ViewManager.getCurrentController();
+            if (controller instanceof InboxMessagesViewController inboxController) {
+                inboxController.setContentArea(contentArea);
+            } else if (controller instanceof SentMessagesViewController sentController) {
+                sentController.setContentArea(contentArea);
+            } else if (controller instanceof MessageHistoryViewController historyController) {
+                historyController.setContentArea(contentArea);
+            }
+
+            showingDetail = false;
+        });
     }
 
-    private void loadSent() {
-        ViewManager.loadInto("/com/adama_ui/Message/SentMessagesView.fxml", contentArea);
-        currentViewLoader = this::loadSent;
+    private void highlightMenuButton(Button activeButton) {
+        for (var node : messageMenu.getChildren()) {
+            if (node instanceof Button button) {
+                button.getStyleClass().remove("active-button");
+            }
+        }
+        if (activeButton != null && !activeButton.getStyleClass().contains("active-button")) {
+            activeButton.getStyleClass().add("active-button");
+        }
     }
 
-    private void loadHistory() {
-        ViewManager.loadInto("/com/adama_ui/Message/MessageHistoryView.fxml", contentArea);
-        currentViewLoader = this::loadHistory;
+    private void reloadIfNeeded() {
+        Object controller = ViewManager.getCurrentController();
+        if (controller instanceof Reloadable reloadable) {
+            reloadable.onReload();
+        }
     }
 
     @FXML
     private void onBack() {
         ViewManager.load("/com/adama_ui/HomeView.fxml");
+        currentSubview = null;
+        showingDetail = false;
+    }
+
+    public void loadInboxMessages() {
+        if (btnInbox != null) {
+            btnInbox.fire();
+        }
+    }
+
+    public static void setShowingDetail(boolean value) {
+        showingDetail = value;
+    }
+
+    public static boolean isShowingDetail() {
+        return showingDetail;
     }
 }

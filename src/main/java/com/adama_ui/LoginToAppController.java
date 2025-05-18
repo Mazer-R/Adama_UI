@@ -1,6 +1,7 @@
 package com.adama_ui;
 
 import com.adama_ui.auth.SessionManager;
+import com.adama_ui.util.ViewManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +11,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.Node;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.geometry.Rectangle2D;
 
 import java.io.IOException;
 import java.net.URI;
@@ -65,7 +69,6 @@ public class LoginToAppController {
 
                 String authHeader = SessionManager.getInstance().getAuthHeader();
 
-                // Obtener datos del usuario
                 String userId = getValueFromAPI("/users/myid", authHeader);
                 String role = getValueFromAPI("/users/role", authHeader);
                 String managerId = getValueFromAPI("/users/myManager", authHeader);
@@ -76,7 +79,6 @@ public class LoginToAppController {
                 }
 
                 SessionManager.getInstance().setUserData(userId, role, username);
-
 
                 openMainScreen(event);
             } else {
@@ -108,17 +110,31 @@ public class LoginToAppController {
     private void openMainScreen(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/adama_ui/MainScreen.fxml"));
-            Parent mainView = loader.load();
+            BorderPane mainContainer = loader.load();
+
+            // ✅ Establecer el mainContainer en ViewManager
+            ViewManager.setMainContainer(mainContainer);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Scene newScene = new Scene(mainView);
+
+            // 🔍 Obtener el tamaño de pantalla disponible
+            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+            Scene newScene = new Scene(mainContainer, screenBounds.getWidth(), screenBounds.getHeight());
 
             stage.setScene(newScene);
-            stage.setMaximized(true);
+            stage.setX(screenBounds.getMinX());
+            stage.setY(screenBounds.getMinY());
+            stage.setWidth(screenBounds.getWidth());
+            stage.setHeight(screenBounds.getHeight());
+
+            // ❌ Ya no usamos maximized, para que el usuario pueda ajustar
+            // stage.setMaximized(true); // ← COMENTADO: no es necesario
+
             stage.show();
 
         } catch (IOException e) {
             showAlert("Error", "Error al inicializar la pantalla principal");
+            e.printStackTrace();
         }
     }
 

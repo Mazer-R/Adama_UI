@@ -79,7 +79,7 @@ public class MainScreenController {
         AppTheme.setDarkMode(nuevoModo);
 
 
-        ViewManager.refreshCurrentView(); // Recarga sin usar caché
+        ViewManager.refreshCurrentView();
         updateThemeToggleIcon();
     }
     @FXML

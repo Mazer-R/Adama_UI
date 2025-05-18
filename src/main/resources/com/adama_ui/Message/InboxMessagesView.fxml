@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml"
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.adama_ui.Message.InboxMessagesViewController"
             fx:id="rootPane"
             styleClass="root-pane">
 
     <center>
-        <VBox spacing="10" alignment="TOP_LEFT">
+        <VBox spacing="10">
             <padding>
-                <Insets top="20" left="30" right="30" bottom="20"/>
+                <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
 
             <ListView fx:id="inboxListView"
-                      VBox.vgrow="ALWAYS"
-                      styleClass="styled-list"/>
+                      styleClass="styled-list"
+                      VBox.vgrow="ALWAYS"/>
 
             <Label fx:id="emptyLabel"
                    text="No tienes mensajes nuevos."
