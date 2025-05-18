@@ -26,6 +26,7 @@ public class ProductDetailController {
     @FXML private TextField fieldUser;
     @FXML private TextArea fieldDescription;
 
+
     @FXML private Button btnModify;
     @FXML private Button btnAccept;
     @FXML private Button btnDelete;
@@ -34,6 +35,17 @@ public class ProductDetailController {
     private Product currentProduct;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
+
+    public void initialize(){
+        if (SessionManager.getInstance().getRole().equals("ROLE_MANAGER")){
+            btnDelete.setVisible(false);
+            btnModify.setVisible(false);
+        }
+        if (SessionManager.getInstance().getRole().equals("ROLE_WAREHOUSE")){
+            btnBack.setVisible(false);
+        }
+
+    }
 
     public void setProduct(Product product) {
         this.currentProduct = product;
