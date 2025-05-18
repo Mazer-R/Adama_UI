@@ -54,8 +54,12 @@
                     onAction="#onCancelOrDelete"
                     minWidth="150"
                     style="-fx-background-color: #DC143C; -fx-text-fill: white; -fx-font-weight: bold;" />
+
         </HBox>
+
     </VBox>
-
-
+    <Button fx:id="btnBack" text="← VOLVER"
+            onAction="#onBack"
+            AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
+            styleClass="back-button"/>
 </AnchorPane>
