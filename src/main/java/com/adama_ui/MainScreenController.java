@@ -176,7 +176,7 @@ public class MainScreenController {
                 buttonCreator.configureIconButton(Home, "/ExternalResources/HomeIcon.png", 40);
                 buttonCreator.configureIconButton(Order, "/ExternalResources/OrderIcon.png", 40);
                 buttonCreator.configureIconButton(Messages, "/ExternalResources/MessageIcon.png", 40);
-                buttonCreator.configureIconButton(Products, "/ExternalResources/ProductIcon.png", 40);
+                Products.setVisible(false);
                 Delivery.setVisible(false);
                 Users.setVisible(false);
             }

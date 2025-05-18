@@ -37,12 +37,9 @@ public class ProductDetailController {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public void initialize(){
-        if (SessionManager.getInstance().getRole().equals("ROLE_MANAGER")){
-            btnDelete.setVisible(false);
-            btnModify.setVisible(false);
-        }
+
         if (SessionManager.getInstance().getRole().equals("ROLE_WAREHOUSE")){
-            btnBack.setVisible(false);
+            btnDelete.setVisible(false);
         }
 
     }
