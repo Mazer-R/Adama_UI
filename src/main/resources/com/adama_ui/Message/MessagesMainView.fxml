@@ -2,35 +2,61 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/17.0.12"
-            xmlns:fx="http://javafx.com/fxml/1"
+<BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.adama_ui.Message.MessagesMainViewController"
-            maxWidth="Infinity" maxHeight="Infinity">
+            styleClass="root-pane">
 
-   <VBox spacing="20" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="20.0"
-         AnchorPane.rightAnchor="20.0" AnchorPane.bottomAnchor="20.0">
+   <left>
+      <VBox fx:id="messageMenu"
+            spacing="15"
+            alignment="TOP_CENTER"
+            styleClass="side-menu"
+            prefWidth="220">
 
-      <HBox spacing="20">
-         <VBox spacing="10">
-            <Button text="Button"/>
-            <Button text="Button"/>
-            <Button text="Button"/>
-            <Button text="Button"/>
-            <Button text="Button"/>
-            <Button text="Button" onAction="#reloadPage"/>
-         </VBox>
+         <padding>
+            <Insets top="20" left="10" right="10" bottom="10"/>
+         </padding>
 
-         <HBox spacing="10" alignment="CENTER_LEFT">
-            <Button text="Button"/>
-            <Button text="Button"/>
-            <Button text="Button"/>
-            <Button text="Button"/>
-            <Button text="Button"/>
-            <Button text="Button"/>
-         </HBox>
+         <Button fx:id="btnCompose"
+                 text="REDACTAR"
+                 maxWidth="180"
+                 styleClass="action-button"/>
+
+         <Button fx:id="btnInbox"
+                 text="RECIBIDOS"
+                 maxWidth="180"
+                 styleClass="action-button"/>
+
+         <Button fx:id="btnSent"
+                 text="ENVIADOS"
+                 maxWidth="180"
+                 styleClass="action-button"/>
+
+         <Button fx:id="btnHistory"
+                 text="HISTÓRICO"
+                 maxWidth="180"
+                 styleClass="action-button"/>
+      </VBox>
+   </left>
+
+   <!-- Panel de contenido central -->
+   <center>
+      <StackPane fx:id="contentArea"
+                 styleClass="root-pane"/>
+   </center>
+
+   <bottom>
+      <HBox alignment="CENTER_LEFT"
+            spacing="10"
+            styleClass="footer-bar">
+         <padding>
+            <Insets top="10" bottom="10" left="20" right="20"/>
+         </padding>
+         <Button text="← VOLVER"
+                 onAction="#onBack"
+                 styleClass="action-button"/>
       </HBox>
-
-      <AnchorPane prefHeight="122.0" prefWidth="149.0" style="-fx-background-color: #f0f0f0;"/>
-   </VBox>
-</AnchorPane>
+   </bottom>
+</BorderPane>

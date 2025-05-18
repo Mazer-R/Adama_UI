@@ -116,4 +116,39 @@ public class OrderService {
             throw new RuntimeException("❌ Error al rechazar la orden: " + response.statusCode());
         }
     }
+
+    public void fulfillOrder(String orderId) throws Exception {
+        String url = BASE_URL + "/" + orderId + "/fulfill";
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Authorization", SessionManager.getInstance().getAuthHeader())
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        HttpResponse<String> response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() != 200) {
+            throw new RuntimeException("❌ Error al completar la orden: " + response.statusCode());
+        }
+    }
+
+    public List<Order> getValidatedOrder() throws Exception {
+        String url = BASE_URL + "/status/validated"; // ✅ SOLO esto
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Authorization", SessionManager.getInstance().getAuthHeader())
+                .build();
+
+        HttpResponse<String> response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            return mapper.readValue(response.body(), new TypeReference<List<Order>>() {});
+        } else {
+            throw new RuntimeException("❌ Error al obtener órdenes validadas: " + response.statusCode());
+        }
+    }
+
+
 }

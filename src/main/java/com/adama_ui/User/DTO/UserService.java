@@ -20,7 +20,7 @@ public class UserService {
 
     public String getUsernameById(String userId) throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(API_BASE_URL + "/" + userId))
+                .uri(URI.create(API_BASE_URL + "/users/" + userId))
                 .header("Authorization", SessionManager.getInstance().getAuthHeader())
                 .GET()
                 .build();

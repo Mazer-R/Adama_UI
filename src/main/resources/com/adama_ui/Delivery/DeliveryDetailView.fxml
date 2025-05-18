@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.adama_ui.Delivery.DeliveryDetailController"
+            prefWidth="400" prefHeight="300">
+
+    <VBox spacing="10" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="10">
+        <children>
+
+            <Label text="Detalle de la Entrega" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Tipo de Producto:" prefWidth="120"/>
+                <TextField fx:id="fieldProductType" editable="false" prefWidth="250"/>
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Marca:" prefWidth="120"/>
+                <TextField fx:id="fieldBrand" editable="false" prefWidth="250"/>
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Usuario:" prefWidth="120"/>
+                <TextField fx:id="fieldUsername" editable="false" prefWidth="250"/>
+            </HBox>
+
+            <Label text="Motivo / Detalles:"/>
+            <TextArea fx:id="fieldMotivo" editable="false" prefHeight="100" wrapText="true"/>
+
+            <HBox spacing="10" alignment="CENTER_LEFT" prefHeight="40">
+                <children>
+                    <Button text="Aceptar" onAction="#onAccept"/>
+                </children>
+            </HBox>
+
+        </children>
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+    </VBox>
+
+</AnchorPane>

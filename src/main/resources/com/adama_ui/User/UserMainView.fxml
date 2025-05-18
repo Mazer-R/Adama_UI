@@ -24,11 +24,13 @@
 
             <Button fx:id="btnAddUser"
                     text="CREAR NUEVO USUARIO"
-                    maxWidth="180"/>
+                    maxWidth="180"
+                    onAction="#onAddUserClick"/>
 
             <Button fx:id="btnManageUser"
                     text="GESTIONAR USUARIOS"
-                    maxWidth="180"/>
+                    maxWidth="180"
+                    onAction="#onManageUserClick"/>
 
         </VBox>
     </left>
@@ -44,7 +46,8 @@
             </padding>
             <Button fx:id="btnBack"
                     text="← VOLVER"
-                    styleClass="action-button"/>
+                    styleClass="action-button"
+                    onAction="#onBackClick"/>
         </HBox>
     </bottom>
 </BorderPane>

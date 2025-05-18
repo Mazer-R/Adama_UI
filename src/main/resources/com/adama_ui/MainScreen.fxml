@@ -28,10 +28,8 @@
                 <Button fx:id="Order" onAction="#loadOrderView"/>
                 <Button fx:id="Messages" onAction="#loadMessagesView"/>
                 <Button fx:id="Products" onAction="#loadProductView"/>
-                <Button fx:id="Users" onAction="#loadUserView"/>
                 <Button fx:id="Delivery" onAction="#loadDeliveryView" />
-
-                <Button text="Test" onAction="#loadSettingsView"/>
+                <Button fx:id="Users" onAction="#loadUserView"/>
 
             </HBox>
 
@@ -42,10 +40,14 @@
             <ToggleButton fx:id="themeToggleButton"
                           onAction="#onToggleTheme"
                           styleClass="theme-toggle">
+
                 <HBox.margin>
                     <Insets right="10"/>
                 </HBox.margin>
             </ToggleButton>
+
+            <Button fx:id="logoutButton" onAction="#logout"/>
+
         </HBox>
     </top>
 

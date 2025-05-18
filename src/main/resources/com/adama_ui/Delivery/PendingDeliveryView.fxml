@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.adama_ui.Delivery.PendingDeliveryController"
+            styleClass="root-pane">
+
+    <!-- Centro: lista de entregas pendientes -->
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+
+            <ListView fx:id="contenido"
+                      VBox.vgrow="ALWAYS"
+                      styleClass="order-list"/>
+        </VBox>
+    </center>
+
+</BorderPane>

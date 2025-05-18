@@ -20,6 +20,7 @@ public class ButtonCreator {
             iconView.setFitHeight(size*1.5);
             iconView.setPreserveRatio(true);
             button.setGraphic(iconView);
+            button.setMinSize(70 , 70);
             button.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
 
         } catch (Exception e) {

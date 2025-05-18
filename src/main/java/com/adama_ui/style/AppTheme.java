@@ -23,6 +23,7 @@ public class AppTheme {
     @Getter
     private static boolean darkMode = prefs.getBoolean(THEME_KEY, true); // por defecto: oscuro
 
+
     public static void setDarkMode(boolean dark) {
         darkMode = dark;
         prefs.putBoolean(THEME_KEY, dark); // guardar estado en preferencias
@@ -51,6 +52,10 @@ public class AppTheme {
             if (!parent.getStylesheets().contains(theme)) {
                 parent.getStylesheets().add(theme);
             }
+
+            // ✅ Reaplica el CSS y relayout
+            parent.applyCss();
+            parent.layout();
         }
     }
 }
