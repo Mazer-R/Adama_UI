@@ -5,19 +5,15 @@ import com.adama_ui.auth.SessionManager;
 import com.adama_ui.style.AppTheme;
 import com.adama_ui.util.ButtonCreator;
 import com.adama_ui.util.ViewManager;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import javax.management.relation.Role;
 import java.util.Optional;
 
 public class MainScreenController {

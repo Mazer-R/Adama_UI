@@ -1,6 +1,7 @@
 package com.adama_ui.Product;
 
 import com.adama_ui.Product.DTO.Product;
+import com.adama_ui.User.DTO.UserService;
 import com.adama_ui.auth.SessionManager;
 import com.adama_ui.util.ProductStatus;
 import com.adama_ui.util.ViewManager;
@@ -32,6 +33,7 @@ public class ProductDetailController {
     @FXML private Button btnDelete;
     @FXML private Button btnBack;
 
+    private UserService userService;
     private Product currentProduct;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -62,7 +64,11 @@ public class ProductDetailController {
             fieldStatus.setText("");
         }
 
-        fieldUser.setText(currentProduct.getUserId());
+        try {
+            fieldUser.setText(userService.getUsernameById(currentProduct.getUserId()));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         fieldDescription.setText(currentProduct.getDescription());
 
         setEditable(false);
@@ -174,7 +180,6 @@ public class ProductDetailController {
         fieldType.setEditable(editable);
         fieldBrand.setEditable(editable);
         fieldStatus.setEditable(editable);
-        fieldUser.setEditable(editable);
         fieldDescription.setEditable(editable);
     }
 
