@@ -33,7 +33,7 @@ public class ProductDetailController {
     @FXML private Button btnDelete;
     @FXML private Button btnBack;
 
-    private UserService userService;
+    private UserService userService = new UserService();
     private Product currentProduct;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
