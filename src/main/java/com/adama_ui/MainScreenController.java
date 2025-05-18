@@ -172,7 +172,15 @@ public class MainScreenController {
                 buttonCreator.configureIconButton(Delivery, "/ExternalResources/DeliveryIcon.png", 40);
                 Users.setVisible(false);
             }
-            case "ROLE_MANAGER", "ROLE_ADMIN" ->{
+            case "ROLE_MANAGER"->{
+                buttonCreator.configureIconButton(Home, "/ExternalResources/HomeIcon.png", 40);
+                buttonCreator.configureIconButton(Order, "/ExternalResources/OrderIcon.png", 40);
+                buttonCreator.configureIconButton(Messages, "/ExternalResources/MessageIcon.png", 40);
+                buttonCreator.configureIconButton(Products, "/ExternalResources/ProductIcon.png", 40);
+                Delivery.setVisible(false);
+                Users.setVisible(false);
+            }
+            case "ROLE_ADMIN" ->{
                 buttonCreator.configureIconButton(Home, "/ExternalResources/HomeIcon.png", 40);
                 buttonCreator.configureIconButton(Order, "/ExternalResources/OrderIcon.png", 40);
                 buttonCreator.configureIconButton(Messages, "/ExternalResources/MessageIcon.png", 40);

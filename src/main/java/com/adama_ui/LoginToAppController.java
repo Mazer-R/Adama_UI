@@ -111,7 +111,7 @@ public class LoginToAppController {
             Parent mainView = loader.load();
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Scene newScene = new Scene(mainView, stage.getWidth(), stage.getHeight());
+            Scene newScene = new Scene(mainView);
 
             stage.setScene(newScene);
             stage.setMaximized(true);
