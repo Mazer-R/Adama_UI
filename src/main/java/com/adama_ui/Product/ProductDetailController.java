@@ -33,7 +33,7 @@ public class ProductDetailController {
     @FXML private Button btnDelete;
     @FXML private Button btnBack;
 
-    private UserService userService = new UserService();
+    private final UserService userService = new UserService();
     private Product currentProduct;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -64,10 +64,15 @@ public class ProductDetailController {
             fieldStatus.setText("");
         }
 
-        try {
-            fieldUser.setText(userService.getUsernameById(currentProduct.getUserId()));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        if (SessionManager.getInstance().getRole().equals("ROLE_ADMIN")){
+            try {
+                fieldUser.setText(userService.getUsernameById(currentProduct.getUserId()));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }else{
+
+            fieldUser.setText(currentProduct.getUserId());
         }
         fieldDescription.setText(currentProduct.getDescription());
 
