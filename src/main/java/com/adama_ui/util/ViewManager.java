@@ -1,6 +1,10 @@
 package com.adama_ui.util;
 
 import com.adama_ui.*;
+import com.adama_ui.Message.DTO.MessageResponse;
+import com.adama_ui.Message.InboxMessagesViewController;
+import com.adama_ui.Message.MessageDetailController;
+import com.adama_ui.Message.MessagesMainViewController;
 import com.adama_ui.Order.ManageOrdersController;
 import com.adama_ui.Product.DTO.Product;
 import com.adama_ui.Product.ProductDetailController;
@@ -29,6 +33,7 @@ public class ViewManager {
     private static Object currentController;
     private static String currentFxmlPath;
     private static String currentSubViewPath = "/com/adama_ui/Product/AddProductView.fxml"; // Valor por defecto en Inventario
+    private static MessageResponse currentMessage;
 
     public static void clearViewCache() {
         viewCache.clear();
@@ -91,6 +96,7 @@ public class ViewManager {
             System.err.println("❌ Error al cargar la vista con producto: " + fxmlPath);
             e.printStackTrace();
         }
+
     }
 
     public static void loadWithProductList(String fxmlPath, List<Product> productList, boolean cache) {
@@ -225,16 +231,36 @@ public class ViewManager {
 
     public static void refreshCurrentView() {
         if (mainContainer != null && currentFxmlPath != null) {
-            if (currentFxmlPath.contains("ProductMainView.fxml")) {
+            if (currentFxmlPath.contains("MessagesMainView.fxml")) {
+                if (MessagesMainViewController.isShowingDetail()) {
+                    AppTheme.applyThemeTo(mainContainer);
+                    // 🟢 Asegura que el detalle siempre se recargue correctamente
+                    javafx.application.Platform.runLater(() -> {
+                        Node node = mainContainer.lookup("#contentArea");
+                        if (node instanceof StackPane contentArea) {
+                            loadInto("/com/adama_ui/Message/MessageDetailView.fxml", contentArea, () -> {
+                                var ctrl = getCurrentControllerAs(MessageDetailController.class);
+                                ctrl.setContentArea(contentArea);
+                                ctrl.setMessage(getCurrentMessage()); // 🔑 aquí está el fix clave
+                            });
+                        } else {
+                            System.err.println("⚠️ No se encontró StackPane contentArea al recargar detalle mensaje.");
+                        }
+                    });
+                    return;
+                }
+                // Tu lógica existente si no está mostrando detalle:
                 load(currentFxmlPath, false);
-
                 javafx.application.Platform.runLater(() -> {
-                    String subview = currentSubViewPath != null ? currentSubViewPath : "/com/adama_ui/Product/AddProductView.fxml";
-                    Node node = mainContainer.lookup("#contentPane");
-                    if (node instanceof StackPane contentPane) {
-                        loadInto(subview, contentPane);
+                    String subview = currentSubViewPath != null
+                            ? currentSubViewPath
+                            : "/com/adama_ui/Message/ComposeMessageView.fxml";
+
+                    Node node = mainContainer.lookup("#contentArea");
+                    if (node instanceof StackPane contentArea) {
+                        loadInto(subview, contentArea);
                     } else {
-                        System.err.println("⚠️ No se encontró el StackPane con fx:id=\"contentPane\" en ProductMainView.fxml");
+                        System.err.println("⚠️ No se encontró el StackPane contentArea en MessagesMainView.fxml");
                     }
                 });
             } else {
@@ -242,6 +268,7 @@ public class ViewManager {
             }
         }
     }
+
 
     private static void applyThemeToSceneIfAvailable() {
         Scene scene = mainContainer.getScene();
@@ -276,4 +303,22 @@ public class ViewManager {
     public static String getCurrentSubView() {
         return currentSubViewPath;
     }
+
+    public static <T> T getCurrentControllerAs(Class<T> clazz) {
+        Object controller = getCurrentController();
+        if (clazz.isInstance(controller)) {
+            return clazz.cast(controller);
+        } else {
+            throw new IllegalStateException("El controlador actual no es del tipo esperado: " + clazz.getSimpleName());
+        }
+    }
+
+    public static void setCurrentMessage(MessageResponse message) {
+        currentMessage = message;
+    }
+
+    public static MessageResponse getCurrentMessage() {
+        return currentMessage;
+    }
+
 }

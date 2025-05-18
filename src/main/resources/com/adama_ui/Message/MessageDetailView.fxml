@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.adama_ui.Message.MessageDetailController"
+            fx:id="rootPane"
+            styleClass="root-pane">
+
+    <VBox spacing="10"
+          AnchorPane.topAnchor="10"
+          AnchorPane.leftAnchor="10"
+          AnchorPane.rightAnchor="10"
+          AnchorPane.bottomAnchor="10">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+
+        <Label text="Detalle del mensaje" styleClass="section-title"/>
+
+        <TextField fx:id="fieldSender" promptText="Remitente"
+                   editable="false" styleClass="input-dark-aware"/>
+
+        <TextField fx:id="fieldSubject" promptText="Asunto"
+                   editable="false" styleClass="input-dark-aware"/>
+
+        <TextArea fx:id="fieldContent" promptText="Contenido del mensaje"
+                  editable="false" wrapText="true" prefRowCount="6"
+                  styleClass="input-dark-aware"/>
+
+        <Button text="← VOLVER"
+                onAction="#onBack"
+                styleClass="back-button"/>
+    </VBox>
+</AnchorPane>

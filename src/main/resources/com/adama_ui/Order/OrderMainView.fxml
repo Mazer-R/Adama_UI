@@ -8,12 +8,11 @@
             fx:controller="com.adama_ui.Order.OrderMainViewController"
             styleClass="root-pane">
 
-    <!-- Menú lateral con fondo claro (gris/blanco como en Warehouse) -->
     <left>
         <VBox fx:id="profileMenu"
               spacing="10"
               alignment="TOP_LEFT"
-              style="-fx-background-color: #e0e0e0;"> <!-- 🎯 Fondo claro aplicado directamente -->
+              style="-fx-background-color: #e0e0e0;">
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>

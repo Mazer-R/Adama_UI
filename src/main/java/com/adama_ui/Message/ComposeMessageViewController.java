@@ -20,8 +20,6 @@ public class ComposeMessageViewController {
 
     private final HttpClient httpClient = HttpClient.newHttpClient();
 
-    private static List<String> cachedUsernames; // ✅ Lista estática compartida
-
     @FXML private ComboBox<String> recipientCombo;
     @FXML private TextField subjectField;
     @FXML private TextArea messageArea;
@@ -30,14 +28,7 @@ public class ComposeMessageViewController {
     @FXML
     public void initialize() {
         sendButton.setOnAction(e -> onSendMessage());
-
-        if (cachedUsernames != null && !cachedUsernames.isEmpty()) {
-            Platform.runLater(() -> {
-                recipientCombo.setItems(FXCollections.observableArrayList(cachedUsernames));
-            });
-        } else {
-            fetchUsernames();
-        }
+        fetchUsernames(); // 🔄 Cargar siempre al iniciar sesión
     }
 
     private void onSendMessage() {
@@ -70,19 +61,20 @@ public class ComposeMessageViewController {
                     ObjectMapper mapper = new ObjectMapper();
                     List<String> usernames = mapper.readValue(response.body(), new TypeReference<>() {});
 
-                    // Excluir al usuario actual
+                    // 🧹 Filtrar el usuario actual
                     String currentUser = SessionManager.getInstance().getUsername();
                     usernames.removeIf(user -> user.equalsIgnoreCase(currentUser));
 
-                    cachedUsernames = usernames;
-
-                    Platform.runLater(() -> recipientCombo.setItems(FXCollections.observableArrayList(cachedUsernames)));
+                    Platform.runLater(() -> {
+                        recipientCombo.setItems(FXCollections.observableArrayList(usernames));
+                        recipientCombo.setPromptText("Selecciona destinatario");
+                    });
                 } else {
-                    showAlert("Error", "Error al obtener usernames: " + response.statusCode());
+                    showAlert("Error", "No se pudieron obtener los destinatarios: " + response.statusCode());
                 }
 
             } catch (Exception e) {
-                showAlert("Excepción", "Error al obtener usernames:\n" + e.getMessage());
+                showAlert("Error", "Error al obtener destinatarios:\n" + e.getMessage());
             }
         }).start();
     }
@@ -113,17 +105,11 @@ public class ComposeMessageViewController {
 
                 if (response.statusCode() == 201) {
                     Platform.runLater(() -> {
-                        showAlertInfo("Mensaje enviado", "Tu mensaje ha sido enviado correctamente.");
-
+                        showInfoAlert("Mensaje enviado", "Tu mensaje ha sido enviado correctamente.");
                         subjectField.clear();
                         messageArea.clear();
                         recipientCombo.getSelectionModel().clearSelection();
                         recipientCombo.setPromptText("Selecciona destinatario");
-
-                        // 🔄 Restaurar lista si por algún motivo se perdió
-                        if (recipientCombo.getItems() == null || recipientCombo.getItems().isEmpty()) {
-                            recipientCombo.setItems(FXCollections.observableArrayList(cachedUsernames));
-                        }
                     });
                 } else {
                     showAlert("Error al enviar", "Código: " + response.statusCode() + "\n" + response.body());
@@ -145,7 +131,7 @@ public class ComposeMessageViewController {
         });
     }
 
-    private void showAlertInfo(String title, String content) {
+    private void showInfoAlert(String title, String content) {
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle(title);
