@@ -3,7 +3,7 @@ import com.adama_ui.util.ProductStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ProductMapper {
-    private static final ObjectMapper mapper = new ObjectMapper();
+    public static final ObjectMapper mapper = new ObjectMapper();
 
     public static String toJson(ProductRequestDTO dto) throws Exception {
         return mapper.writeValueAsString(dto);

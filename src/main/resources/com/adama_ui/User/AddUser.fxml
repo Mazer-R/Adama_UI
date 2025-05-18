@@ -12,7 +12,6 @@
 
 
 
-    <!-- Formulario -->
     <center>
         <VBox spacing="15">
             <padding>
@@ -56,13 +55,8 @@
         </VBox>
     </center>
 
-    <!-- Botón volver -->
+
     <bottom>
-        <HBox alignment="CENTER_LEFT">
-            <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
-            </padding>
-            <Button text="← BACK" onAction="#onBack" />
-        </HBox>
+
     </bottom>
 </BorderPane>

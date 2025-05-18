@@ -5,6 +5,8 @@ import com.adama_ui.Order.ManageOrdersController;
 import com.adama_ui.Product.DTO.Product;
 import com.adama_ui.Product.ProductDetailController;
 import com.adama_ui.Product.ProductListController;
+import com.adama_ui.User.DTO.UserResponse;
+import com.adama_ui.User.UserDetailsController;
 import com.adama_ui.style.AppTheme;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -268,12 +270,29 @@ public class ViewManager {
         });
     }
 
-    // Método auxiliar para actualizar la subvista actual de Warehouse
     public static void setCurrentSubView(String subViewPath) {
         currentSubViewPath = subViewPath;
     }
 
     public static String getCurrentSubView() {
         return currentSubViewPath;
+    }
+
+    public static Parent loadForSceneWithUser(String fxmlPath, UserResponse user) {
+        try {
+            FXMLLoader loader = new FXMLLoader(ViewManager.class.getResource(fxmlPath));
+            Parent view = loader.load();
+            currentController = loader.getController();
+
+            if (currentController instanceof UserDetailsController controller) {
+                controller.showUserDetails(user);
+            }
+
+            AppTheme.applyThemeTo(view);
+            return view;
+        } catch (IOException e) {
+            System.err.println("Error al cargar vista de usuario: " + fxmlPath);
+            return null;
+        }
     }
 }

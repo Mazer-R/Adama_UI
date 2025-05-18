@@ -1,36 +1,83 @@
 package com.adama_ui.User;
 
+import com.adama_ui.Reloadable;
 import com.adama_ui.util.ViewManager;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.awt.*;
 
-public class UserMainViewController {
-    @FXML public javafx.scene.control.Button btnManageUser;
-    @FXML private StackPane contentPane;
+public class UserMainViewController implements Reloadable {
+    @FXML public Button btnManageUser;
     @FXML private VBox userMainMenu;
-    public javafx.scene.control.Button btnAddUser;
+    @FXML private StackPane contentPane;
+    @FXML public Button btnAddUser;
+    private static String currentSubview = null;
+    @FXML public Button btnBack;
+
+
     @FXML
     private void initialize() {
-        // Cargar vista inicial (opcional)
-        ViewManager.loadInto("/com/adama_ui/User/AddUser.fxml", contentPane);
+
+        btnAddUser.setOnAction(event -> {
+            ViewManager.loadInto("/com/adama_ui/User/AddUser.fxml", contentPane, () -> {
+                currentSubview = "ADD";
+                highlightMenuButton(btnAddUser);
+                Object controller = ViewManager.getCurrentController();
+            });
+        });
+
+        btnManageUser.setOnAction(event -> {
+            ViewManager.loadInto("/com/adama_ui/User/UserManagement.fxml", contentPane, () -> {
+                currentSubview = "MANAGE";
+                highlightMenuButton(btnManageUser);
+                Object controller = ViewManager.getCurrentController();
+                if (controller instanceof Reloadable reloadable) {
+                    reloadable.onReload();
+                }
+            });
+        });
+
+        if (btnBack != null) {
+            btnBack.setOnAction(e -> {
+                ViewManager.load("/com/adama_ui/HomeView.fxml");
+                currentSubview = null;
+            });
+        }
+
+        if (currentSubview == null) {
+            btnAddUser.fire();
+        } else {
+            switch (currentSubview) {
+                case "ADD" -> btnAddUser.fire();
+                case "MANAGE" -> btnManageUser.fire();
+            }
+        }
     }
 
-    @FXML
-    private void onAddUserClick() {
-        ViewManager.loadInto("/com/adama_ui/User/AddUser.fxml", contentPane);
+
+private void highlightMenuButton(Button activeButton) {
+    for (var node : userMainMenu.getChildren()) {
+        if (node instanceof Button button) {
+            button.getStyleClass().remove("active-button");
+        }
     }
 
-    @FXML
-    private void onManageUserClick() {
-        ViewManager.loadInto("/com/adama_ui/User/UserManagement.fxml", contentPane);
+    if (activeButton != null && !activeButton.getStyleClass().contains("active-button")) {
+        activeButton.getStyleClass().add("active-button");
     }
-
-    @FXML
-    private void onBackClick() {
-        ViewManager.load("/com/adama_ui/HomeView.fxml");
-    }
-
 }
+
+    @Override
+    public void onReload() {
+        if (currentSubview != null) {
+            switch (currentSubview) {
+                case "ADD" -> btnAddUser.fire();
+                case "MANAGE" -> btnManageUser.fire();
+            }
+        }
+    }
+}
+

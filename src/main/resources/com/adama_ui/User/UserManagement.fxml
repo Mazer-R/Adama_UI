@@ -44,23 +44,14 @@
             <!-- Aquí podrías agregar un ListView o TableView para mostrar los resultados -->
             <TableView fx:id="tableUsers">
                 <columns>
-                    <TableColumn text="Username" />
-                    <TableColumn text="First Name" />
-                    <TableColumn text="Last Name" />
-                    <TableColumn text="Role" />
-                    <TableColumn text="Department" />
+                    <TableColumn text="Username" fx:id="colUsername" />
+                    <TableColumn text="Nombre" fx:id="colFirstName" />
+                    <TableColumn text="Apellido" fx:id="colLastName" />
+                    <TableColumn text="Rol" fx:id="colRole" />
+                    <TableColumn text="Departamento" fx:id="colDepartment" />
                 </columns>
             </TableView>
         </VBox>
     </center>
 
-    <!-- Botón volver -->
-    <bottom>
-        <HBox alignment="CENTER_LEFT">
-            <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
-            </padding>
-            <Button text="← BACK" onAction="#onBack" />
-        </HBox>
-    </bottom>
-</BorderPane>
+  </BorderPane>

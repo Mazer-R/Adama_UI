@@ -69,7 +69,6 @@ public class ProductMainViewController implements Reloadable {
 
     @Override
     public void onReload() {
-        System.out.println("Recargando vista de productos...");
         if (currentSubview != null) {
             switch (currentSubview) {
                 case "ADD" -> btnAddProduct.fire();
