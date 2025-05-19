@@ -13,7 +13,7 @@
 
     <!-- Formulario de filtro -->
     <center>
-        <VBox spacing="15" alignment="TOP_LEFT">
+        <VBox spacing="15">
             <padding>
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
@@ -37,11 +37,9 @@
                 </items>
             </ComboBox>
 
-            <!-- Botón para aplicar el filtro -->
             <Button text="FILTER USERS" onAction="#onFilterUsers"
                     style="-fx-background-color: #00c000; -fx-text-fill: white;" />
 
-            <!-- Aquí podrías agregar un ListView o TableView para mostrar los resultados -->
             <TableView fx:id="tableUsers">
                 <columns>
                     <TableColumn text="Username" fx:id="colUsername" />
