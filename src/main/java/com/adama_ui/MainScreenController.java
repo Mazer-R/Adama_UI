@@ -177,6 +177,7 @@ public class MainScreenController {
 
     @FXML
     private void goBack() {
+        System.out.println("BACKBUTTON PRESSED");
         viewManager.goBack();
     }
 

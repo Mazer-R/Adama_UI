@@ -12,8 +12,7 @@
     <left>
         <VBox fx:id="menuBox"
               spacing="10"
-              alignment="TOP_LEFT"
-              style="-fx-background-color: #e0e0e0;"> <!-- 🎯 Fondo claro aplicado directamente -->
+              style="-fx-background-color: #e0e0e0;">
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
@@ -24,7 +23,6 @@
         </VBox>
     </left>
 
-    <!-- Contenido central -->
     <center>
         <VBox spacing="10">
             <padding>
@@ -34,12 +32,6 @@
         </VBox>
     </center>
 
-    <!-- Pie con botón de volver -->
     <bottom>
-        <HBox alignment="CENTER_LEFT">
-            <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
-            </padding>
-        </HBox>
     </bottom>
 </BorderPane>

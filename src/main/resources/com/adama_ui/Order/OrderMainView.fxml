@@ -35,18 +35,11 @@
         </VBox>
     </left>
 
-    <!-- Contenido central -->
     <center>
         <StackPane fx:id="contentArea"/>
     </center>
 
-    <!-- Pie con botón de volver -->
     <bottom>
-        <HBox alignment="CENTER_LEFT">
-            <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
-            </padding>
 
-        </HBox>
     </bottom>
 </BorderPane>

@@ -1,9 +1,7 @@
 package com.adama_ui.util;
 
 import com.adama_ui.Message.DTO.MessageResponse;
-import com.adama_ui.Message.MessageDetailController;
-import com.adama_ui.Message.MessagesMainViewController;
-import com.adama_ui.Order.ManageOrdersController;
+
 import com.adama_ui.Product.DTO.Product;
 import com.adama_ui.Product.ProductDetailController;
 import com.adama_ui.User.DTO.UserResponse;
@@ -15,7 +13,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +26,7 @@ import java.util.*;
 public class ViewManager {
 
     private static ViewManager instance;
-    private final Stack<String> viewHistory = new Stack<>();
+    private final Stack<ViewState> viewHistory = new Stack<>();
     private final Map<String, Pane> viewCache = new HashMap<>();
     private List<String> forbiddenList = new ArrayList<>();
 
@@ -48,12 +45,6 @@ public class ViewManager {
             instance = new ViewManager();
         }
         return instance;
-    }
-
-    private void saveCurrentToHistory() {
-        if (this.fxmlPath != null && isNotForbidden(this.fxmlPath)) {
-            viewHistory.push(this.fxmlPath);
-        }
     }
 
     @FunctionalInterface
@@ -104,7 +95,7 @@ public class ViewManager {
 
     public void load(String fxmlPath, boolean cache) {
         try {
-            Pane view = loadView(fxmlPath, cache, true, Pane.class, null);
+            Pane view = loadView(fxmlPath, false, true, Pane.class, null);
             mainContainer.setCenter(view);
         } catch (IOException e) {
             log.error("❌ Error al cargar la vista: " + fxmlPath, e);
@@ -146,13 +137,17 @@ public class ViewManager {
         }
     }
 
-    public void loadInto(String fxmlPath, Pane container) {
-        loadInto(fxmlPath, container, null);
-    }
+
+//    public void loadInto(String fxmlPath, Pane container) {
+//        loadInto(fxmlPath, container, null);
+//    }
 
     public void loadInto(String fxmlPath, Pane container, Runnable onLoadCallback) {
         try {
-            saveCurrentToHistory();
+            if (currentSubViewPath != null && isNotForbidden(currentSubViewPath)) {
+                viewHistory.push(new ViewState(currentSubViewPath, true, container, onLoadCallback));
+            }
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Node view = loader.load();
             this.currentController = loader.getController();
@@ -175,23 +170,23 @@ public class ViewManager {
     }
 
 
-    public void loadProfileAndManageOrders() {
-        load("/com/adama_ui/Order/OrderMainView.fxml", false);
-        if (fxmlPath != null) {
-            viewHistory.push(fxmlPath);
-        }
-        javafx.application.Platform.runLater(() -> {
-            Node node = mainContainer.lookup("#contentArea");
-            if (node instanceof StackPane contentArea) {
-                loadInto("/com/adama_ui/Order/ManageOrdersView.fxml", contentArea, () -> {
-                    Object controller = getCurrentController();
-                    if (controller instanceof ManageOrdersController ctrl) {
-                        ctrl.initialize();
-                    }
-                });
-            }
-        });
-    }
+//    public void loadProfileAndManageOrders() {
+//        load("/com/adama_ui/Order/OrderMainView.fxml", false);
+//        if (fxmlPath != null) {
+//            viewHistory.push(fxmlPath);
+//        }
+//        javafx.application.Platform.runLater(() -> {
+//            Node node = mainContainer.lookup("#contentArea");
+//            if (node instanceof StackPane contentArea) {
+//                loadInto("/com/adama_ui/Order/ManageOrdersView.fxml", contentArea, () -> {
+//                    Object controller = getCurrentController();
+//                    if (controller instanceof ManageOrdersController ctrl) {
+//                        ctrl.initialize();
+//                    }
+//                });
+//            }
+//        });
+//    }
 
     public <T> T getCurrentControllerAs(Class<T> clazz) {
         if (clazz.isInstance(currentController)) {
@@ -202,10 +197,15 @@ public class ViewManager {
     }
 
     public void goBack() {
-
         if (!viewHistory.isEmpty()) {
-            String previousPath = viewHistory.pop();
-            load(previousPath, false);
+            ViewState previousState = viewHistory.pop();
+
+            if (previousState.isSubView && previousState.targetContainer != null) {
+                loadInto(previousState.fxmlPath, previousState.targetContainer, null);
+            } else {
+                load(previousState.fxmlPath, false);
+            }
+
         } else {
             System.out.println("⚠️ No hay vista anterior en el historial.");
         }
@@ -219,10 +219,9 @@ public class ViewManager {
         return !forbiddenList.contains(fxmlPath);
     }
 
-    private List<String> fillForbiddenList() {
+    private void fillForbiddenList() {
         forbiddenList.add("/com/adama_ui/LoginToApp.fxml");
         forbiddenList.add("/com/adama_ui/MessageDetailController.fxml");
-        return forbiddenList;
     }
 
     public void reload() {
@@ -247,6 +246,16 @@ public class ViewManager {
 
         } catch (IOException e) {
             log.error("❌ Error recargando la vista: " + fxmlPath, e);
+        }
+    }
+
+    private record ViewState(String fxmlPath, boolean isSubView, Pane targetContainer, Runnable onLoadCallback) {
+    }
+
+
+    private void saveCurrentToHistory() {
+        if (this.fxmlPath != null && isNotForbidden(this.fxmlPath)) {
+            viewHistory.push(new ViewState(this.fxmlPath, false, null, null));
         }
     }
 

@@ -16,14 +16,25 @@ public class ButtonCreator {
                 throw new IllegalArgumentException("Recurso no encontrado: " + iconPath);
             }
             int size = 40;
-            Image icon = new Image(stream, size * 2, size * 2, true, true);
-            ImageView iconView = new ImageView(icon);
-            iconView.setFitWidth(size * 1.5);
-            iconView.setFitHeight(size * 1.5);
-            iconView.setPreserveRatio(true);
+            Image icon;
+            ImageView iconView;
+            if (isLong) {
+                icon = new Image(stream, size * 2, size * 2, true, true);
+                iconView = new ImageView(icon);
+                iconView.setFitHeight(size * .9);
+                iconView.setPreserveRatio(true);
+            } else {
+                icon = new Image(stream, size * 2, size * 2, true, true);
+                iconView = new ImageView(icon);
+
+                iconView.setFitWidth(size * 1.5);
+                iconView.setFitHeight(size * 1.5);
+                iconView.setPreserveRatio(true);
+
+            }
             button.setGraphic(iconView);
             if (isLong) {
-                button.setMinSize(70, 30);
+                button.setMinSize(60, 15);
             } else {
                 button.setMinSize(70, 70);
             }
