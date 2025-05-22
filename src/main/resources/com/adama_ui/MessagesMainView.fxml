@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.adama_ui.MessagesMainViewController"
+            maxWidth="Infinity" maxHeight="Infinity">
+
+   <VBox spacing="20" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="20.0"
+         AnchorPane.rightAnchor="20.0" AnchorPane.bottomAnchor="20.0">
+
+      <HBox spacing="20">
+         <VBox spacing="10">
+            <Button text="Button"/>
+            <Button text="Button"/>
+            <Button text="Button"/>
+            <Button text="Button"/>
+            <Button text="Button"/>
+            <Button text="Button" onAction="#reloadPage"/>
+         </VBox>
+
+         <HBox spacing="10" alignment="CENTER_LEFT">
+            <Button text="Button"/>
+            <Button text="Button"/>
+            <Button text="Button"/>
+            <Button text="Button"/>
+            <Button text="Button"/>
+            <Button text="Button"/>
+         </HBox>
+      </HBox>
+
+      <AnchorPane prefHeight="122.0" prefWidth="149.0" style="-fx-background-color: #f0f0f0;"/>
+   </VBox>
+</AnchorPane>
