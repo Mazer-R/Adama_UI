@@ -1,5 +1,7 @@
 package com.adama_ui.Order;
 
+import com.adama_ui.Order.Dto.Order;
+import com.adama_ui.Order.Dto.OrderService;
 import com.adama_ui.Product.DTO.Product;
 import com.adama_ui.Product.ProductService;
 import com.adama_ui.User.DTO.UserService;
@@ -17,16 +19,21 @@ import java.util.stream.Collectors;
 
 public class OrderHistoryController {
 
-    @FXML private ListView<Order> listViewOrders;
-    @FXML private ComboBox<LabeledValue> filterStatus;
-    @FXML private ComboBox<LabeledValue> filterType;
-    @FXML private ComboBox<LabeledValue> filterBrand;
-    @FXML private TextField filterUser;
+    @FXML
+    private ListView<Order> listViewOrders;
+    @FXML
+    private ComboBox<LabeledValue> filterStatus;
+    @FXML
+    private ComboBox<LabeledValue> filterType;
+    @FXML
+    private ComboBox<LabeledValue> filterBrand;
+    @FXML
+    private TextField filterUser;
 
     private final OrderService orderService = new OrderService();
     private final ProductService productService = new ProductService();
     private final UserService userService = new UserService();
-
+    private ViewManager viewManager = ViewManager.getInstance();
     private List<Order> allOrders = new ArrayList<>();
 
     @FXML
@@ -208,8 +215,4 @@ public class OrderHistoryController {
         return "(tipo desconocido)";
     }
 
-    @FXML
-    private void onBack() {
-        ViewManager.load("/com/adama_ui/Order/OrderMainView.fxml");
-    }
 }

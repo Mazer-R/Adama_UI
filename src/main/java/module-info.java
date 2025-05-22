@@ -9,6 +9,7 @@ module com.adama_ui {
     requires java.prefs;
     requires static lombok;
     requires java.management;
+    requires org.slf4j;
 
     opens com.adama_ui to javafx.fxml, com.fasterxml.jackson.databind;
     opens com.adama_ui.auth to javafx.fxml;
@@ -33,4 +34,6 @@ module com.adama_ui {
     opens com.adama_ui.Message.DTO to com.fasterxml.jackson.databind, javafx.fxml;
     exports com.adama_ui.Delivery;
     opens com.adama_ui.Delivery to com.fasterxml.jackson.databind, javafx.fxml;
+    exports com.adama_ui.Order.Dto;
+    opens com.adama_ui.Order.Dto to com.fasterxml.jackson.databind, javafx.fxml;
 }

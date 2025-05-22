@@ -4,7 +4,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import lombok.Getter;
+import lombok.Setter;
 
+import java.util.Objects;
 import java.util.prefs.Preferences;
 
 public class AppTheme {
@@ -18,23 +20,17 @@ public class AppTheme {
     public static final String FONT_FAMILY = "'Segoe UI', 'Helvetica Neue', Arial, sans-serif";
 
     private static final Preferences prefs = Preferences.userRoot().node("com.adama_ui.theme");
-    private static final String THEME_KEY = "darkMode";
-
     @Getter
-    private static boolean darkMode = prefs.getBoolean(THEME_KEY, true); // por defecto: oscuro
+    @Setter
+    private static boolean isDark = true;
 
-
-    public static void setDarkMode(boolean dark) {
-        darkMode = dark;
-        prefs.putBoolean(THEME_KEY, dark); // guardar estado en preferencias
+    public static String setThemePath(boolean isDark) {
+        return isDark ? "/style/dark-theme.css" : "/style/light-theme.css";
     }
 
-    public static String getThemePath() {
-        return darkMode ? "/style/dark-theme.css" : "/style/light-theme.css";
-    }
 
     public static void applyTheme(Scene scene) {
-        String theme = AppTheme.class.getResource(getThemePath()).toExternalForm();
+        String theme = Objects.requireNonNull(AppTheme.class.getResource(setThemePath(isDark))).toExternalForm();
         scene.getStylesheets().removeIf(s -> s.contains("dark-theme.css") || s.contains("light-theme.css"));
         if (!scene.getStylesheets().contains(theme)) {
             scene.getStylesheets().add(theme);
@@ -47,15 +43,15 @@ public class AppTheme {
         if (node.getScene() != null) {
             applyTheme(node.getScene());
         } else if (node instanceof Parent parent) {
-            String theme = AppTheme.class.getResource(getThemePath()).toExternalForm();
+            String theme = Objects.requireNonNull(AppTheme.class.getResource(setThemePath(isDark))).toExternalForm();
             parent.getStylesheets().removeIf(s -> s.contains("dark-theme.css") || s.contains("light-theme.css"));
             if (!parent.getStylesheets().contains(theme)) {
                 parent.getStylesheets().add(theme);
             }
 
-            // ✅ Reaplica el CSS y relayout
             parent.applyCss();
             parent.layout();
         }
     }
+
 }

@@ -8,7 +8,7 @@ public enum ProductStatus {
     ON_REPAIR("En reparacion", "#c700ff"),  // Rojo
     PENDING("Pendiente de recibir", "#ffc107"), // Amarillo
     ASSIGNED("Asignado", "#28a745"),
-    INACTIVE ("Inactivo", "#dc3545");            // Verde
+    INACTIVE("Inactivo", "#dc3545");            // Verde
 
     private final String label;
     private final String colorHex;

@@ -9,27 +9,27 @@
             maxWidth="Infinity" maxHeight="Infinity">
 
     <center>
-        <VBox spacing="15" >
+        <VBox spacing="15">
             <padding>
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
 
-            <Label text="Buscar producto por:" />
+            <Label text="Buscar producto por:"/>
             <HBox spacing="10">
-                <TextField fx:id="fieldIdOrTag" promptText="Introduzca el ID del producto" prefWidth="250" />
+                <TextField fx:id="fieldIdOrTag" promptText="Introduzca el ID del producto" prefWidth="250"/>
                 <Button text="BUSCAR" onAction="#onSearchByIdOrTag"
-                        style="-fx-background-color: #00c000; -fx-text-fill: white;" />
+                        style="-fx-background-color: #00c000; -fx-text-fill: white;"/>
             </HBox>
 
-            <Label text="O selecciona:" />
-            <ComboBox fx:id="comboProductType" promptText="Tipo de producto" prefWidth="250" />
-            <ComboBox fx:id="comboBrand" promptText="Marca" prefWidth="250" />
+            <Label text="O selecciona:"/>
+            <ComboBox fx:id="comboProductType" promptText="Tipo de producto" prefWidth="250"/>
+            <ComboBox fx:id="comboBrand" promptText="Marca" prefWidth="250"/>
             <Button text="BUSCAR" onAction="#onSearchByFilters"
-                    style="-fx-background-color: #00c000; -fx-text-fill: white;" maxWidth="100" />
+                    style="-fx-background-color: #00c000; -fx-text-fill: white;" maxWidth="100"/>
 
             <ListView fx:id="listViewProducts"
                       prefHeight="400"
-                      style="-fx-background-color: #1e1e1e;" />
+                      style="-fx-background-color: #1e1e1e;"/>
         </VBox>
     </center>
 

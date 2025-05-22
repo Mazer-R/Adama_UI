@@ -4,7 +4,9 @@ This document provides information about the SVG support implementation in the A
 
 ## Overview
 
-The implementation uses the [javafxsvg](https://github.com/codecentric/javafxsvg) library to render SVG files in JavaFX. This library allows SVG files to be loaded directly as JavaFX `Image` objects, which can then be used in `ImageView` components.
+The implementation uses the [javafxsvg](https://github.com/codecentric/javafxsvg) library to render SVG files in JavaFX.
+This library allows SVG files to be loaded directly as JavaFX `Image` objects, which can then be used in `ImageView`
+components.
 
 ## Implementation Details
 
@@ -112,8 +114,10 @@ The javafxsvg library will automatically handle loading and rendering the SVG fi
 
 ## Demo
 
-A demo application is provided to test SVG icon loading. You can run the `SvgIconsDemo` class to see SVG icons in action.
+A demo application is provided to test SVG icon loading. You can run the `SvgIconsDemo` class to see SVG icons in
+action.
 
 ## Available Icons
 
-SVG icons are stored in the `/ExternalResources/featherIcons/` directory. These are [Feather Icons](https://feathericons.com/), a collection of simple, open-source icons.
+SVG icons are stored in the `/ExternalResources/featherIcons/` directory. These
+are [Feather Icons](https://feathericons.com/), a collection of simple, open-source icons.

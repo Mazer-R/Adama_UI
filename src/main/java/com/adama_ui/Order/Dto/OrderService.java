@@ -1,11 +1,10 @@
-package com.adama_ui.Order;
+package com.adama_ui.Order.Dto;
 
 import com.adama_ui.auth.SessionManager;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.net.URI;
-import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
@@ -15,7 +14,7 @@ import static com.adama_ui.auth.SessionManager.HTTP_CLIENT;
 
 public class OrderService {
 
-    private static final String BASE_URL = (API_BASE_URL+"/orders");
+    private static final String BASE_URL = (API_BASE_URL + "/orders");
     private final ObjectMapper mapper = new ObjectMapper();
 
     public void createOrder(OrderRequest order) throws Exception {
@@ -44,7 +43,8 @@ public class OrderService {
         HttpResponse<String> response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
         if (response.statusCode() == 200) {
-            return mapper.readValue(response.body(), new TypeReference<>() {});
+            return mapper.readValue(response.body(), new TypeReference<>() {
+            });
         } else {
             throw new RuntimeException("❌ Error al obtener todas las órdenes: " + response.statusCode());
         }
@@ -61,7 +61,8 @@ public class OrderService {
         HttpResponse<String> response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
         if (response.statusCode() == 200) {
-            return mapper.readValue(response.body(), new TypeReference<>() {});
+            return mapper.readValue(response.body(), new TypeReference<>() {
+            });
         } else {
             throw new RuntimeException("❌ Error al obtener órdenes del usuario: " + response.statusCode());
         }
@@ -78,7 +79,8 @@ public class OrderService {
         HttpResponse<String> response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
         if (response.statusCode() == 200) {
-            return mapper.readValue(response.body(), new TypeReference<>() {});
+            return mapper.readValue(response.body(), new TypeReference<>() {
+            });
         } else {
             throw new RuntimeException("❌ Error al obtener órdenes por estado (" + status + "): " + response.statusCode());
         }
@@ -144,7 +146,8 @@ public class OrderService {
         HttpResponse<String> response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
         if (response.statusCode() == 200) {
-            return mapper.readValue(response.body(), new TypeReference<List<Order>>() {});
+            return mapper.readValue(response.body(), new TypeReference<List<Order>>() {
+            });
         } else {
             throw new RuntimeException("❌ Error al obtener órdenes validadas: " + response.statusCode());
         }

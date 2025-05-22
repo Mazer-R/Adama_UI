@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
@@ -160,7 +161,7 @@ public class UserManagementController {
             if (response.statusCode() == 200) {
                 UserResponse user = new ObjectMapper().readValue(response.body(), UserResponse.class);
 
-                Parent root = ViewManager.loadForSceneWithUser("/com/adama_ui/User/userDetails.fxml", user);
+                Parent root = ViewManager.getInstance().loadForSceneWithUser("/com/adama_ui/User/userDetails.fxml", user);
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root));
                 stage.show();

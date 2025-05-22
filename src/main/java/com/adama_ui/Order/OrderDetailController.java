@@ -1,5 +1,7 @@
 package com.adama_ui.Order;
 
+import com.adama_ui.Order.Dto.Order;
+import com.adama_ui.Order.Dto.OrderService;
 import com.adama_ui.style.AppTheme;
 import com.adama_ui.util.ViewManager;
 import javafx.fxml.FXML;
@@ -11,11 +13,16 @@ import lombok.Setter;
 
 public class OrderDetailController {
 
-    @FXML private AnchorPane rootPane;
-    @FXML private TextField fieldProductType;
-    @FXML private TextField fieldBrand;
-    @FXML private TextField fieldUsername;
-    @FXML private TextArea fieldMotivo;
+    @FXML
+    private AnchorPane rootPane;
+    @FXML
+    private TextField fieldProductType;
+    @FXML
+    private TextField fieldBrand;
+    @FXML
+    private TextField fieldUsername;
+    @FXML
+    private TextArea fieldMotivo;
 
     @Setter
     private static Order currentOrder;
@@ -37,10 +44,6 @@ public class OrderDetailController {
         return val != null ? val : "N/A";
     }
 
-    @FXML
-    private void onBack() {
-        ViewManager.loadProfileAndManageOrders();
-    }
 
     @FXML
     private void onAccept() {
@@ -49,7 +52,7 @@ public class OrderDetailController {
         try {
             orderService.validateOrder(currentOrder.getId());
             showInfoAlert("Orden aceptada", "La orden se ha validado correctamente.");
-            onBack(); // Volver a Profile + Manage
+            ViewManager.getInstance().goBack();
         } catch (Exception e) {
             e.printStackTrace();
             showErrorAlert("Error", "No se pudo validar la orden.");
@@ -63,7 +66,7 @@ public class OrderDetailController {
         try {
             orderService.denyOrder(currentOrder.getId());
             showInfoAlert("Orden rechazada", "La orden ha sido rechazada correctamente.");
-            onBack(); // Volver a Profile + Manage
+            ViewManager.getInstance().goBack(); // Volver a Profile + Manage
         } catch (Exception e) {
             e.printStackTrace();
             showErrorAlert("Error", "No se pudo rechazar la orden.");

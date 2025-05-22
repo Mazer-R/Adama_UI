@@ -1,6 +1,6 @@
 package com.adama_ui.Delivery;
 
-import com.adama_ui.Reloadable;
+import com.adama_ui.util.Reloadable;
 import com.adama_ui.util.ViewManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -9,26 +9,31 @@ import javafx.scene.layout.VBox;
 
 public class DeliveryViewController {
 
-    @FXML private StackPane contentArea;
-    @FXML private VBox menuBox;
-    @FXML private Button btnPendientes;
-    @FXML private Button btnHistorico;
+    @FXML
+    private StackPane contentArea;
+    @FXML
+    private VBox menuBox;
+    @FXML
+    private Button btnPendientes;
+    @FXML
+    private Button btnHistorico;
 
     private static String currentSubview = null;
+    ViewManager viewManager = ViewManager.getInstance();
 
     public void initialize() {
 
-            btnPendientes.setOnAction(event -> {
-                ViewManager.loadInto("/com/adama_ui/Delivery/PendingDeliveryView.fxml", contentArea, () -> {
-                    currentSubview = "PENDIENTES";
-                    highlightMenuButton(btnPendientes);
+        btnPendientes.setOnAction(event -> {
+            viewManager.loadInto("/com/adama_ui/Delivery/PendingDeliveryView.fxml", contentArea, () -> {
+                currentSubview = "PENDIENTES";
+                highlightMenuButton(btnPendientes);
 
-                    Object controller = ViewManager.getCurrentController();
-                    if (controller instanceof Reloadable reloadable) {
-                        reloadable.onReload();
-                    }
-                });
+                Object controller = viewManager.getCurrentController();
+                if (controller instanceof Reloadable reloadable) {
+                    reloadable.onReload();
+                }
             });
+        });
 
 
         // Carga la subvista activa o por defecto
@@ -53,9 +58,5 @@ public class DeliveryViewController {
         }
     }
 
-    @FXML
-    private void onBack() {
-        ViewManager.load("/com/adama_ui/HomeView.fxml");
-        currentSubview = null;
-    }
+
 }

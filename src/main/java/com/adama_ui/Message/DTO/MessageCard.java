@@ -61,7 +61,8 @@ public class MessageCard extends ListCell<MessageResponse> {
     private void showMessageDetails(MessageResponse message) {
         if (!message.isRead() && !(message.getSenderUsername().equals(SessionManager.getInstance().getUsername()))) {
             handleMarkAsRead(message);
-        }        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Detalles del mensaje");
         alert.setHeaderText(message.getSubject());
         alert.setContentText(createDetailContent(message));
@@ -77,11 +78,12 @@ public class MessageCard extends ListCell<MessageResponse> {
     }
 
     private void handleMarkAsRead(MessageResponse message) {
-        if (!message.isRead()){
-        messageService.markAsRead(
-                message.getId(),
-                () -> Platform.runLater(() -> getListView().getItems().remove(message)),
-                MessageService::showError
-        );
-    }}
+        if (!message.isRead()) {
+            messageService.markAsRead(
+                    message.getId(),
+                    () -> Platform.runLater(() -> getListView().getItems().remove(message)),
+                    MessageService::showError
+            );
+        }
+    }
 }

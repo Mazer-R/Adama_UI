@@ -46,9 +46,7 @@
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
-            <Button text="← VOLVER"
-                    onAction="#onBack"
-                    styleClass="action-button"/>
+
         </HBox>
     </bottom>
 </BorderPane>

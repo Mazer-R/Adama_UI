@@ -5,7 +5,6 @@ import com.adama_ui.util.ViewManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.Node;
@@ -18,7 +17,6 @@ import javafx.geometry.Rectangle2D;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
@@ -27,8 +25,10 @@ import static com.adama_ui.auth.SessionManager.HTTP_CLIENT;
 
 public class LoginToAppController {
 
-    @FXML private TextField usernameField;
-    @FXML private PasswordField passwordField;
+    @FXML
+    private TextField usernameField;
+    @FXML
+    private PasswordField passwordField;
 
     @FXML
     public void initialize() {
@@ -112,12 +112,10 @@ public class LoginToAppController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/adama_ui/MainScreen.fxml"));
             BorderPane mainContainer = loader.load();
 
-            // ✅ Establecer el mainContainer en ViewManager
-            ViewManager.setMainContainer(mainContainer);
+            ViewManager.getInstance().setMainContainer(mainContainer);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-            // 🔍 Obtener el tamaño de pantalla disponible
             Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
             Scene newScene = new Scene(mainContainer, screenBounds.getWidth(), screenBounds.getHeight());
 
@@ -126,9 +124,6 @@ public class LoginToAppController {
             stage.setY(screenBounds.getMinY());
             stage.setWidth(screenBounds.getWidth());
             stage.setHeight(screenBounds.getHeight());
-
-            // ❌ Ya no usamos maximized, para que el usuario pueda ajustar
-            // stage.setMaximized(true); // ← COMENTADO: no es necesario
 
             stage.show();
 

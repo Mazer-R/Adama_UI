@@ -28,7 +28,8 @@ public class UserService {
         HttpResponse<String> response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
 
         if (response.statusCode() == 200) {
-            Map<String, Object> userData = mapper.readValue(response.body(), new TypeReference<>() {});
+            Map<String, Object> userData = mapper.readValue(response.body(), new TypeReference<>() {
+            });
             return userData.getOrDefault("username", "Desconocido").toString();
         } else {
             throw new RuntimeException("Error al obtener username: " + response.statusCode());

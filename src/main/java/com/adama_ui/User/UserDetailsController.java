@@ -6,9 +6,12 @@ import javafx.scene.control.Label;
 
 
 public class UserDetailsController {
-    @FXML private Label lblUsername;
-    @FXML private Label lblFirstName;
-    @FXML private Label lblRole;
+    @FXML
+    private Label lblUsername;
+    @FXML
+    private Label lblFirstName;
+    @FXML
+    private Label lblRole;
 
     public void showUserDetails(UserResponse user) {
         lblUsername.setText(user.getUsername());

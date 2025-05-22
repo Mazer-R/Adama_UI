@@ -14,7 +14,7 @@ import static com.adama_ui.auth.SessionManager.API_BASE_URL;
 
 public class ProductService {
 
-    private static final String PRODUCTS_PATH = API_BASE_URL +"/products";
+    private static final String PRODUCTS_PATH = API_BASE_URL + "/products";
 
     private final HttpClient httpClient = HttpClient.newHttpClient();
     private final ObjectMapper objectMapper = new ObjectMapper();

@@ -1,5 +1,7 @@
 package com.adama_ui.Order;
 
+import com.adama_ui.Order.Dto.Order;
+import com.adama_ui.Order.Dto.OrderService;
 import com.adama_ui.Product.DTO.Product;
 import com.adama_ui.Product.ProductService;
 import com.adama_ui.User.DTO.UserService;
@@ -21,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ManageOrdersController {
+    ViewManager viewManager = ViewManager.getInstance();
 
     @FXML
     private BorderPane rootPane;
@@ -120,7 +123,7 @@ public class ManageOrdersController {
                                     detailButton.setStyle("-fx-background-color: #00A651; -fx-text-fill: white;");
                                     detailButton.setOnAction(e -> {
                                         OrderDetailController.setCurrentOrder(item);
-                                        ViewManager.load("/com/adama_ui/Order/OrderDetailView.fxml");
+                                        viewManager.load("/com/adama_ui/Order/OrderDetailView.fxml");
                                     });
 
                                     cell.getChildren().addAll(name, type, brand, user, spacer, statusBox, detailButton);
@@ -176,7 +179,4 @@ public class ManageOrdersController {
         return val != null ? val : "(no disponible)";
     }
 
-    public void loadPendingOrders() {
-        loadOrderedRequests();
-    }
 }

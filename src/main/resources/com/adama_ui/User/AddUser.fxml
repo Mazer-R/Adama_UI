@@ -11,47 +11,46 @@
             maxWidth="Infinity" maxHeight="Infinity">
 
 
-
     <center>
         <VBox spacing="15">
             <padding>
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
 
-            <Label text="Add New User" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+            <Label text="Añadir nuevo usuario" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
 
-            <Label text="Username*" />
-            <TextField fx:id="fieldUsername" promptText="Enter username" />
+            <Label text="Nombre de usuario*"/>
+            <TextField fx:id="fieldUsername" promptText="Nombre de usuario"/>
 
-            <Label text="Password*" />
-            <PasswordField fx:id="fieldPassword" promptText="Enter password" />
+            <Label text="Contraseña*"/>
+            <PasswordField fx:id="fieldPassword" promptText="Contraseña"/>
 
-            <Label text="First Name*" />
-            <TextField fx:id="fieldFirstName" promptText="Enter first name" />
+            <Label text="Nombre*"/>
+            <TextField fx:id="fieldFirstName" promptText="Nombre"/>
 
-            <Label text="Last Name*" />
-            <TextField fx:id="fieldLastName" promptText="Enter last name" />
+            <Label text="Apellido*"/>
+            <TextField fx:id="fieldLastName" promptText="Apellido"/>
 
-            <Label text="Department*" />
-            <TextField fx:id="fieldDepartment" promptText="Enter department" />
+            <Label text="Departmento*"/>
+            <TextField fx:id="fieldDepartment" promptText="Departamento"/>
 
-            <Label text="Supervisor ID" />
-            <TextField fx:id="fieldSupervisorId" promptText="Enter supervisor ID (optional)" />
+            <Label text="Nombre de usuario del Supervisor asignado"/>
+            <TextField fx:id="fieldSupervisorId" promptText="Supervisor asignado"/>
 
-            <Label text="Role*" />
-            <ComboBox fx:id="comboRole" promptText="Select role" prefWidth="250">
+            <Label text="Rol*"/>
+            <ComboBox fx:id="comboRole" promptText="Seleccione el rol" prefWidth="250">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="ROLE_ADMIN" />
-                        <String fx:value="ROLE_USER" />
-                        <String fx:value="ROLE_WAREHOUSE" />
-                        <String fx:value="ROLE_MANAGER" />
+                        <String fx:value="ROLE_ADMIN"/>
+                        <String fx:value="ROLE_USER"/>
+                        <String fx:value="ROLE_WAREHOUSE"/>
+                        <String fx:value="ROLE_MANAGER"/>
                     </FXCollections>
                 </items>
             </ComboBox>
 
             <Button text="SAVE USER" onAction="#onSaveUser"
-                    style="-fx-background-color: #00c000; -fx-text-fill: white;" />
+                    style="-fx-background-color: #00c000; -fx-text-fill: white;"/>
         </VBox>
     </center>
 

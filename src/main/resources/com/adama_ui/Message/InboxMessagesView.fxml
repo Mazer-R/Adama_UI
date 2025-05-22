@@ -23,8 +23,7 @@
             <Label fx:id="emptyLabel"
                    text="No tienes mensajes nuevos."
                    visible="false"
-                   managed="false"
-                   styleClass="empty-message"/>
+                   managed="false"/>
         </VBox>
     </center>
 </BorderPane>

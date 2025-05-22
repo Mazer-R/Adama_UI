@@ -10,7 +10,7 @@
             styleClass="root-pane">
 
     <center>
-        <VBox spacing="15" >
+        <VBox spacing="15">
             <padding>
                 <Insets top="20" left="20" right="20" bottom="20"/>
             </padding>

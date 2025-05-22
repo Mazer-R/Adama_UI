@@ -44,8 +44,5 @@
         </HBox>
     </VBox>
 
-    <Button fx:id="btnBack" text="← VOLVER"
-            onAction="#onBack"
-            AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
-            styleClass="back-button"/>
+
 </AnchorPane>

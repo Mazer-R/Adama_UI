@@ -86,7 +86,7 @@
     -fx-padding: 10;
     -fx-border-color: gray;
     -fx-border-radius: 5;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 6, 0.2, 0, 2);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 6, 0.2, 0, 2);
 }
 
 .custom-list-cell:hover {

@@ -19,27 +19,37 @@ import static com.adama_ui.auth.SessionManager.HTTP_CLIENT;
 
 public class ProductDetailController {
 
-    @FXML private TextField fieldName;
-    @FXML private TextField fieldType;
-    @FXML private TextField fieldBrand;
-    @FXML private TextField fieldStatus;
-    @FXML private TextField fieldUser;
-    @FXML private TextArea fieldDescription;
+    @FXML
+    private TextField fieldName;
+    @FXML
+    private TextField fieldType;
+    @FXML
+    private TextField fieldBrand;
+    @FXML
+    private TextField fieldStatus;
+    @FXML
+    private TextField fieldUser;
+    @FXML
+    private TextArea fieldDescription;
 
 
-    @FXML private Button btnModify;
-    @FXML private Button btnAccept;
-    @FXML private Button btnDelete;
-    @FXML private Button btnBack;
+    @FXML
+    private Button btnModify;
+    @FXML
+    private Button btnAccept;
+    @FXML
+    private Button btnDelete;
+    @FXML
+    private Button btnBack;
 
     private final UserService userService = new UserService();
     private Product currentProduct;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public void initialize(){
+    public void initialize() {
 
-        if (SessionManager.getInstance().getRole().equals("ROLE_WAREHOUSE")){
+        if (SessionManager.getInstance().getRole().equals("ROLE_WAREHOUSE")) {
             btnDelete.setVisible(false);
         }
 
@@ -62,23 +72,24 @@ public class ProductDetailController {
         } else {
             fieldStatus.setText("");
         }
-        if(currentProduct.getUserId() == null){
+        if (currentProduct.getUserId() == null) {
             fieldUser.setText("SIN USUARIO ASIGNADO");
-        }else{
-        if (SessionManager.getInstance().getRole().equals("ROLE_ADMIN")){
-            try {
-                fieldUser.setText(userService.getUsernameById(currentProduct.getUserId()));
-            } catch (Exception e) {
-                throw new RuntimeException(e);}
-        }else{
-            fieldUser.setText(currentProduct.getUserId());
-        }}
+        } else {
+            if (SessionManager.getInstance().getRole().equals("ROLE_ADMIN")) {
+                try {
+                    fieldUser.setText(userService.getUsernameById(currentProduct.getUserId()));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                fieldUser.setText(currentProduct.getUserId());
+            }
+        }
         fieldDescription.setText(currentProduct.getDescription());
 
         setEditable(false);
         btnModify.setVisible(true);
         btnAccept.setVisible(false);
-        btnBack.setVisible(true);
         btnDelete.setText("Eliminar producto");
     }
 
@@ -87,7 +98,6 @@ public class ProductDetailController {
         setEditable(true);
         btnModify.setVisible(false);
         btnAccept.setVisible(true);
-        btnBack.setVisible(false);
         btnDelete.setText("Cancelar");
     }
 
@@ -133,7 +143,6 @@ public class ProductDetailController {
         setEditable(false);
         btnModify.setVisible(true);
         btnAccept.setVisible(false);
-        btnBack.setVisible(true);
         btnDelete.setText("Eliminar producto");
     }
 
@@ -160,7 +169,7 @@ public class ProductDetailController {
 
                     if (resp.statusCode() == 200 || resp.statusCode() == 204) {
                         showAlert("Producto eliminado con éxito.", AlertType.INFORMATION);
-                        ViewManager.load("/com/adama_ui/Product/ProductManagement.fxml");
+                        ViewManager.getInstance().goBack();
                     } else {
                         showAlert("Error al eliminar el producto.", AlertType.ERROR);
                     }
@@ -172,12 +181,6 @@ public class ProductDetailController {
             }
         });
     }
-    @FXML
-    private void onBack() {
-        ViewManager.load("/com/adama_ui/Product/ProductMainView.fxml");
-    }
-
-
 
     private void setEditable(boolean editable) {
         fieldName.setEditable(editable);

@@ -1,7 +1,7 @@
 package com.adama_ui.Message;
 
 import com.adama_ui.Message.DTO.MessageResponse;
-import com.adama_ui.Reloadable;
+import com.adama_ui.util.Reloadable;
 import com.adama_ui.style.AppTheme;
 import com.adama_ui.util.ViewManager;
 import javafx.fxml.FXML;
@@ -12,12 +12,17 @@ import javafx.scene.layout.StackPane;
 
 public class MessageDetailController implements Reloadable {
 
-    @FXML private AnchorPane rootPane;
-    @FXML private TextField fieldSender;
-    @FXML private TextField fieldSubject;
-    @FXML private TextArea fieldContent;
+    @FXML
+    private AnchorPane rootPane;
+    @FXML
+    private TextField fieldSender;
+    @FXML
+    private TextField fieldSubject;
+    @FXML
+    private TextArea fieldContent;
 
     private StackPane contentArea;
+    ViewManager viewManager = ViewManager.getInstance();
 
     @FXML
     public void initialize() {
@@ -34,14 +39,14 @@ public class MessageDetailController implements Reloadable {
         this.contentArea = area;
     }
 
-    // 🟢 Nuevo método clave para asegurar la carga explícita
+
     public void setMessage(MessageResponse message) {
-        ViewManager.setCurrentMessage(message);
+        viewManager.setCurrentMessage(message);
         updateFields();
     }
 
     private void updateFields() {
-        MessageResponse msg = ViewManager.getCurrentMessage();
+        MessageResponse msg = viewManager.getCurrentMessage();
         if (msg != null && fieldSender != null) {
             fieldSender.setText(msg.getSenderUsername());
             fieldSubject.setText(msg.getSubject());
@@ -52,12 +57,5 @@ public class MessageDetailController implements Reloadable {
         }
     }
 
-    @FXML
-    private void onBack() {
-        MessagesMainViewController.setShowingDetail(false);
-        ViewManager.loadInto("/com/adama_ui/Message/InboxMessagesView.fxml", contentArea, () -> {
-            var ctrl = ViewManager.getCurrentControllerAs(InboxMessagesViewController.class);
-            if (ctrl != null) ctrl.setContentArea(contentArea);
-        });
-    }
+
 }

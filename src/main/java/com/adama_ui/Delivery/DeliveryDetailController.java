@@ -1,7 +1,7 @@
 package com.adama_ui.Delivery;
 
-import com.adama_ui.Order.Order;
-import com.adama_ui.Order.OrderService;
+import com.adama_ui.Order.Dto.Order;
+import com.adama_ui.Order.Dto.OrderService;
 import com.adama_ui.style.AppTheme;
 import com.adama_ui.util.ViewManager;
 import javafx.fxml.FXML;
@@ -13,11 +13,16 @@ import lombok.Setter;
 
 public class DeliveryDetailController {
 
-    @FXML private AnchorPane rootPane;
-    @FXML private TextField fieldProductType;
-    @FXML private TextField fieldBrand;
-    @FXML private TextField fieldUsername;
-    @FXML private TextArea fieldMotivo;
+    @FXML
+    private AnchorPane rootPane;
+    @FXML
+    private TextField fieldProductType;
+    @FXML
+    private TextField fieldBrand;
+    @FXML
+    private TextField fieldUsername;
+    @FXML
+    private TextArea fieldMotivo;
 
     @Setter
     private static Order currentOrder;
@@ -41,11 +46,6 @@ public class DeliveryDetailController {
         return val != null ? val : "N/A";
     }
 
-    @FXML
-    private void onBack() {
-        ViewManager.load("/com/adama_ui/Delivery/PendingDeliveryView.fxml");    }
-
-    // Métodos adicionales si quieres acciones como aceptar, rechazar, etc.
 
     private void showInfoAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -73,7 +73,7 @@ public class DeliveryDetailController {
         try {
             orderService.fulfillOrder(currentOrder.getId());
             showInfoAlert("Éxito", "La orden ha sido marcada como entregada.");
-            onBack();
+            ViewManager.getInstance().goBack();
 
         } catch (Exception e) {
             e.printStackTrace();

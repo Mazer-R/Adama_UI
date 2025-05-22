@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.net.http.HttpClient;
+
 @Setter
 @Getter
 public class SessionManager {
@@ -21,7 +22,8 @@ public class SessionManager {
     private String managerUsername;
     private String username;
 
-    private SessionManager() {}
+    private SessionManager() {
+    }
 
     public static SessionManager getInstance() {
         if (instance == null) {

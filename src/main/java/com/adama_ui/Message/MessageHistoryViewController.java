@@ -18,11 +18,14 @@ import java.util.List;
 
 public class MessageHistoryViewController {
 
-    @FXML private ListView<MessageResponse> historyListView;
-    @FXML private Label emptyLabel;
+    @FXML
+    private ListView<MessageResponse> historyListView;
+    @FXML
+    private Label emptyLabel;
 
     private final MessageService messageService = new MessageService();
     private StackPane contentArea;
+    ViewManager viewManager = ViewManager.getInstance();
 
     @FXML
     public void initialize() {
@@ -58,18 +61,18 @@ public class MessageHistoryViewController {
                 Button btnDetalle = new Button("Detalle");
                 btnDetalle.getStyleClass().add("small-action-button");
                 btnDetalle.setOnAction(e -> {
-                    ViewManager.setCurrentMessage(msg);
+                    viewManager.setCurrentMessage(msg);
 
                     if (contentArea != null) {
-                        ViewManager.loadInto("/com/adama_ui/Message/MessageDetailView.fxml", contentArea, () -> {
-                            var ctrl = ViewManager.getCurrentControllerAs(MessageDetailController.class);
+                        viewManager.loadInto("/com/adama_ui/Message/MessageDetailView.fxml", contentArea, () -> {
+                            var ctrl = viewManager.getCurrentControllerAs(MessageDetailController.class);
                             if (ctrl != null) {
                                 ctrl.setContentArea(contentArea);
                                 ctrl.setMessage(msg);
                             }
                         });
                     } else {
-                        System.err.println("❌ contentArea no está inicializado (null)." );
+                        System.err.println("❌ contentArea no está inicializado (null).");
                     }
                 });
 

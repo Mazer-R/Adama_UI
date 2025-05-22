@@ -1,6 +1,6 @@
 package com.adama_ui.Order;
 
-import com.adama_ui.Reloadable;
+import com.adama_ui.util.Reloadable;
 import com.adama_ui.auth.SessionManager;
 import com.adama_ui.util.ViewManager;
 import javafx.fxml.FXML;
@@ -10,12 +10,19 @@ import javafx.scene.layout.VBox;
 
 public class OrderMainViewController {
 
-    @FXML private StackPane contentArea;
-    @FXML private VBox profileMenu;
-    @FXML private Button btnOrder;
-    @FXML private Button btnTracking;
-    @FXML private Button btnManage;
-    @FXML private Button btnHistory;
+    @FXML
+    private StackPane contentArea;
+    @FXML
+    private VBox profileMenu;
+    @FXML
+    private Button btnOrder;
+    @FXML
+    private Button btnTracking;
+    @FXML
+    private Button btnManage;
+    @FXML
+    private Button btnHistory;
+    ViewManager viewManager = ViewManager.getInstance();
 
     private static String currentSubview = null;
 
@@ -23,12 +30,11 @@ public class OrderMainViewController {
         boolean isManagerOrAdmin = SessionManager.getInstance().isAdminOrManager();
         if (btnOrder != null) {
             btnOrder.setOnAction(event -> {
-                ViewManager.loadInto("/com/adama_ui/Order/OrderView.fxml", contentArea, () -> {
+                viewManager.loadInto("/com/adama_ui/Order/OrderView.fxml", contentArea, () -> {
                     currentSubview = "ORDER";
                     highlightMenuButton(btnOrder);
 
-                    // 🔄 Forzar recarga si el controlador implementa Reloadable
-                    Object controller = ViewManager.getCurrentController();
+                    Object controller = viewManager.getCurrentController();
                     if (controller instanceof Reloadable reloadable) {
                         reloadable.onReload();
                     }
@@ -38,7 +44,7 @@ public class OrderMainViewController {
 
         if (btnTracking != null) {
             btnTracking.setOnAction(event -> {
-                ViewManager.loadInto("/com/adama_ui/Order/OrderTrackingView.fxml", contentArea, () -> {
+                viewManager.loadInto("/com/adama_ui/Order/OrderTrackingView.fxml", contentArea, () -> {
                     currentSubview = "TRACKING";
                     highlightMenuButton(btnTracking);
                 });
@@ -51,7 +57,7 @@ public class OrderMainViewController {
 
             if (isManagerOrAdmin) {
                 btnManage.setOnAction(event -> {
-                    ViewManager.loadInto("/com/adama_ui/Order/ManageOrdersView.fxml", contentArea, () -> {
+                    viewManager.loadInto("/com/adama_ui/Order/ManageOrdersView.fxml", contentArea, () -> {
                         currentSubview = "MANAGE";
                         highlightMenuButton(btnManage);
                     });
@@ -65,7 +71,7 @@ public class OrderMainViewController {
 
             if (isManagerOrAdmin) {
                 btnHistory.setOnAction(event -> {
-                    ViewManager.loadInto("/com/adama_ui/Order/OrderHistoryView.fxml", contentArea, () -> {
+                    viewManager.loadInto("/com/adama_ui/Order/OrderHistoryView.fxml", contentArea, () -> {
                         currentSubview = "HISTORY";
                         highlightMenuButton(btnHistory);
                     });
@@ -74,17 +80,13 @@ public class OrderMainViewController {
         }
 
         if (currentSubview == null) {
-            btnOrder.fire(); // por defecto
+            btnOrder.fire();
         } else {
             switch (currentSubview) {
                 case "ORDER" -> btnOrder.fire();
                 case "TRACKING" -> btnTracking.fire();
-                case "MANAGE" -> {
-                    if (btnManage.isVisible()) btnManage.fire();
-                }
-                case "HISTORY" -> {
-                    if (btnHistory.isVisible()) btnHistory.fire();
-                }
+                case "MANAGE" -> btnManage.fire();
+                case "HISTORY" -> btnHistory.fire();
             }
         }
     }
@@ -100,15 +102,4 @@ public class OrderMainViewController {
         }
     }
 
-    @FXML
-    private void onBack() {
-        ViewManager.load("/com/adama_ui/HomeView.fxml");
-        currentSubview = null;
-    }
-
-    public void loadManageOrders() {
-        if (btnManage != null && btnManage.isVisible()) {
-            btnManage.fire();
-        }
-    }
 }

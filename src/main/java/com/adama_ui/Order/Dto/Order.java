@@ -1,4 +1,4 @@
-package com.adama_ui.Order;
+package com.adama_ui.Order.Dto;
 
 import lombok.Getter;
 import lombok.Setter;

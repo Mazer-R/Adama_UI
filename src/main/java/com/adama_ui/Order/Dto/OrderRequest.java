@@ -1,14 +1,15 @@
-package com.adama_ui.Order;
+package com.adama_ui.Order.Dto;
 
 public class OrderRequest {
-    private String details ="";
+    private String details = "";
     private String productId;
     private String userId;
     private String managerUsername;
 
-    public OrderRequest() {}
+    public OrderRequest() {
+    }
 
-    public OrderRequest(String productId, String userId, String managerUsername,String details) {
+    public OrderRequest(String productId, String userId, String managerUsername, String details) {
         this.productId = productId;
         this.userId = userId;
         this.managerUsername = managerUsername;

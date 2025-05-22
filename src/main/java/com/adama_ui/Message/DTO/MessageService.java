@@ -22,16 +22,18 @@ public class MessageService {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
-@Getter
+    @Getter
     public enum MessageType {
         INBOX("inbox"),
         SENT("sent"),
         RECEIVED("");
         private final String path;
+
         MessageType(String path) {
             this.path = path;
         }
     }
+
     public void fetchMessages(MessageType type,
                               Consumer<List<MessageResponse>> onSuccess,
                               Consumer<String> onError,
@@ -41,14 +43,14 @@ public class MessageService {
             try {
                 HttpRequest request = null;
                 if (type == MessageType.RECEIVED) {
-                     request = HttpRequest.newBuilder()
+                    request = HttpRequest.newBuilder()
                             .uri(URI.create(SessionManager.API_BASE_URL + "/messages/my-messages"))
                             .header("Authorization", SessionManager.getInstance().getAuthHeader())
                             .header("Accept", "application/json")
                             .GET()
                             .build();
-                }else{
-                     request = HttpRequest.newBuilder()
+                } else {
+                    request = HttpRequest.newBuilder()
                             .uri(URI.create(SessionManager.API_BASE_URL + "/messages/my-messages/" + type.getPath()))
                             .header("Authorization", SessionManager.getInstance().getAuthHeader())
                             .header("Accept", "application/json")
@@ -62,7 +64,8 @@ public class MessageService {
                         if (response.statusCode() == 200) {
                             List<MessageResponse> messages = MAPPER.readValue(
                                     response.body(),
-                                    new TypeReference<>() {}
+                                    new TypeReference<>() {
+                                    }
                             );
                             handleSuccess(messages, listView, emptyLabel);
                             if (onSuccess != null) onSuccess.accept(messages);

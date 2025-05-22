@@ -18,22 +18,25 @@ import static com.adama_ui.auth.SessionManager.HTTP_CLIENT;
 public class AddUserController {
 
 
-    @FXML private TextField fieldUsername;
-    @FXML private PasswordField fieldPassword;
-    @FXML private TextField fieldFirstName;
-    @FXML private TextField fieldLastName;
-    @FXML private TextField fieldDepartment;
-    @FXML private TextField fieldSupervisorId;
-    @FXML private ComboBox<String> comboRole;
-
     @FXML
-    private void goAddUser() {
-        ViewManager.load("/com/adama_ui/User/AddUser.fxml");
-    }
+    private TextField fieldUsername;
+    @FXML
+    private PasswordField fieldPassword;
+    @FXML
+    private TextField fieldFirstName;
+    @FXML
+    private TextField fieldLastName;
+    @FXML
+    private TextField fieldDepartment;
+    @FXML
+    private TextField fieldSupervisorId;
+    @FXML
+    private ComboBox<String> comboRole;
+    ViewManager viewManager = ViewManager.getInstance();
 
     @FXML
     private void onGoToUserManagement() {
-        ViewManager.load("/com/adama_ui/User/UserManagement.fxml");
+        viewManager.load("/com/adama_ui/User/UserManagement.fxml");
     }
 
     @FXML
@@ -44,26 +47,25 @@ public class AddUserController {
         String lastName = fieldLastName.getText().trim();
         String department = fieldDepartment.getText().trim();
         String supervisorId = fieldSupervisorId.getText().trim();
-        String role = comboRole.getValue();  // Puede ser ROLE_ADMIN, ROLE_USER, ROLE_WAREHOUSE, ROLE_MANAGER
+        String role = comboRole.getValue();
 
         if (username.isEmpty() || password.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || department.isEmpty() || role == null) {
             showAlert();
             return;
         }
 
-        // Construir JSON manualmente
         String jsonBody = String.format(
                 """
-                {
-                    "username": "%s",
-                    "password": "%s",
-                    "firstName": "%s",
-                    "lastName": "%s",
-                    "department": "%s",
-                    "supervisorId": "%s",
-                    "role": "%s"
-                }
-                """,
+                        {
+                            "username": "%s",
+                            "password": "%s",
+                            "firstName": "%s",
+                            "lastName": "%s",
+                            "department": "%s",
+                            "supervisorId": "%s",
+                            "role": "%s"
+                        }
+                        """,
                 escapeJson(username),
                 escapeJson(password),
                 escapeJson(firstName),
@@ -94,10 +96,6 @@ public class AddUserController {
         }
     }
 
-    @FXML
-    private void onBack() {
-        ViewManager.load("/com/adama_ui/TestView.fxml");
-    }
 
     private String escapeJson(String value) {
         return value.replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "");

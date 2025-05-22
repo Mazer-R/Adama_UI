@@ -28,7 +28,7 @@
                 <Button fx:id="Order" onAction="#loadOrderView"/>
                 <Button fx:id="Messages" onAction="#loadMessagesView"/>
                 <Button fx:id="Products" onAction="#loadProductView"/>
-                <Button fx:id="Delivery" onAction="#loadDeliveryView" />
+                <Button fx:id="Delivery" onAction="#loadDeliveryView"/>
                 <Button fx:id="Users" onAction="#loadUserView"/>
 
             </HBox>
@@ -55,6 +55,9 @@
     </center>
 
     <bottom>
-
+        <Button fx:id="backButton"
+                text="← VOLVER"
+                onAction="#goBack"
+                styleClass="action-button"/>
     </bottom>
 </BorderPane>

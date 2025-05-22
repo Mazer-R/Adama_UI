@@ -1,6 +1,6 @@
 package com.adama_ui.Product;
 
-import com.adama_ui.Reloadable;
+import com.adama_ui.util.Reloadable;
 import com.adama_ui.util.ViewManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -9,41 +9,40 @@ import javafx.scene.layout.VBox;
 
 public class ProductMainViewController implements Reloadable {
 
-    @FXML private StackPane contentPane;
-    @FXML private VBox warehouseMenu;
-    @FXML private Button btnAddProduct;
-    @FXML private Button btnManageProduct;
-    @FXML private Button btnBack;
+    @FXML
+    private StackPane contentPane;
+    @FXML
+    private VBox warehouseMenu;
+    @FXML
+    private Button btnAddProduct;
+    @FXML
+    private Button btnManageProduct;
+    @FXML
+    private Button btnBack;
 
     private String currentSubview = null;
+    ViewManager viewManager = ViewManager.getInstance();
 
     @FXML
     public void initialize() {
         btnAddProduct.setOnAction(event -> {
-            ViewManager.loadInto("/com/adama_ui/Product/AddProductView.fxml", contentPane, () -> {
+            viewManager.loadInto("/com/adama_ui/Product/AddProductView.fxml", contentPane, () -> {
                 currentSubview = "ADD";
                 highlightMenuButton(btnAddProduct);
-                Object controller = ViewManager.getCurrentController();
+                Object controller = viewManager.getCurrentController();
             });
         });
 
         btnManageProduct.setOnAction(event -> {
-            ViewManager.loadInto("/com/adama_ui/Product/ProductManagement.fxml", contentPane, () -> {
+            viewManager.loadInto("/com/adama_ui/Product/ProductManagement.fxml", contentPane, () -> {
                 currentSubview = "MANAGE";
                 highlightMenuButton(btnManageProduct);
-                Object controller = ViewManager.getCurrentController();
+                Object controller = viewManager.getCurrentController();
                 if (controller instanceof Reloadable reloadable) {
                     reloadable.onReload();
                 }
             });
         });
-
-        if (btnBack != null) {
-            btnBack.setOnAction(e -> {
-                ViewManager.load("/com/adama_ui/HomeView.fxml");
-                currentSubview = null;
-            });
-        }
 
         if (currentSubview == null) {
             btnAddProduct.fire();

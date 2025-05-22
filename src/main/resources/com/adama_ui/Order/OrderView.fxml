@@ -17,7 +17,7 @@
     </padding>
 
     <!-- Filtros -->
-    <Label text="Buscar productos disponibles por:" styleClass="section-title" />
+    <Label text="Buscar productos disponibles por:" styleClass="section-title"/>
 
     <HBox spacing="10" alignment="CENTER_LEFT">
         <ComboBox fx:id="comboProductType"

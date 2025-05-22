@@ -6,7 +6,8 @@ import javafx.scene.layout.VBox;
 
 public class HomeViewController {
 
-    @FXML private VBox rootPane;
+    @FXML
+    private VBox rootPane;
 
     @FXML
     public void initialize() {

@@ -1,11 +1,11 @@
 
 package com.adama_ui.Order;
 
-import com.adama_ui.Order.OrderRequest;
-import com.adama_ui.Order.OrderService;
+import com.adama_ui.Order.Dto.OrderRequest;
+import com.adama_ui.Order.Dto.OrderService;
 import com.adama_ui.Product.DTO.Product;
 import com.adama_ui.Product.ProductService;
-import com.adama_ui.Reloadable;
+import com.adama_ui.util.Reloadable;
 import com.adama_ui.auth.SessionManager;
 import com.adama_ui.util.*;
 import javafx.application.Platform;
@@ -19,9 +19,12 @@ import java.util.stream.Collectors;
 
 public class OrderViewController implements Reloadable {
 
-    @FXML private ComboBox<LabeledValue> comboProductType;
-    @FXML private ComboBox<LabeledValue> comboBrand;
-    @FXML private ListView<Product> listViewProducts;
+    @FXML
+    private ComboBox<LabeledValue> comboProductType;
+    @FXML
+    private ComboBox<LabeledValue> comboBrand;
+    @FXML
+    private ListView<Product> listViewProducts;
 
     private final ProductService productService = new ProductService();
     private final OrderService orderService = new OrderService();
@@ -40,39 +43,48 @@ public class OrderViewController implements Reloadable {
         comboBrand.setPromptText("Todas las marcas");
 
         comboProductType.setCellFactory(cb -> new ListCell<>() {
-            @Override protected void updateItem(LabeledValue item, boolean empty) {
+            @Override
+            protected void updateItem(LabeledValue item, boolean empty) {
                 super.updateItem(item, empty);
                 setText(empty || item == null ? "Todos los tipos" : item.label());
             }
         });
         comboProductType.setButtonCell(new ListCell<>() {
-            @Override protected void updateItem(LabeledValue item, boolean empty) {
+            @Override
+            protected void updateItem(LabeledValue item, boolean empty) {
                 super.updateItem(item, empty);
                 setText(empty || item == null ? "Todos los tipos" : item.label());
             }
         });
 
         comboBrand.setCellFactory(cb -> new ListCell<>() {
-            @Override protected void updateItem(LabeledValue item, boolean empty) {
+            @Override
+            protected void updateItem(LabeledValue item, boolean empty) {
                 super.updateItem(item, empty);
                 setText(empty || item == null ? "Todas las marcas" : item.label());
             }
         });
         comboBrand.setButtonCell(new ListCell<>() {
-            @Override protected void updateItem(LabeledValue item, boolean empty) {
+            @Override
+            protected void updateItem(LabeledValue item, boolean empty) {
                 super.updateItem(item, empty);
                 setText(empty || item == null ? "Todas las marcas" : item.label());
             }
         });
 
-        comboProductType.setOnKeyPressed(e -> { if (e.getCode() == KeyCode.ENTER) onSearchByFilters(); });
-        comboBrand.setOnKeyPressed(e -> { if (e.getCode() == KeyCode.ENTER) onSearchByFilters(); });
+        comboProductType.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER) onSearchByFilters();
+        });
+        comboBrand.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER) onSearchByFilters();
+        });
     }
 
     private void setupListView() {
         listViewProducts.setVisible(false);
         listViewProducts.setCellFactory(list -> new ListCell<>() {
-            @Override protected void updateItem(Product item, boolean empty) {
+            @Override
+            protected void updateItem(Product item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
                     setGraphic(null);

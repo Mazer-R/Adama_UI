@@ -3,25 +3,35 @@ package com.adama_ui.Message;
 import com.adama_ui.Message.DTO.MessageResponse;
 import com.adama_ui.Message.DTO.MessageService;
 import com.adama_ui.style.AppTheme;
+import com.adama_ui.util.Reloadable;
 import com.adama_ui.util.ViewManager;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.*;
+import lombok.Setter;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
-public class InboxMessagesViewController {
+public class InboxMessagesViewController implements Reloadable {
 
-    @FXML private BorderPane rootPane;
-    @FXML private ListView<MessageResponse> inboxListView;
-    @FXML private Label emptyLabel;
+    @FXML
+    private BorderPane rootPane;
+    @FXML
+    private ListView<MessageResponse> inboxListView;
+    @FXML
+    private Label emptyLabel;
 
+    private List<MessageResponse> currentMessages;
     private final MessageService messageService = new MessageService();
-    private StackPane contentArea; // Se inyecta desde MessagesMainViewController
+    @Setter
+    private StackPane contentArea;
+    ViewManager viewManager = ViewManager.getInstance();
 
     @FXML
     public void initialize() {
@@ -72,11 +82,11 @@ public class InboxMessagesViewController {
                                 msg.getId(),
                                 () -> Platform.runLater(() -> {
                                     inboxListView.getItems().remove(msg);
-                                    ViewManager.setCurrentMessage(msg); // ya lo tienes
+                                    viewManager.setCurrentMessage(msg); // ya lo tienes
 
                                     if (contentArea != null) {
-                                        ViewManager.loadInto("/com/adama_ui/Message/MessageDetailView.fxml", contentArea, () -> {
-                                            var ctrl = ViewManager.getCurrentControllerAs(MessageDetailController.class);
+                                        viewManager.loadInto("/com/adama_ui/Message/MessageDetailView.fxml", contentArea, () -> {
+                                            var ctrl = viewManager.getCurrentControllerAs(MessageDetailController.class);
                                             if (ctrl != null) {
                                                 ctrl.setContentArea(contentArea);
                                                 ctrl.setMessage(msg);  // 🟢 Esto es crucial (nuevo cambio)
@@ -115,6 +125,8 @@ public class InboxMessagesViewController {
 
     private void updateMessageList(List<MessageResponse> messages) {
         Platform.runLater(() -> {
+            currentMessages = messages;
+
             boolean hasMessages = messages != null && !messages.isEmpty();
 
             emptyLabel.setVisible(!hasMessages);
@@ -131,8 +143,26 @@ public class InboxMessagesViewController {
         });
     }
 
-    // Inyectado desde MessagesMainViewController
-    public void setContentArea(StackPane contentArea) {
-        this.contentArea = contentArea;
+    @Override
+    public void onReload() {
+        messageService.fetchMessages(
+                MessageService.MessageType.INBOX,
+                newMessages -> {
+                    if (shouldReload(newMessages))
+                        updateMessageList(newMessages);
+                },
+                MessageService::showError,
+                inboxListView,
+                emptyLabel
+        );
+    }
+
+    private boolean shouldReload(List<MessageResponse> newMessages) {
+        if (currentMessages == null) return true;
+        if (newMessages == null) return false;
+        if (newMessages.size() != currentMessages.size()) return true;
+        return IntStream.range(0, newMessages.size())
+                .anyMatch(i -> !newMessages.get(i).getId().equals(currentMessages.get(i).getId()));
+
     }
 }

@@ -19,15 +19,27 @@ import java.util.Optional;
 public class MainScreenController {
 
     private ButtonCreator buttonCreator;
-    @FXML private Button Order;
-    @FXML private Button Home;
-    @FXML private Button Messages;
-    @FXML private Button Products;
-    @FXML private Button Users;
-    @FXML private Button Delivery;
-    @FXML private BorderPane mainContainer;
-    @FXML private ToggleButton themeToggleButton;
-    @FXML private Button logoutButton;
+    @FXML
+    private Button Order;
+    @FXML
+    private Button Home;
+    @FXML
+    private Button Messages;
+    @FXML
+    private Button Products;
+    @FXML
+    private Button Users;
+    @FXML
+    private Button Delivery;
+    @FXML
+    private BorderPane mainContainer;
+    @FXML
+    private ToggleButton themeToggleButton;
+    @FXML
+    private Button logoutButton;
+    @FXML
+    private Button backButton;
+    private ViewManager viewManager = ViewManager.getInstance();
 
     private final Image sunIcon = new Image(getClass().getResourceAsStream("/icons/light-mode.png"));
     private final Image moonIcon = new Image(getClass().getResourceAsStream("/icons/night-mode.png"));
@@ -35,11 +47,11 @@ public class MainScreenController {
     @FXML
     public void initialize() {
         buttonCreator = new ButtonCreator();
-        ViewManager.setMainContainer(mainContainer);
-        ViewManager.load("/com/adama_ui/HomeView.fxml");
-        configureButtons(SessionManager.getInstance().getRole());
-        buttonCreator.configureIconButton(logoutButton, "/ExternalResources/LogoutIcon.png", 40);
-
+        viewManager.setMainContainer(mainContainer);
+        viewManager.load("/com/adama_ui/HomeView.fxml");
+        configureButtonsByRole(SessionManager.getInstance().getRole());
+        buttonCreator.configureIconButton(logoutButton, "/ExternalResources/LogoutIcon.png");
+        buttonCreator.configureLongButton(backButton, "/ExternalResources/BackIcon.png");
 
 
         mainContainer.sceneProperty().addListener((obs, oldScene, newScene) -> {
@@ -64,51 +76,63 @@ public class MainScreenController {
      * Actualiza el icono del botón según el modo actual.
      */
     private void updateThemeToggleIcon() {
-        boolean isDark = AppTheme.isDarkMode();
+        boolean isDark = AppTheme.isDark();
         Image icon = isDark ? moonIcon : sunIcon;
         ImageView iconView = new ImageView(icon);
         iconView.setFitWidth(16);
         iconView.setFitHeight(16);
         themeToggleButton.setGraphic(iconView);
-        themeToggleButton.setSelected(!isDark); }
-
+        themeToggleButton.setSelected(!isDark);
+    }
 
     @FXML
     private void onToggleTheme() {
-        boolean nuevoModo = !AppTheme.isDarkMode();
-        AppTheme.setDarkMode(nuevoModo);
+        boolean nuevoModo = !AppTheme.isDark();
+        AppTheme.setDark(nuevoModo);
 
+        Scene scene = mainContainer.getScene();
+        if (scene != null) {
+            AppTheme.applyTheme(scene);
+        } else {
+            AppTheme.applyThemeTo(mainContainer);
+        }
 
-        ViewManager.refreshCurrentView();
         updateThemeToggleIcon();
-    }
-    @FXML
-    private void loadHomeView() {ViewManager.load("/com/adama_ui/HomeView.fxml");
+        viewManager.reload();
     }
 
     @FXML
-    private void loadOrderView() {ViewManager.load("/com/adama_ui/Order/OrderMainView.fxml");}
+    private void loadHomeView() {
+        viewManager.load("/com/adama_ui/HomeView.fxml");
+    }
+
+    @FXML
+    private void loadOrderView() {
+        viewManager.load("/com/adama_ui/Order/OrderMainView.fxml");
+    }
 
 
     @FXML
     private void loadMessagesView() {
-        ViewManager.load("/com/adama_ui/Message/MessagesMainView.fxml");
+        viewManager.load("/com/adama_ui/Message/MessagesMainView.fxml");
     }
 
     @FXML
     public void loadProductView() {
-        ViewManager.load("/com/adama_ui/Product/ProductMainView.fxml");
+        viewManager.load("/com/adama_ui/Product/ProductMainView.fxml");
     }
+
     @FXML
     public void loadDeliveryView() {
-        ViewManager.load("/com/adama_ui/Delivery/DeliveryMainView.fxml");
+        viewManager.load("/com/adama_ui/Delivery/DeliveryMainView.fxml");
     }
 
     @FXML
     private void loadUserView() {
-        ViewManager.load("/com/adama_ui/User/UserMainView.fxml");
+        viewManager.load("/com/adama_ui/User/UserMainView.fxml");
 
     }
+
     @FXML
     private void logout() {
         ButtonType confirmButton = new ButtonType("Cerrar sesión", ButtonBar.ButtonData.OK_DONE);
@@ -133,7 +157,7 @@ public class MainScreenController {
                     SessionManager.getInstance().clearSession();
 
                     Stage loginStage = new Stage();
-                    Parent root = ViewManager.loadForScene("/com/adama_ui/LoginToApp.fxml");
+                    Parent root = viewManager.loadForScene("/com/adama_ui/LoginToApp.fxml");
                     loginStage.setScene(new Scene(root));
                     loginStage.setTitle("Login - Adama");
                     loginStage.show();
@@ -141,6 +165,7 @@ public class MainScreenController {
 
                     Stage currentStage = (Stage) mainContainer.getScene().getWindow();
                     currentStage.close();
+                    viewManager.clearHistory();
 
                 } catch (Exception e) {
                     System.err.println("Error al cerrar sesión:");
@@ -150,39 +175,34 @@ public class MainScreenController {
         });
     }
 
-    private void configureButtons(String role) {
+    @FXML
+    private void goBack() {
+        viewManager.goBack();
+    }
+
+    private void configureButton(Button button, String iconPath) {
+        buttonCreator.configureIconButton(button, iconPath);
+        button.setVisible(true);
+    }
+
+    private void configureButtonsByRole(String role) {
+        configureButton(Home, "/ExternalResources/HomeIcon.png");
+        configureButton(Order, "/ExternalResources/OrderIcon.png");
+        configureButton(Messages, "/ExternalResources/MessageIcon.png");
+
+        Products.setVisible(false);
+        Delivery.setVisible(false);
+        Users.setVisible(false);
+
         switch (role) {
-            case "ROLE_USER" ->{
-                buttonCreator.configureIconButton(Home, "/ExternalResources/HomeIcon.png", 40);
-                buttonCreator.configureIconButton(Order, "/ExternalResources/OrderIcon.png", 40);
-                buttonCreator.configureIconButton(Messages, "/ExternalResources/MessageIcon.png", 40);
-                Products.setVisible(false);
-                Delivery.setVisible(false);
-                Users.setVisible(false);
+            case "ROLE_WAREHOUSE" -> {
+                configureButton(Products, "/ExternalResources/ProductIcon.png");
+                configureButton(Delivery, "/ExternalResources/DeliveryIcon.png");
             }
-            case "ROLE_WAREHOUSE" ->{
-                buttonCreator.configureIconButton(Home, "/ExternalResources/HomeIcon.png", 40);
-                buttonCreator.configureIconButton(Order, "/ExternalResources/OrderIcon.png", 40);
-                buttonCreator.configureIconButton(Messages, "/ExternalResources/MessageIcon.png", 40);
-                buttonCreator.configureIconButton(Products, "/ExternalResources/ProductIcon.png", 40);
-                buttonCreator.configureIconButton(Delivery, "/ExternalResources/DeliveryIcon.png", 40);
-                Users.setVisible(false);
-            }
-            case "ROLE_MANAGER"->{
-                buttonCreator.configureIconButton(Home, "/ExternalResources/HomeIcon.png", 40);
-                buttonCreator.configureIconButton(Order, "/ExternalResources/OrderIcon.png", 40);
-                buttonCreator.configureIconButton(Messages, "/ExternalResources/MessageIcon.png", 40);
-                Products.setVisible(false);
-                Delivery.setVisible(false);
-                Users.setVisible(false);
-            }
-            case "ROLE_ADMIN" ->{
-                buttonCreator.configureIconButton(Home, "/ExternalResources/HomeIcon.png", 40);
-                buttonCreator.configureIconButton(Order, "/ExternalResources/OrderIcon.png", 40);
-                buttonCreator.configureIconButton(Messages, "/ExternalResources/MessageIcon.png", 40);
-                buttonCreator.configureIconButton(Users, "/ExternalResources/UserIcon.png", 40);
-                buttonCreator.configureIconButton(Products, "/ExternalResources/ProductIcon.png", 40);
-                buttonCreator.configureIconButton(Delivery, "/ExternalResources/DeliveryIcon.png", 40);
+            case "ROLE_ADMIN" -> {
+                configureButton(Users, "/ExternalResources/UserIcon.png");
+                configureButton(Products, "/ExternalResources/ProductIcon.png");
+                configureButton(Delivery, "/ExternalResources/DeliveryIcon.png");
             }
         }
     }

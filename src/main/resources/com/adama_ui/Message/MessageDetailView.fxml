@@ -30,8 +30,5 @@
                   editable="false" wrapText="true" prefRowCount="6"
                   styleClass="input-dark-aware"/>
 
-        <Button text="← VOLVER"
-                onAction="#onBack"
-                styleClass="back-button"/>
     </VBox>
 </AnchorPane>

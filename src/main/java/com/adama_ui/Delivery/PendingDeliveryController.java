@@ -1,7 +1,7 @@
 package com.adama_ui.Delivery;
 
-import com.adama_ui.Order.Order;
-import com.adama_ui.Order.OrderService;
+import com.adama_ui.Order.Dto.Order;
+import com.adama_ui.Order.Dto.OrderService;
 import com.adama_ui.Product.DTO.Product;
 import com.adama_ui.Product.ProductService;
 import com.adama_ui.auth.SessionManager;
@@ -152,7 +152,7 @@ public class PendingDeliveryController {
     @FXML
     private void openDetailView(Order order) {
         DeliveryDetailController.setCurrentOrder(order);
-        ViewManager.load("/com/adama_ui/Delivery/DeliveryDetailView.fxml");
+        ViewManager.getInstance().load("/com/adama_ui/Delivery/DeliveryDetailView.fxml");
 
     }
 }

@@ -18,21 +18,21 @@
             <Insets top="20" right="20" bottom="20" left="20"/>
         </padding>
 
-        <Label text="Product Detail" style="-fx-text-fill: white; -fx-font-size: 20px;" />
+        <Label text="Product Detail" style="-fx-text-fill: white; -fx-font-size: 20px;"/>
 
         <TextField fx:id="fieldName" promptText="NOMBRE/MODELO"
-                   style="-fx-background-color: #1e1e1e; -fx-text-fill: white;" />
+                   style="-fx-background-color: #1e1e1e; -fx-text-fill: white;"/>
         <TextField fx:id="fieldType" promptText="TIPO"
-                   style="-fx-background-color: #1e1e1e; -fx-text-fill: white;" />
+                   style="-fx-background-color: #1e1e1e; -fx-text-fill: white;"/>
         <TextField fx:id="fieldBrand" promptText="MARCA"
-                   style="-fx-background-color: #1e1e1e; -fx-text-fill: white;" />
+                   style="-fx-background-color: #1e1e1e; -fx-text-fill: white;"/>
         <TextField fx:id="fieldStatus" promptText="ESTADO"
-                   style="-fx-background-color: #1e1e1e; -fx-text-fill: white;" />
+                   style="-fx-background-color: #1e1e1e; -fx-text-fill: white;"/>
         <TextField fx:id="fieldUser" promptText="USUARIO ASIGNADO"
-                   style="-fx-background-color: #1e1e1e; -fx-text-fill: white;" />
+                   style="-fx-background-color: #1e1e1e; -fx-text-fill: white;"/>
         <TextArea fx:id="fieldDescription" promptText="DESCRIPCIÓN"
                   style="-fx-background-color: #1e1e1e; -fx-text-fill: white;"
-                  prefRowCount="4" />
+                  prefRowCount="4"/>
 
         <!-- Botones alineados justo debajo del cuadro de texto -->
         <HBox spacing="10" alignment="CENTER_LEFT">
@@ -40,26 +40,23 @@
                 <Button fx:id="btnModify" text="MODIFICAR PRODUCTO"
                         onAction="#onModify"
                         maxWidth="Infinity"
-                        style="-fx-background-color: #FFD700; -fx-text-fill: black; -fx-font-weight: bold;" />
+                        style="-fx-background-color: #FFD700; -fx-text-fill: black; -fx-font-weight: bold;"/>
                 <Button fx:id="btnAccept" text="ACEPTAR"
                         onAction="#onAccept"
                         visible="false"
                         maxWidth="Infinity"
-                        style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" />
+                        style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;"/>
             </StackPane>
 
-            <Region HBox.hgrow="ALWAYS" />
+            <Region HBox.hgrow="ALWAYS"/>
 
             <Button fx:id="btnDelete" text="ELIMINAR PRODUCTO"
                     onAction="#onCancelOrDelete"
                     minWidth="150"
-                    style="-fx-background-color: #DC143C; -fx-text-fill: white; -fx-font-weight: bold;" />
+                    style="-fx-background-color: #DC143C; -fx-text-fill: white; -fx-font-weight: bold;"/>
 
         </HBox>
 
     </VBox>
-    <Button fx:id="btnBack" text="← VOLVER"
-            onAction="#onBack"
-            AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10"
-            styleClass="back-button"/>
+
 </AnchorPane>

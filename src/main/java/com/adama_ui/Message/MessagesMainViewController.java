@@ -1,22 +1,32 @@
 package com.adama_ui.Message;
 
-import com.adama_ui.Reloadable;
+import com.adama_ui.util.Reloadable;
 import com.adama_ui.util.ViewManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import lombok.Getter;
+import lombok.Setter;
 
 public class MessagesMainViewController {
 
-    @FXML private StackPane contentArea;
-    @FXML private VBox messageMenu;
-    @FXML private Button btnCompose;
-    @FXML private Button btnInbox;
-    @FXML private Button btnSent;
-    @FXML private Button btnHistory;
-
+    @FXML
+    private StackPane contentArea;
+    @FXML
+    private VBox messageMenu;
+    @FXML
+    private Button btnCompose;
+    @FXML
+    private Button btnInbox;
+    @FXML
+    private Button btnSent;
+    @FXML
+    private Button btnHistory;
+    ViewManager viewManager = ViewManager.getInstance();
     private static String currentSubview = null;
+    @Getter
+    @Setter
     private static boolean showingDetail = false;
 
     @FXML
@@ -50,12 +60,12 @@ public class MessagesMainViewController {
 
         if (btnSent != null) {
             btnSent.setOnAction(e -> {
-                ViewManager.loadInto("/com/adama_ui/Message/SentMessagesView.fxml", contentArea, () -> {
+                viewManager.loadInto("/com/adama_ui/Message/SentMessagesView.fxml", contentArea, () -> {
                     currentSubview = "SENT";
                     highlightMenuButton(btnSent);
                     reloadIfNeeded();
 
-                    var controller = ViewManager.getCurrentController();
+                    var controller = viewManager.getCurrentController();
                     if (controller instanceof InboxMessagesViewController inboxController) {
                         inboxController.setContentArea(contentArea);
                     } else if (controller instanceof SentMessagesViewController sentController) {
@@ -75,12 +85,12 @@ public class MessagesMainViewController {
     }
 
     private void loadSubview(String subviewName, String fxmlPath, Button activeButton) {
-        ViewManager.loadInto(fxmlPath, contentArea, () -> {
+        viewManager.loadInto(fxmlPath, contentArea, () -> {
             currentSubview = subviewName;
             highlightMenuButton(activeButton);
             reloadIfNeeded();
 
-            var controller = ViewManager.getCurrentController();
+            var controller = viewManager.getCurrentController();
             if (controller instanceof InboxMessagesViewController inboxController) {
                 inboxController.setContentArea(contentArea);
             } else if (controller instanceof SentMessagesViewController sentController) {
@@ -105,30 +115,11 @@ public class MessagesMainViewController {
     }
 
     private void reloadIfNeeded() {
-        Object controller = ViewManager.getCurrentController();
+        Object controller = viewManager.getCurrentController();
         if (controller instanceof Reloadable reloadable) {
             reloadable.onReload();
         }
     }
 
-    @FXML
-    private void onBack() {
-        ViewManager.load("/com/adama_ui/HomeView.fxml");
-        currentSubview = null;
-        showingDetail = false;
-    }
 
-    public void loadInboxMessages() {
-        if (btnInbox != null) {
-            btnInbox.fire();
-        }
-    }
-
-    public static void setShowingDetail(boolean value) {
-        showingDetail = value;
-    }
-
-    public static boolean isShowingDetail() {
-        return showingDetail;
-    }
 }

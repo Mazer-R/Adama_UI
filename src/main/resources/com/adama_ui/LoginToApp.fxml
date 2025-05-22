@@ -15,22 +15,22 @@
             maxWidth="Infinity"
             maxHeight="Infinity">
 
-   <center>
-      <VBox alignment="CENTER" spacing="20.0" maxWidth="Infinity" maxHeight="Infinity">
-         <ImageView fitHeight="300.0" fitWidth="400.0" preserveRatio="true">
-            <Image url="@../../ExternalResources/Adama_Logo.png"/>
-         </ImageView>
+    <center>
+        <VBox alignment="CENTER" spacing="20.0" maxWidth="Infinity" maxHeight="Infinity">
+            <ImageView fitHeight="300.0" fitWidth="400.0" preserveRatio="true">
+                <Image url="@../../ExternalResources/Adama_Logo.png"/>
+            </ImageView>
 
-         <TextField fx:id="usernameField" promptText="USUARIO" maxWidth="300.0"
-                    style="-fx-border-width: 2; -fx-border-color: rgb(0, 171, 78); -fx-background-color: rgb(148, 137, 134);"/>
-         <PasswordField fx:id="passwordField" promptText="PASSWORD" maxWidth="300.0"
-                        style="-fx-border-width: 2; -fx-border-color: rgb(0, 171, 78); -fx-background-color: rgb(148, 137, 134);"/>
-         <Button fx:id="btnLogin" text="LOGIN" onAction="#login" prefHeight="50" maxWidth="150"
-                 textFill="WHITE" style="-fx-background-color: rgb(0, 171, 78);">
-            <font>
-               <Font size="22.0"/>
-            </font>
-         </Button>
-      </VBox>
-   </center>
+            <TextField fx:id="usernameField" promptText="USUARIO" maxWidth="300.0"
+                       style="-fx-border-width: 2; -fx-border-color: rgb(0, 171, 78); -fx-background-color: rgb(148, 137, 134);"/>
+            <PasswordField fx:id="passwordField" promptText="PASSWORD" maxWidth="300.0"
+                           style="-fx-border-width: 2; -fx-border-color: rgb(0, 171, 78); -fx-background-color: rgb(148, 137, 134);"/>
+            <Button fx:id="btnLogin" text="LOGIN" onAction="#login" prefHeight="50" maxWidth="150"
+                    textFill="WHITE" style="-fx-background-color: rgb(0, 171, 78);">
+                <font>
+                    <Font size="22.0"/>
+                </font>
+            </Button>
+        </VBox>
+    </center>
 </BorderPane>

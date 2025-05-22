@@ -7,9 +7,12 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 
 public class ProductListCellController {
-    @FXML private Label labelName;
-    @FXML private Label labelType;
-    @FXML private Label labelBrand;
+    @FXML
+    private Label labelName;
+    @FXML
+    private Label labelType;
+    @FXML
+    private Label labelBrand;
 
     private Product product;
 
@@ -22,6 +25,6 @@ public class ProductListCellController {
 
     @FXML
     private void handleClick(MouseEvent event) {
-        ViewManager.loadWithProduct("/com/adama_ui/Product/ProductDetail.fxml", product);
+        ViewManager.getInstance().loadWithProduct("/com/adama_ui/Product/ProductDetail.fxml", product);
     }
 }

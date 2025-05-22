@@ -10,15 +10,22 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
+@Slf4j
 public class ProductManagementController {
 
-    @FXML private TextField fieldIdOrTag;
-    @FXML private ComboBox<ProductType> comboProductType;
-    @FXML private ComboBox<Brands> comboBrand;
-    @FXML private ListView<Product> listViewProducts;
+    @FXML
+    private TextField fieldIdOrTag;
+    @FXML
+    private ComboBox<ProductType> comboProductType;
+    @FXML
+    private ComboBox<Brands> comboBrand;
+    @FXML
+    private ListView<Product> listViewProducts;
+    ViewManager viewManager = ViewManager.getInstance();
 
     private final ProductService productService = new ProductService();
 
@@ -63,7 +70,7 @@ public class ProductManagementController {
 
                     Button viewButton = new Button("Ver detalles");
                     viewButton.setStyle("-fx-background-color: #00c000; -fx-text-fill: white;");
-                    viewButton.setOnAction(e -> ViewManager.loadWithProduct("/com/adama_ui/Product/ProductDetail.fxml", item));
+                    viewButton.setOnAction(e -> viewManager.loadWithProduct("/com/adama_ui/Product/ProductDetail.fxml", item));
 
                     cell.getChildren().addAll(name, type, brand, statusBox, spacer, viewButton);
                     setGraphic(cell);
@@ -97,12 +104,12 @@ public class ProductManagementController {
         try {
             Product product = productService.getProductById(idOrTag);
             if (product != null) {
-                ViewManager.loadWithProduct("/com/adama_ui/Product/ProductDetail.fxml", product);
+                viewManager.loadWithProduct("/com/adama_ui/Product/ProductDetail.fxml", product);
             } else {
                 showAlert("Sin resultados", "No se encontró un producto con ese ID o Tag.");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.debug(e.getMessage());
             showAlert("Error", "Ocurrió un error al buscar el producto.");
         }
     }
@@ -137,10 +144,6 @@ public class ProductManagementController {
         }
     }
 
-    @FXML
-    private void onBack() {
-        ViewManager.load("/com/adama_ui/Product/ProductMainView.fxml");
-    }
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

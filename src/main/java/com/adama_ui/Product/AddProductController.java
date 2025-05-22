@@ -12,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.net.URI;
-import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
@@ -22,10 +21,14 @@ import static com.adama_ui.auth.SessionManager.HTTP_CLIENT;
 public class AddProductController {
 
 
-    @FXML private TextField fieldName;
-    @FXML private TextArea fieldDescription;
-    @FXML private ComboBox<ProductType> comboType;
-    @FXML private ComboBox<Brands> comboBrand;
+    @FXML
+    private TextField fieldName;
+    @FXML
+    private TextArea fieldDescription;
+    @FXML
+    private ComboBox<ProductType> comboType;
+    @FXML
+    private ComboBox<Brands> comboBrand;
 
     @FXML
     public void initialize() {
@@ -64,7 +67,7 @@ public class AddProductController {
                 Product product = ProductMapper.toProduct(responseDto);
                 showAlert("Producto creado", product.toPrettyJson());
             } else {
-                showErrorAlert("Error del servidor: " , String.valueOf(response.statusCode()));
+                showErrorAlert("Error del servidor: ", String.valueOf(response.statusCode()));
             }
 
         } catch (IllegalArgumentException e) {
@@ -74,12 +77,6 @@ public class AddProductController {
         }
     }
 
-    @FXML
-    private void onBack() {
-        ViewManager.load("/com/adama_ui/Product/ProductMainView.fxml");
-    }
-
-
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
@@ -87,6 +84,7 @@ public class AddProductController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
     private void showErrorAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);

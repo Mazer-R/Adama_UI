@@ -20,10 +20,14 @@ public class ComposeMessageViewController {
 
     private final HttpClient httpClient = HttpClient.newHttpClient();
 
-    @FXML private ComboBox<String> recipientCombo;
-    @FXML private TextField subjectField;
-    @FXML private TextArea messageArea;
-    @FXML private Button sendButton;
+    @FXML
+    private ComboBox<String> recipientCombo;
+    @FXML
+    private TextField subjectField;
+    @FXML
+    private TextArea messageArea;
+    @FXML
+    private Button sendButton;
 
     @FXML
     public void initialize() {
@@ -59,7 +63,8 @@ public class ComposeMessageViewController {
 
                 if (response.statusCode() == 200) {
                     ObjectMapper mapper = new ObjectMapper();
-                    List<String> usernames = mapper.readValue(response.body(), new TypeReference<>() {});
+                    List<String> usernames = mapper.readValue(response.body(), new TypeReference<>() {
+                    });
 
                     // 🧹 Filtrar el usuario actual
                     String currentUser = SessionManager.getInstance().getUsername();
