@@ -25,6 +25,7 @@ import java.util.*;
 public class ViewManager {
 
     private static ViewManager instance;
+    @Getter
     private final Stack<ViewState> viewHistory = new Stack<>();
     private final Map<String, Pane> viewCache = new HashMap<>();
     private List<String> forbiddenList = new ArrayList<>();
@@ -34,6 +35,18 @@ public class ViewManager {
     private String fxmlPath;
     private String currentSubViewPath = "/com/adama_ui/Product/AddProductView.fxml";
     private MessageResponse currentMessage;
+
+    private final List<ViewHistoryListener> historyListeners = new ArrayList<>();
+
+    public void addViewHistoryListener(ViewHistoryListener listener) {
+        historyListeners.add(listener);
+    }
+
+    private void notifyViewHistoryChanged() {
+        for (ViewHistoryListener listener : historyListeners) {
+            listener.onViewHistoryChanged();
+        }
+    }
 
     private ViewManager() {
         fillForbiddenList();
@@ -186,6 +199,7 @@ public class ViewManager {
             } else {
                 load(previousState.fxmlPath, false);
             }
+            notifyViewHistoryChanged();
 
         } else {
             System.out.println("⚠️ No hay vista anterior en el historial.");
@@ -194,6 +208,7 @@ public class ViewManager {
 
     public void clearHistory() {
         viewHistory.clear();
+        notifyViewHistoryChanged();
     }
 
     private boolean isNotForbidden(String fxmlPath) {
@@ -224,7 +239,6 @@ public class ViewManager {
             if (scene != null) {
                 AppTheme.applyTheme(scene);
             }
-
         } catch (IOException e) {
             log.error("❌ Error recargando la vista: " + fxmlPath, e);
         }
@@ -237,7 +251,12 @@ public class ViewManager {
     private void saveCurrentToHistory() {
         if (this.fxmlPath != null && isNotForbidden(this.fxmlPath)) {
             viewHistory.push(new ViewState(this.fxmlPath, false, null, null));
+            notifyViewHistoryChanged();
         }
+    }
+
+    public interface ViewHistoryListener {
+        void onViewHistoryChanged();
     }
 
 }

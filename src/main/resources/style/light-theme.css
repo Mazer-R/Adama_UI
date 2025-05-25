@@ -1,50 +1,50 @@
-/* 🎨 Tema claro */
+/* 🎨 Tema claro con menos luminosidad */
 
 .root {
-    -fx-base: #F0F0F0;
-    -fx-background: #FFFFFF;
-    -fx-text-fill: black;
+    -fx-base: #D0D0D0;
+    -fx-background: #D8D8D8; /* gris medio claro */
+    -fx-text-fill: #2A2A2A; /* gris oscuro menos contrastante */
     -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 }
 
 .root-pane {
-    -fx-background-color: #FFFFFF;
+    -fx-background-color: #D8D8D8;
 }
 
 .label, .section-title {
-    -fx-text-fill: black;
+    -fx-text-fill: #2A2A2A;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
 }
 
 .section-subtitle {
-    -fx-text-fill: #444;
+    -fx-text-fill: #444444;
 }
 
 .input-combo {
-    -fx-background-color: #ffffff;
-    -fx-text-fill: black;
-    -fx-border-color: #cccccc;
+    -fx-background-color: #E4E4E4; /* input menos blanco, más gris suave */
+    -fx-text-fill: #2A2A2A;
+    -fx-border-color: #AAAAAA;
     -fx-border-radius: 3;
     -fx-padding: 5 8;
 }
 
 .button, .action-button {
-    -fx-background-color: #00A651;
+    -fx-background-color: #246B25; /* verde más oscuro, menos saturado */
     -fx-text-fill: white;
     -fx-font-weight: bold;
 }
 
 .styled-list {
-    -fx-background-color: #F5F5F5;
-    -fx-control-inner-background: #F5F5F5;
-    -fx-cell-hover-color: #DDDDDD;
-    -fx-text-fill: black;
+    -fx-background-color: #E1E1E1;
+    -fx-control-inner-background: #E1E1E1;
+    -fx-cell-hover-color: #BFBFBF;
+    -fx-text-fill: #2A2A2A;
     -fx-padding: 5 0 15 0;
 }
 
 .theme-toggle {
-    -fx-background-color: #DDDDDD !important;
+    -fx-background-color: #BBBBBB !important;
     -fx-background-radius: 20;
     -fx-padding: 2;
     -fx-cursor: hand;
@@ -57,7 +57,7 @@
 }
 
 .theme-toggle:selected {
-    -fx-background-color: #00A651 !important;
+    -fx-background-color: #246B25 !important;
     -fx-alignment: CENTER_RIGHT;
 }
 
@@ -67,7 +67,7 @@
 .theme-toggle:focused,
 .theme-toggle:hover,
 .theme-toggle:armed {
-    -fx-background-color: #00A651 !important;
+    -fx-background-color: #246B25 !important;
 }
 
 .theme-toggle .graphic {
@@ -77,42 +77,38 @@
 }
 
 .side-menu {
-    -fx-background-color: #E0E0E0;
+    -fx-background-color: #C0C0C0;
 }
 
 .custom-list-cell {
-    -fx-background-color: #1e1e1e;
-    -fx-text-fill: white;
+    -fx-background-color: #E9E9E9;
+    -fx-text-fill: #2A2A2A;
     -fx-padding: 10;
-    -fx-border-color: gray;
+    -fx-border-color: #AAAAAA;
     -fx-border-radius: 5;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 6, 0.2, 0, 2);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.06), 6, 0.1, 0, 2);
 }
 
 .custom-list-cell:hover {
-    -fx-background-color: #2a2a2a;
+    -fx-background-color: #CCCCCC;
     -fx-cursor: hand;
 }
 
-/* Estilo específico de texto dentro de las tarjetas */
+.custom-list-cell .product-name,
+.custom-list-cell .product-info,
+.custom-list-cell .status-label {
+    -fx-text-fill: #2A2A2A;
+}
+
 .product-name {
     -fx-font-weight: bold;
 }
 
-/* Textos blancos solo dentro de las tarjetas */
-.custom-list-cell .product-name,
-.custom-list-cell .product-info,
-.custom-list-cell .status-label {
-    -fx-text-fill: white;
-}
-
-/* Textos negros fuera de tarjetas */
 .product-info,
 .status-label {
-    -fx-text-fill: black;
+    -fx-text-fill: #2A2A2A;
 }
 
-/* Estados con fondo y texto blanco para fondo oscuro */
 .estado-nueva {
     -fx-background-color: #FBC02D;
     -fx-text-fill: white;
@@ -122,7 +118,7 @@
 }
 
 .estado-aceptada {
-    -fx-background-color: #43A047;
+    -fx-background-color: #246B25;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-padding: 5 10;
@@ -130,7 +126,7 @@
 }
 
 .estado-rechazada {
-    -fx-background-color: #E53935;
+    -fx-background-color: #9B2020;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-padding: 5 10;
@@ -138,7 +134,7 @@
 }
 
 .estado-entregada {
-    -fx-background-color: #757575;
+    -fx-background-color: #4B4B4B;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-padding: 5 10;
@@ -146,40 +142,35 @@
 }
 
 .nav-bar {
-    -fx-background-color: #FFFFFF;
+    -fx-background-color: #D8D8D8;
 }
 
 .footer-bar {
-    -fx-background-color: #FFFFFF;
+    -fx-background-color: #D8D8D8;
 }
 
 .footer-bar .label {
-    -fx-text-fill: black;
+    -fx-text-fill: #2A2A2A;
 }
 
 .active-button {
-    -fx-border-color: #00A651;
+    -fx-border-color: #246B25;
     -fx-border-width: 2;
-    -fx-background-color: #e0f7e9;
-    -fx-text-fill: black;
+    -fx-background-color: #a5caa5;
+    -fx-text-fill: #2A2A2A;
 }
 
 .input-dark-aware {
-    -fx-background-color: #f0f0f0;
-    -fx-text-fill: black;
-}
-
-.input-dark-aware {
-    -fx-background-color: #eeeeee;
-    -fx-text-fill: black;
-    -fx-border-color: #cccccc;
+    -fx-background-color: #DADADA;
+    -fx-text-fill: #2A2A2A;
+    -fx-border-color: #AAAAAA;
     -fx-border-radius: 4;
     -fx-padding: 6 8;
     -fx-font-size: 13px;
 }
 
 .sidebar-button {
-    -fx-background-color: #00A651;
+    -fx-background-color: #246B25;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-background-radius: 5;
@@ -188,10 +179,28 @@
 }
 
 .back-button {
-    -fx-background-color: #00A651;
+    -fx-background-color: #246B25;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-background-radius: 5;
     -fx-border-radius: 5;
     -fx-pref-width: 180;
+}
+
+.btn-modify {
+    -fx-background-color: #FBC02D;
+    -fx-text-fill: #2A2A2A;
+    -fx-font-weight: bold;
+}
+
+.btn-accept {
+    -fx-background-color: #2E7D32;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.btn-delete {
+    -fx-background-color: #7B1A1A;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
 }

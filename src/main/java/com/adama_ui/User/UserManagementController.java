@@ -10,9 +10,6 @@ import com.adama_ui.util.ViewManager;
 import com.fasterxml.jackson.core.type.TypeReference;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;

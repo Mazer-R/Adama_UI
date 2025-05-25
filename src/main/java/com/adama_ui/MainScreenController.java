@@ -6,6 +6,7 @@ import com.adama_ui.style.AppTheme;
 import com.adama_ui.util.ButtonCreator;
 import com.adama_ui.util.ViewManager;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -16,7 +17,7 @@ import javafx.stage.Stage;
 
 import java.util.Optional;
 
-public class MainScreenController {
+public class MainScreenController implements ViewManager.ViewHistoryListener {
 
     private ButtonCreator buttonCreator;
     @FXML
@@ -52,6 +53,7 @@ public class MainScreenController {
         configureButtonsByRole(SessionManager.getInstance().getRole());
         buttonCreator.configureIconButton(logoutButton, "/ExternalResources/LogoutIcon.png");
         buttonCreator.configureLongButton(backButton, "/ExternalResources/BackIcon.png");
+        ViewManager.getInstance().addViewHistoryListener(this);
 
 
         mainContainer.sceneProperty().addListener((obs, oldScene, newScene) -> {
@@ -177,7 +179,10 @@ public class MainScreenController {
 
     @FXML
     private void goBack() {
-        viewManager.goBack();
+        if (!viewManager.getViewHistory().isEmpty()) {
+            viewManager.goBack();
+        }
+        updateBackButtonState();
     }
 
     private void configureButton(Button button, String iconPath) {
@@ -206,4 +211,16 @@ public class MainScreenController {
             }
         }
     }
+
+    private void updateBackButtonState() {
+        boolean canGoBack = !viewManager.getViewHistory().isEmpty();
+        backButton.setDisable(!canGoBack);
+        backButton.setVisible(canGoBack);
+    }
+
+    @Override
+    public void onViewHistoryChanged() {
+        updateBackButtonState();
+    }
+
 }

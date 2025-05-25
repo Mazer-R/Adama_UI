@@ -13,7 +13,9 @@
           AnchorPane.topAnchor="10"
           AnchorPane.leftAnchor="10"
           AnchorPane.rightAnchor="10"
-          AnchorPane.bottomAnchor="10">
+          AnchorPane.bottomAnchor="10"
+          styleClass="root-pane">
+
         <padding>
             <Insets top="20" right="20" bottom="20" left="20"/>
         </padding>
@@ -35,13 +37,19 @@
         <TextField fx:id="fieldRole" promptText="Rol"
                    editable="false" styleClass="input-dark-aware"/>
 
-        <HBox spacing="10" alignment="CENTER_RIGHT">
-            <Button fx:id="btnModify" text="Modificar" onAction="#onModify"/>
-            <Button fx:id="btnAccept" text="Aceptar" onAction="#onAccept" visible="false"/>
-            <Button fx:id="btnDelete" text="Eliminar usuario" onAction="#onCancelOrDelete"/>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <StackPane prefWidth="150">
+                <Button fx:id="btnModify" text="Modificar" onAction="#onModify" maxWidth="Infinity"
+                        styleClass="btn-modify"/>
+                <Button fx:id="btnAccept" text="Aceptar" onAction="#onAccept" maxWidth="Infinity"
+                        styleClass="btn-accept" visible="false"/>
+            </StackPane>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <Button fx:id="btnDelete" text="Eliminar usuario" onAction="#onCancelOrDelete" minWidth="150"
+                    styleClass="btn-delete"/>
         </HBox>
 
     </VBox>
 </AnchorPane>
-
-

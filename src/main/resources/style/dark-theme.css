@@ -178,3 +178,21 @@
     -fx-border-radius: 5;
     -fx-pref-width: 180;
 }
+
+.btn-modify {
+    -fx-background-color: #FFD700; /* amarillo dorado */
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+
+.btn-accept {
+    -fx-background-color: #4CAF50; /* verde */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.btn-delete {
+    -fx-background-color: #DC143C; /* rojo */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}

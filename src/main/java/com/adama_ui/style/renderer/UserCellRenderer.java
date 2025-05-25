@@ -15,29 +15,29 @@ public class UserCellRenderer {
 
     public static Node render(UserResponse user) {
         HBox cell = new HBox(10);
-        cell.setStyle("-fx-background-color: #1e1e1e; -fx-padding: 10; -fx-border-color: gray; -fx-border-radius: 5;");
+        cell.getStyleClass().add("custom-list-cell");  // Aplica estilo de fondo, borde, padding, hover
 
         Label name = new Label(user.getFirstName() + " " + user.getLastName());
-        name.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
+        name.getStyleClass().add("product-name");  // Texto en negrita y color adecuado
         name.setPrefWidth(200);
 
         Label username = new Label("@" + user.getUsername());
-        username.setStyle("-fx-text-fill: white;");
+        username.getStyleClass().add("product-info"); // Color de texto según tema
         username.setPrefWidth(150);
 
         Label role = new Label(user.getRole());
-        role.setStyle("-fx-text-fill: white;");
+        role.getStyleClass().add("product-info");
         role.setPrefWidth(120);
 
         Label department = new Label(user.getDepartment() != null ? user.getDepartment() : "Sin departamento");
-        department.setStyle("-fx-text-fill: white;");
+        department.getStyleClass().add("product-info");
         department.setPrefWidth(150);
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
         Button viewButton = new Button("Ver detalles");
-        viewButton.setStyle("-fx-background-color: #00c000; -fx-text-fill: white;");
+        viewButton.getStyleClass().addAll("button", "action-button"); // Usa tus estilos de botón (verde)
         viewButton.setOnAction(e -> viewManager.loadWithUser("/com/adama_ui/User/UserDetails.fxml", user));
 
         cell.getChildren().addAll(name, username, role, department, spacer, viewButton);
