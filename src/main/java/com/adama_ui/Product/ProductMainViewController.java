@@ -17,8 +17,7 @@ public class ProductMainViewController implements Reloadable {
     private Button btnAddProduct;
     @FXML
     private Button btnManageProduct;
-    @FXML
-    private Button btnBack;
+
 
     private String currentSubview = null;
     ViewManager viewManager = ViewManager.getInstance();

@@ -40,7 +40,7 @@ public class UserManagementController {
 
     @FXML
     public void initialize() {
-        comboRole.setPromptText("Select role");
+        comboRole.setPromptText("Selecciona el rol");
         listViewUsers.setVisible(false);
         listViewUsers.setCellFactory(new GenericCellFactory<>(UserCellRenderer::render));
     }

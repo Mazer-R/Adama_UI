@@ -51,7 +51,6 @@ public class ManageOrdersController {
                 Map<String, String> userIdToUsername = new HashMap<>();
 
                 for (Order order : orders) {
-                    // Obtener datos del producto
                     try {
                         Product product = productService.getProductById(order.getProductId());
                         if (product != null) {

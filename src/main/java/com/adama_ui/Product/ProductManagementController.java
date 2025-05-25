@@ -49,18 +49,18 @@ public class ProductManagementController {
                     setGraphic(null);
                 } else {
                     HBox cell = new HBox(10);
-                    cell.setStyle("-fx-background-color: #1e1e1e; -fx-padding: 10; -fx-border-color: gray; -fx-border-radius: 5;");
+                    cell.getStyleClass().add("custom-list-cell");
 
                     Label name = new Label(item.getName());
-                    name.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
+                    name.getStyleClass().add("product-name");
                     name.setPrefWidth(200);
 
                     Label type = new Label(item.getType());
-                    type.setStyle("-fx-text-fill: white;");
+                    type.getStyleClass().add("product-info");
                     type.setPrefWidth(100);
 
                     Label brand = new Label(item.getBrand());
-                    brand.setStyle("-fx-text-fill: white;");
+                    brand.getStyleClass().add("product-info");
                     brand.setPrefWidth(100);
 
                     HBox statusBox = getHBox(item);

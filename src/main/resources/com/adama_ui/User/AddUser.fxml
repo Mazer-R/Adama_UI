@@ -49,7 +49,7 @@
                 </items>
             </ComboBox>
 
-            <Button text="SAVE USER" onAction="#onSaveUser"
+            <Button text="GUARDAR USUARIO" onAction="#onSaveUser"
                     style="-fx-background-color: #00c000; -fx-text-fill: white;"/>
         </VBox>
     </center>
