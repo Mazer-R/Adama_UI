@@ -1,7 +1,6 @@
 package com.adama_ui.util;
 
 import com.adama_ui.Message.DTO.MessageResponse;
-
 import com.adama_ui.Product.DTO.Product;
 import com.adama_ui.Product.ProductDetailController;
 import com.adama_ui.User.DTO.UserResponse;
@@ -124,23 +123,23 @@ public class ViewManager {
         }
     }
 
-    public Parent loadForSceneWithUser(String fxmlPath, UserResponse user) {
+    public void loadWithUser(String fxmlPath, UserResponse user) {
         try {
-            return loadView(fxmlPath, false, true, Parent.class, controller -> {
+            Pane View = loadView(fxmlPath, false, true, Pane.class, controller -> {
                 if (controller instanceof UserDetailsController ctrl) {
-                    ctrl.showUserDetails(user);
+                    ctrl.setUser(user);
                 }
             });
+            mainContainer.setCenter(View);
         } catch (IOException e) {
             log.error("❌ Error al cargar vista de usuario: " + fxmlPath, e);
-            return null;
         }
     }
 
 
-//    public void loadInto(String fxmlPath, Pane container) {
-//        loadInto(fxmlPath, container, null);
-//    }
+    public void loadInto(String fxmlPath, Pane container) {
+        loadInto(fxmlPath, container, null);
+    }
 
     public void loadInto(String fxmlPath, Pane container, Runnable onLoadCallback) {
         try {
@@ -169,24 +168,6 @@ public class ViewManager {
         }
     }
 
-
-//    public void loadProfileAndManageOrders() {
-//        load("/com/adama_ui/Order/OrderMainView.fxml", false);
-//        if (fxmlPath != null) {
-//            viewHistory.push(fxmlPath);
-//        }
-//        javafx.application.Platform.runLater(() -> {
-//            Node node = mainContainer.lookup("#contentArea");
-//            if (node instanceof StackPane contentArea) {
-//                loadInto("/com/adama_ui/Order/ManageOrdersView.fxml", contentArea, () -> {
-//                    Object controller = getCurrentController();
-//                    if (controller instanceof ManageOrdersController ctrl) {
-//                        ctrl.initialize();
-//                    }
-//                });
-//            }
-//        });
-//    }
 
     public <T> T getCurrentControllerAs(Class<T> clazz) {
         if (clazz.isInstance(currentController)) {

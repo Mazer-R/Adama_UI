@@ -21,11 +21,11 @@
             <Label text="Filter Users" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
 
             <!-- Filtro por nombre de usuario -->
-            <Label text="Username"/>
+            <Label text="Nombre de usuario"/>
             <TextField fx:id="fieldUsername" promptText="Enter username to filter"/>
 
             <!-- Filtro por rol -->
-            <Label text="Role"/>
+            <Label text="Rol"/>
             <ComboBox fx:id="comboRole" promptText="Select role" prefWidth="250">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
@@ -40,15 +40,9 @@
             <Button text="FILTER USERS" onAction="#onFilterUsers"
                     style="-fx-background-color: #00c000; -fx-text-fill: white;"/>
 
-            <TableView fx:id="tableUsers">
-                <columns>
-                    <TableColumn text="Username" fx:id="colUsername"/>
-                    <TableColumn text="Nombre" fx:id="colFirstName"/>
-                    <TableColumn text="Apellido" fx:id="colLastName"/>
-                    <TableColumn text="Rol" fx:id="colRole"/>
-                    <TableColumn text="Departamento" fx:id="colDepartment"/>
-                </columns>
-            </TableView>
+            <ListView fx:id="listViewUsers"
+                      prefHeight="400"
+                      style="-fx-background-color: #1e1e1e;"/>
         </VBox>
     </center>
 

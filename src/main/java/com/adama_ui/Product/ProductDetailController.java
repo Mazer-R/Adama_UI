@@ -19,6 +19,10 @@ import static com.adama_ui.auth.SessionManager.HTTP_CLIENT;
 
 public class ProductDetailController {
 
+    private static final String NO_USER_ASSIGNED = "SIN USUARIO ASIGNADO";
+    private static final String DELETE_PRODUCT = "Eliminar producto";
+    private static final String CANCEL = "Cancelar";
+
     @FXML
     private TextField fieldName;
     @FXML
@@ -32,27 +36,22 @@ public class ProductDetailController {
     @FXML
     private TextArea fieldDescription;
 
-
     @FXML
     private Button btnModify;
     @FXML
     private Button btnAccept;
     @FXML
     private Button btnDelete;
-    @FXML
-    private Button btnBack;
 
     private final UserService userService = new UserService();
+    private final ObjectMapper objectMapper = new ObjectMapper();
     private Product currentProduct;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
+    @FXML
     public void initialize() {
-
         if (SessionManager.getInstance().getRole().equals("ROLE_WAREHOUSE")) {
             btnDelete.setVisible(false);
         }
-
     }
 
     public void setProduct(Product product) {
@@ -63,63 +62,53 @@ public class ProductDetailController {
     private void populateFields() {
         if (currentProduct == null) return;
 
-        fieldName.setText(currentProduct.getName());
-        fieldType.setText(currentProduct.getType());
-        fieldBrand.setText(currentProduct.getBrand());
+        fieldName.setText(nonNull(currentProduct.getName()));
+        fieldType.setText(nonNull(currentProduct.getType()));
+        fieldBrand.setText(nonNull(currentProduct.getBrand()));
 
-        if (currentProduct.getStatus() != null) {
-            fieldStatus.setText(currentProduct.getStatus().getLabel());
-        } else {
-            fieldStatus.setText("");
-        }
+        fieldStatus.setText(
+                currentProduct.getStatus() != null
+                        ? currentProduct.getStatus().getLabel()
+                        : ""
+        );
+
         if (currentProduct.getUserId() == null) {
-            fieldUser.setText("SIN USUARIO ASIGNADO");
+            fieldUser.setText(NO_USER_ASSIGNED);
         } else {
-            if (SessionManager.getInstance().getRole().equals("ROLE_ADMIN")) {
-                try {
-                    fieldUser.setText(userService.getUsernameById(currentProduct.getUserId()));
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            } else {
-                fieldUser.setText(currentProduct.getUserId());
-            }
+            fieldUser.setText(getUserDisplayName());
         }
-        fieldDescription.setText(currentProduct.getDescription());
+
+        fieldDescription.setText(nonNull(currentProduct.getDescription()));
 
         setEditable(false);
-        btnModify.setVisible(true);
-        btnAccept.setVisible(false);
-        btnDelete.setText("Eliminar producto");
+        updateButtonsForViewMode();
+    }
+
+    private String getUserDisplayName() {
+        try {
+            if (SessionManager.getInstance().getRole().equals("ROLE_ADMIN")) {
+                return userService.getUsernameById(currentProduct.getUserId());
+            } else {
+                return currentProduct.getUserId();
+            }
+        } catch (Exception e) {
+            // Log or handle exception if needed
+            return currentProduct.getUserId();
+        }
     }
 
     @FXML
     private void onModify() {
         setEditable(true);
-        btnModify.setVisible(false);
-        btnAccept.setVisible(true);
-        btnDelete.setText("Cancelar");
+        updateButtonsForEditMode();
     }
 
     @FXML
     private void onAccept() {
+        if (!updateProductFromFields()) return;
+
         try {
-            currentProduct.setName(fieldName.getText());
-            currentProduct.setType(fieldType.getText());
-            currentProduct.setBrand(fieldBrand.getText());
-
-            ProductStatus newStatus = ProductStatus.fromText(fieldStatus.getText());
-            if (newStatus == null) {
-                showAlert("El estado introducido no es válido.", AlertType.WARNING);
-                return;
-            }
-            currentProduct.setStatus(newStatus);
-
-            currentProduct.setUserId(fieldUser.getText());
-            currentProduct.setDescription(fieldDescription.getText());
-
             String json = objectMapper.writeValueAsString(currentProduct);
-
             HttpRequest req = HttpRequest.newBuilder()
                     .uri(URI.create(API_BASE_URL + "/products/" + currentProduct.getId()))
                     .header("Content-Type", "application/json")
@@ -134,52 +123,72 @@ public class ProductDetailController {
             } else {
                 showAlert("Error al actualizar el producto.", AlertType.ERROR);
             }
-
         } catch (Exception e) {
             showAlert("Error inesperado: " + e.getMessage(), AlertType.ERROR);
             e.printStackTrace();
         }
 
         setEditable(false);
-        btnModify.setVisible(true);
-        btnAccept.setVisible(false);
-        btnDelete.setText("Eliminar producto");
+        updateButtonsForViewMode();
+    }
+
+    private boolean updateProductFromFields() {
+        currentProduct.setName(fieldName.getText());
+        currentProduct.setType(fieldType.getText());
+        currentProduct.setBrand(fieldBrand.getText());
+
+        ProductStatus newStatus = ProductStatus.fromText(fieldStatus.getText());
+        if (newStatus == null) {
+            showAlert("El estado introducido no es válido.", AlertType.WARNING);
+            return false;
+        }
+        currentProduct.setStatus(newStatus);
+
+        currentProduct.setUserId(fieldUser.getText());
+        currentProduct.setDescription(fieldDescription.getText());
+
+        return true;
     }
 
     @FXML
     private void onCancelOrDelete() {
-        if ("Cancelar".equals(btnDelete.getText())) {
+        if (CANCEL.equals(btnDelete.getText())) {
             populateFields();
             return;
         }
 
-        Alert confirm = new Alert(AlertType.CONFIRMATION, "Esta acción no se puede deshacer.", ButtonType.OK, ButtonType.CANCEL);
+        Alert confirm = new Alert(AlertType.CONFIRMATION,
+                "Esta acción no se puede deshacer.",
+                ButtonType.OK, ButtonType.CANCEL);
         confirm.setTitle("Confirmar eliminación");
         confirm.setHeaderText("¿Eliminar este producto?");
         confirm.showAndWait().ifPresent(bt -> {
             if (bt == ButtonType.OK) {
-                try {
-                    HttpRequest req = HttpRequest.newBuilder()
-                            .uri(URI.create(API_BASE_URL + "/products/" + currentProduct.getId()))
-                            .header("Authorization", SessionManager.getInstance().getAuthHeader())
-                            .DELETE()
-                            .build();
-
-                    HttpResponse<String> resp = HTTP_CLIENT.send(req, HttpResponse.BodyHandlers.ofString());
-
-                    if (resp.statusCode() == 200 || resp.statusCode() == 204) {
-                        showAlert("Producto eliminado con éxito.", AlertType.INFORMATION);
-                        ViewManager.getInstance().goBack();
-                    } else {
-                        showAlert("Error al eliminar el producto.", AlertType.ERROR);
-                    }
-
-                } catch (Exception e) {
-                    showAlert("Error inesperado: " + e.getMessage(), AlertType.ERROR);
-                    e.printStackTrace();
-                }
+                deleteProduct();
             }
         });
+    }
+
+    private void deleteProduct() {
+        try {
+            HttpRequest req = HttpRequest.newBuilder()
+                    .uri(URI.create(API_BASE_URL + "/products/" + currentProduct.getId()))
+                    .header("Authorization", SessionManager.getInstance().getAuthHeader())
+                    .DELETE()
+                    .build();
+
+            HttpResponse<String> resp = HTTP_CLIENT.send(req, HttpResponse.BodyHandlers.ofString());
+
+            if (resp.statusCode() == 200 || resp.statusCode() == 204) {
+                showAlert("Producto eliminado con éxito.", AlertType.INFORMATION);
+                ViewManager.getInstance().goBack();
+            } else {
+                showAlert("Error al eliminar el producto.", AlertType.ERROR);
+            }
+        } catch (Exception e) {
+            showAlert("Error inesperado: " + e.getMessage(), AlertType.ERROR);
+            e.printStackTrace();
+        }
     }
 
     private void setEditable(boolean editable) {
@@ -187,14 +196,31 @@ public class ProductDetailController {
         fieldType.setEditable(editable);
         fieldBrand.setEditable(editable);
         fieldStatus.setEditable(editable);
+        fieldUser.setEditable(editable);
         fieldDescription.setEditable(editable);
     }
 
-    private void showAlert(String msg, AlertType type) {
-        Alert a = new Alert(type);
-        a.setTitle(type == AlertType.ERROR ? "Error" : "Información");
-        a.setHeaderText(null);
-        a.setContentText(msg);
-        a.showAndWait();
+    private void updateButtonsForViewMode() {
+        btnModify.setVisible(true);
+        btnAccept.setVisible(false);
+        btnDelete.setText(DELETE_PRODUCT);
+    }
+
+    private void updateButtonsForEditMode() {
+        btnModify.setVisible(false);
+        btnAccept.setVisible(true);
+        btnDelete.setText(CANCEL);
+    }
+
+    private void showAlert(String message, AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(type == AlertType.ERROR ? "Error" : "Información");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private String nonNull(String s) {
+        return s == null ? "" : s;
     }
 }
