@@ -66,9 +66,6 @@ Alternatively, open it in your IDE as a Maven project and run the main class dir
 ![Add Product](https://github.com/Mazer-R/Adama_UI/raw/master/screenshots/add-product.png)
 ![Product](https://github.com/Mazer-R/Adama_UI/raw/master/screenshots/product.png)
 
-![Add User](https://github.com/Mazer-R/Adama_UI/raw/master/screenshots/add-user.png)
-![Orders](https://github.com/Mazer-R/Adama_UI/raw/master/screenshots/orders.png)
-
 
 
 
@@ -149,8 +146,6 @@ También puedes abrirlo desde tu IDE (IntelliJ, Eclipse…) como proyecto Maven 
 ![Add Product](https://github.com/Mazer-R/Adama_UI/raw/master/screenshots/add-product.png)
 ![Product](https://github.com/Mazer-R/Adama_UI/raw/master/screenshots/product.png)
 
-![Add User](https://github.com/Mazer-R/Adama_UI/raw/master/screenshots/add-user.png)
-![Orders](https://github.com/Mazer-R/Adama_UI/raw/master/screenshots/orders.png)
 
 
 
