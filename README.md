@@ -141,6 +141,19 @@ También puedes abrirlo desde tu IDE (IntelliJ, Eclipse…) como proyecto Maven 
 
 📷 Capturas de pantalla
 
+![Login](https://github.com/Mazer-R/Adama_UI/raw/master/screenshots/login.png)
+![Main Screen](https://github.com/Mazer-R/Adama_UI/raw/master/screenshots/main%20screen.png)
+![Message](https://github.com/Mazer-R/Adama_UI/raw/master/screenshots/message.png)
+
+
+![Add Product](https://github.com/Mazer-R/Adama_UI/raw/master/screenshots/add-product.png)
+![Product](https://github.com/Mazer-R/Adama_UI/raw/master/screenshots/product.png)
+
+![Add User](https://github.com/Mazer-R/Adama_UI/raw/master/screenshots/add-user.png)
+![Orders](https://github.com/Mazer-R/Adama_UI/raw/master/screenshots/orders.png)
+
+
+
 
 
 🖥️ Compatibilidad
