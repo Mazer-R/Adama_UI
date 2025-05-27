@@ -49,9 +49,9 @@ https://github.com/Mazer-R/AdamaProject
    
   	    git clone https://github.com/Mazer-R/Adama_UI.git
   	
-	2.	Make sure Java 23 and Maven are properly installed.
-	3.	Set your backend endpoint in the SessionManager class.
-	4.	From the root directory, run:
+2.	Make sure Java 23 and Maven are properly installed.
+3.	Set your backend endpoint in the SessionManager class.
+4.	From the root directory, run:
     
             mvn clean javafx:run
 
@@ -124,15 +124,16 @@ Para cambiar el endpoint de conexión, modifica la constante API_BASE_URL en la 
 	•	HttpClient (java.net)
 
 ⚙️ Instalación y ejecución
-	1.	Clona el repositorio:
- 
-      git clone https://github.com/Mazer-R/Adama_UI.git
-      
-  2.	Asegúrate de tener Java 23 y Maven instalados.
-	3.	Configura el endpoint si es necesario en SessionManager.
-	4.	Desde el directorio raíz, ejecuta:
 
-    mvn clean javafx:run
+1.	Clona el repositorio:
+ 
+      	git clone https://github.com/Mazer-R/Adama_UI.git
+	      
+2.	Asegúrate de tener Java 23 y Maven instalados.
+3.	Configura el endpoint si es necesario en SessionManager.
+4.	Desde el directorio raíz, ejecuta:
+
+    	mvn clean javafx:run
 
 También puedes abrirlo desde tu IDE (IntelliJ, Eclipse…) como proyecto Maven y lanzar la aplicación desde la clase principal.
 
